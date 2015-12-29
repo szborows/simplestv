@@ -5,6 +5,7 @@ class Choice(models.Model):
 
 class Ballot(models.Model):
     datetime_created = models.DateTimeField(auto_now=True)
+    question = models.TextField()
     choices = models.ManyToManyField(Choice)
 
 class VotingHash(models.Model):
