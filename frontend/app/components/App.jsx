@@ -7,6 +7,7 @@ import FullScreen from 'react-fullscreen';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import PollActions from '../actions/PollActions.jsx';
+import PollStore from '../stores/PollStore.jsx';
 
 const style = {
   width: 400
@@ -97,21 +98,43 @@ class Poll extends Component {
         this.state = {
             pollId: props.routeParams.pollId,
             key: props.routeParams.key,
+            pollData: null,
         };
     }
 
     componentDidMount() {
+        PollStore.listen(this.onChange);
         PollActions.read(this.state.pollId, this.state.key);
     }
 
+    componentWillUnmount() {
+        PollStore.unlisten(this.onChange);
+    }
+
+    onChange = (data) => {
+        let state = this.state;
+        state.pollData = data;
+        this.setState(state);
+    }
+
     render() {
-        return (
-            <div>
-                pollId: {this.state.pollId}<br />
-                question here...<br /><br />
-                <PollChoices />
-            </div>
-        );
+        if (!this.state.pollData) {
+            return (<div>Something is wrong...</div>);
+        }
+
+        if (this.state.pollData.valid) {
+            return (
+                <div>
+                    pollId: {this.state.pollId}<br />
+                    question here...<br /><br />
+                    <PollChoices />
+                </div>
+            );
+        }
+        else {
+            console.warn(JSON.stringify(this.state.pollData));
+            return <div>Error {this.state.pollData.status_code}</div>;
+        }
     }
 };
 
