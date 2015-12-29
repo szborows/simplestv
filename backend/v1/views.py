@@ -15,6 +15,10 @@ def poll(request, poll_id):
         key = request.GET['key']
     except KeyError:
         return HttpResponse('', status=http.BAD_REQUEST)
-    # TODO: check if key is allowed and then return either 200 or 401
+
+    try:
+        poll.allowed_hashes.get(value=key)
+    except VotingHash.DoesNotExist:
+        return HttpResponse('', status=http.UNAUTHORIZED)
 
     return JsonResponse(poll.json_dict())
