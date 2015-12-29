@@ -91,9 +91,17 @@ class PollChoices extends Component {
 
 
 class Poll extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            pollId: props.routeParams.pollId
+        };
+    }
+
     render() {
         return (
             <div>
+                pollId: {this.state.pollId}<br />
                 question here...<br /><br />
                 <PollChoices />
             </div>
