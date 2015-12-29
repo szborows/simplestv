@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { Router, Route, IndexRoute, Link } from 'react-router';
 import update from 'react/lib/update';
 import Card from './Card';
+import history from '../libs/history.js'
+import FullScreen from 'react-fullscreen';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -8,8 +11,22 @@ const style = {
   width: 400
 };
 
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <FullScreen>
+                {this.props.children}
+            </FullScreen>
+        );
+    }
+};
+
 @DragDropContext(HTML5Backend)
-export default class Container extends Component {
+class Container extends Component {
   constructor(props) {
     super(props);
     this.moveCard = this.moveCard.bind(this);
@@ -71,3 +88,15 @@ export default class Container extends Component {
     );
   }
 }
+
+export default class Main extends React.Component {
+    render() {
+        return (
+            <Router history={history}>
+                <Route path="/" component={App}>
+                    <Route path="/p/:pollId" component={Container} />
+                </Route>
+            </Router>
+        );
+    }
+};
