@@ -6,6 +6,7 @@ import history from '../libs/history.js'
 import FullScreen from 'react-fullscreen';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import PollActions from '../actions/PollActions.jsx';
 
 const style = {
   width: 400
@@ -94,8 +95,13 @@ class Poll extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            pollId: props.routeParams.pollId
+            pollId: props.routeParams.pollId,
+            key: 'hardcoded_key',
         };
+    }
+
+    componentDidMount() {
+        PollActions.read(this.state.pollId, this.state.key);
     }
 
     render() {
