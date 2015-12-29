@@ -11,4 +11,9 @@ def poll(request, poll_id):
         # PARANOID: possible fuckup - more than one object returned
     except Poll.DoesNotExist:
         return HttpResponse('', status=http.NOT_FOUND)
+    try:
+        key = request.GET['key']
+    except KeyError:
+        return HttpResponse('', status=http.BAD_REQUEST)
+    # TODO: check key -> 200 / 401
     return JsonResponse({})
