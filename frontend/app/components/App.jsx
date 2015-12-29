@@ -26,7 +26,7 @@ class App extends React.Component {
 };
 
 @DragDropContext(HTML5Backend)
-class Container extends Component {
+class PollChoices extends Component {
   constructor(props) {
     super(props);
     this.moveCard = this.moveCard.bind(this);
@@ -89,12 +89,24 @@ class Container extends Component {
   }
 }
 
+
+class Poll extends Component {
+    render() {
+        return (
+            <div>
+                question here...<br /><br />
+                <PollChoices />
+            </div>
+        );
+    }
+};
+
 export default class Main extends React.Component {
     render() {
         return (
             <Router history={history}>
                 <Route path="/" component={App}>
-                    <Route path="/p/:pollId" component={Container} />
+                    <Route path="/p/:pollId" component={Poll} />
                 </Route>
             </Router>
         );
