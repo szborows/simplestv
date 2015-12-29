@@ -96,7 +96,7 @@ class Poll extends Component {
         super(props);
         this.state = {
             pollId: props.routeParams.pollId,
-            key: 'hardcoded_key',
+            key: props.routeParams.key,
         };
     }
 
@@ -120,7 +120,7 @@ export default class Main extends React.Component {
         return (
             <Router history={history}>
                 <Route path="/" component={App}>
-                    <Route path="/p/:pollId" component={Poll} />
+                    <Route path="/p/:pollId/:key" component={Poll} />
                 </Route>
             </Router>
         );
