@@ -15,5 +15,6 @@ def poll(request, poll_id):
         key = request.GET['key']
     except KeyError:
         return HttpResponse('', status=http.BAD_REQUEST)
-    # TODO: check key -> 200 / 401
-    return JsonResponse({})
+    # TODO: check if key is allowed and then return either 200 or 401
+
+    return JsonResponse(poll.json_dict())
