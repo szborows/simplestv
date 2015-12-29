@@ -11,6 +11,7 @@ class VotingHash(models.Model):
     value = models.CharField(max_length=255)
 
 class Poll(models.Model):
+    hash_id = models.CharField(max_length=255)
     ballot = models.ForeignKey(Ballot)
     allowed_hashes = models.ManyToManyField(VotingHash)
 
