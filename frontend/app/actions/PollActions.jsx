@@ -5,7 +5,7 @@ class PollActions {
     read(pollId, key) {
         return (dispatch) => {
             $.ajax({
-                url: 'http://localhost:8099/api/v1/poll/' + pollId + '?key=' + key,
+                url: '/api/v1/poll/' + pollId + '?key=' + key,
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
