@@ -62,6 +62,7 @@ def create(request):
 
     poll = Poll()
     poll.ballot = ballot
+    poll.recipients = json.dumps(recipients)
     poll.save()
 
     for recipient_text in recipients:

@@ -34,6 +34,7 @@ class Poll(models.Model):
     hash_id = models.CharField(max_length=255)
     secret = models.CharField(max_length=255)
     ballot = models.ForeignKey(Ballot)
+    recipients_json = models.TextField()
     allowed_hashes = models.ManyToManyField(VotingHash, blank=True)
 
     def __str__(self):
