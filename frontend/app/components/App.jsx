@@ -101,6 +101,8 @@ class Poll extends Component {
             return (
                 <div>
                     <div className="header">
+                        <h1 className="logo"><a href="#">SimpleSTV</a></h1>
+                        <div className="separator">&nbsp;</div>
                         <h1>Viewing poll: {this.state.pollData.poll_data.id}</h1>
                     </div>
                     <div className="content">
