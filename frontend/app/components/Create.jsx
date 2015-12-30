@@ -22,7 +22,13 @@ export default class Create extends Component {
     }
 
     onChange = (data) => {
-        console.warn("should handle data " + data);
+        if (data.valid) {
+            console.log('id:' + data.result.id);
+            console.log('secret:' + data.result.secret);
+        }
+        else {
+            console.err("Bad error code received: " + data.status_code);
+        }
     }
 
     questionChanged = (event) => {
