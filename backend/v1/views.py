@@ -1,9 +1,14 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-
 import http.client as http
+import json
 
+from backend.hashids import Hashids
 from v1.models import *
+
+def hash_email(email):
+    # TODO: use real hashing..
+    return email
 
 def poll(request, poll_id):
     try:
@@ -28,7 +33,7 @@ def create(request):
         return HttpResponse('', status=http.BAD_REQUEST)
     try:
         # PARANOID: is this safe?
-        data = json.loads(request.body)
+        data = json.loads(request.body.decode('utf-8'))
         question = str(data['question'])
         choices = list(map(str, data['choices']))
         recipients = list(map(str, data['recipients']))
@@ -37,6 +42,7 @@ def create(request):
 
     ballot = Ballot()
     ballot.question = question
+    ballot.save()
 
     for choice_text in choices:
         choice = Choice()
@@ -48,6 +54,7 @@ def create(request):
 
     poll = Poll()
     poll.ballot = ballot
+    poll.save()
 
     for recipient_text in recipients:
         recipient = VotingHash()
@@ -55,6 +62,7 @@ def create(request):
         recipient.save()
         poll.allowed_hashes.add(recipient)
 
+    poll.hash_id = Hashids().encode(poll.id)
     poll.save()
 
-    return HttpResponse('', status=http.OK)
+    return JsonResponse({'id': poll.hash_id})
