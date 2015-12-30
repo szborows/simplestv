@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { Router, Route, IndexRoute, Link } from 'react-router';
-import update from 'react/lib/update';
-import Card from './Card';
 import history from '../libs/history.js'
 import FullScreen from 'react-fullscreen';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
+import PollChoices from './PollChoices.jsx';
 
 class App extends React.Component {
     constructor(props) {
@@ -22,50 +19,6 @@ class App extends React.Component {
         );
     }
 };
-
-@DragDropContext(HTML5Backend)
-class PollChoices extends Component {
-  constructor(props) {
-    super(props);
-    this.moveCard = this.moveCard.bind(this);
-    this.state = {
-      cards: props.choices.map((e, i) => { return {id: i, text: e}; }),
-    };
-  }
-
-  moveCard(dragIndex, hoverIndex) {
-    const { cards } = this.state;
-    const dragCard = cards[dragIndex];
-
-    this.setState(update(this.state, {
-      cards: {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, dragCard]
-        ]
-      }
-    }));
-  }
-
-  render() {
-    const { cards } = this.state;
-
-    return (
-      <div className="ballot-entry">
-        {cards.map((card, i) => {
-          return (
-            <Card key={card.id}
-                  index={i}
-                  id={card.id}
-                  text={card.text}
-                  moveCard={this.moveCard} />
-          );
-        })}
-      </div>
-    );
-  }
-}
-
 
 class Poll extends Component {
     constructor(props) {
