@@ -3,12 +3,20 @@ from django.http import JsonResponse, HttpResponse
 import http.client as http
 import json
 import hashlib
+import random
 
 from backend.hashids import Hashids
 from v1.models import *
 
 def hash_email(email):
     return hashlib.sha256(email.encode('utf-8')).hexdigest()
+
+def secret():
+    r = map(str, [random.randint(1, 10**4) for _ in range(10)])
+    h = hashlib.sha256()
+    for x in r:
+        h.update(x.encode('ascii'))
+    return h.hexdigest()
 
 def poll(request, poll_id):
     try:
@@ -63,6 +71,7 @@ def create(request):
         poll.allowed_hashes.add(recipient)
 
     poll.hash_id = Hashids().encode(poll.id)
+    poll.secret = secret()
     poll.save()
 
-    return JsonResponse({'id': poll.hash_id})
+    return JsonResponse({'id': poll.hash_id, 'secret': poll.secret})
