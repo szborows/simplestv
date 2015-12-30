@@ -29,6 +29,10 @@ export default class Create extends Component {
         this.setState(state);
     }
 
+    submit = () => {
+        console.warn("should submit...");
+    }
+
     render() {
         return (
             <div>
@@ -53,7 +57,7 @@ export default class Create extends Component {
                         </tr>
                         </tbody>
                     </table>
-                    <a href="#" className="submit-button">submit!</a>
+                    <a className="submit-button" onClick={this.submit}>submit!</a>
                 </div>
             </div>
         );
