@@ -2,13 +2,13 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import http.client as http
 import json
+import hashlib
 
 from backend.hashids import Hashids
 from v1.models import *
 
 def hash_email(email):
-    # TODO: use real hashing..
-    return email
+    return hashlib.sha256(email.encode('utf-8')).hexdigest()
 
 def poll(request, poll_id):
     try:
