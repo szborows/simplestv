@@ -14,7 +14,23 @@ export default class Create extends Component {
                     <div className="separator">&nbsp;</div>
                 </div>
                 <div className="content">
-                    ... new ...
+                    <table className="new-ballot-wrapper">
+                        <tbody>
+                        <tr>
+                            <td>question</td>
+                            <td><input type="text" /></td>
+                        </tr>
+                        <tr>
+                            <td>choices</td>
+                            <td><textarea></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>invitations</td>
+                            <td><textarea></textarea></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a href="#" className="submit-button">submit!</a>
                 </div>
             </div>
         );
