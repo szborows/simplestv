@@ -9,10 +9,6 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
 
-const style = {
-  width: 400
-};
-
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -55,7 +51,7 @@ class PollChoices extends Component {
     const { cards } = this.state;
 
     return (
-      <div style={style}>
+      <div className="ballot-entry">
         {cards.map((card, i) => {
           return (
             <Card key={card.id}
@@ -98,15 +94,23 @@ class Poll extends Component {
 
     render() {
         if (!this.state.pollData) {
-            return (<div>Something is wrong...</div>);
+            return (<div>Loading...</div>);
         }
 
         if (this.state.pollData.valid) {
             return (
                 <div>
-                    pollId: {this.state.pollId}<br />
-                    question here...<br /><br />
-                    <PollChoices choices={this.state.pollData.poll_data.ballot.choices} />
+                    <div className="header">
+                        <h1>Viewing poll: {this.state.pollData.poll_data.id}</h1>
+                    </div>
+                    <div className="content">
+                        <div className="ballot-wrapper">
+                            <h1>{this.state.pollData.poll_data.ballot.question}</h1>
+                            <PollChoices choices={this.state.pollData.poll_data.ballot.choices} />
+                            <br />
+                            <a href="#"><div className="submit-button">submit</div></a>
+                        </div>
+                    </div>
                 </div>
             );
         }
