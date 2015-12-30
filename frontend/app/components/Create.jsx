@@ -4,6 +4,29 @@ import { Link } from 'react-router';
 export default class Create extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            question: '',
+            choices: [],
+            recipients: [],
+        };
+    }
+
+    questionChanged = (event) => {
+        let state = this.state;
+        state.question = event.target.value;
+        this.setState(state);
+    }
+
+    choicesChanged = (event) => {
+        let state = this.state;
+        state.choices = event.target.value.split('\n');
+        this.setState(state);
+    }
+
+    recipientsChanged = (event) => {
+        let state = this.state;
+        state.recipients = event.target.value.split(/[\s,\n]+/);
+        this.setState(state);
     }
 
     render() {
@@ -18,15 +41,15 @@ export default class Create extends Component {
                         <tbody>
                         <tr>
                             <td>question</td>
-                            <td><input type="text" /></td>
+                            <td><input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} /></td>
                         </tr>
                         <tr>
-                            <td>choices</td>
-                            <td><textarea></textarea></td>
+                            <td>choices<br />{this.state.choices.length}</td>
+                            <td><textarea value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea></td>
                         </tr>
                         <tr>
-                            <td>invitations</td>
-                            <td><textarea></textarea></td>
+                            <td>recipients<br />{this.state.recipients.length}</td>
+                            <td><textarea value={this.state.recipients.join('\n')} onChange={this.recipientsChanged}></textarea></td>
                         </tr>
                         </tbody>
                     </table>
