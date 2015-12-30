@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import PollActions from '../actions/PollActions.jsx';
+import PollStore from '../stores/PollStore.jsx';
 
 export default class Create extends Component {
     constructor(props) {
@@ -9,6 +11,18 @@ export default class Create extends Component {
             choices: [],
             recipients: [],
         };
+    }
+
+    componentDidMount() {
+        PollStore.listen(this.onChange);
+    }
+
+    componentWillUnmount() {
+        PollStore.unlisten(this.onChange);
+    }
+
+    onChange = (data) => {
+        console.warn("should handle data " + data);
     }
 
     questionChanged = (event) => {
@@ -30,7 +44,7 @@ export default class Create extends Component {
     }
 
     submit = () => {
-        console.warn("should submit...");
+        PollActions.create(this.state.question, this.state.choices, this.state.recipients);
     }
 
     render() {
