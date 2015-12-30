@@ -33,28 +33,7 @@ class PollChoices extends Component {
     super(props);
     this.moveCard = this.moveCard.bind(this);
     this.state = {
-      cards: [{
-        id: 1,
-        text: 'Write a cool JS library'
-      }, {
-        id: 2,
-        text: 'Make it generic enough'
-      }, {
-        id: 3,
-        text: 'Write README'
-      }, {
-        id: 4,
-        text: 'Create some examples'
-      }, {
-        id: 5,
-        text: 'Spam in Twitter and IRC to promote it (note that this element is taller than the others)'
-      }, {
-        id: 6,
-        text: '???'
-      }, {
-        id: 7,
-        text: 'PROFIT'
-      }]
+      cards: props.choices.map((e, i) => { return {id: i, text: e}; }),
     };
   }
 
@@ -127,7 +106,7 @@ class Poll extends Component {
                 <div>
                     pollId: {this.state.pollId}<br />
                     question here...<br /><br />
-                    <PollChoices />
+                    <PollChoices choices={this.state.pollData.poll_data.ballot.choices} />
                 </div>
             );
         }
