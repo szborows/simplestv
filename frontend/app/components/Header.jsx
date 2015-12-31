@@ -10,7 +10,7 @@ export default class Header extends Component {
     render() {
         return (
             <div className="header">
-                <img className="logo" src="app/img/logo.png" />
+                <Link to={'/'}><img className="logo" src="app/img/logo.png" /></Link>
                 <div className="separator">&nbsp;</div>
                 <h1>{this.text}</h1>
                 <div className="about-button"><Link to={'/about'}>About</Link></div>
