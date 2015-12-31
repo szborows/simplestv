@@ -3,6 +3,7 @@ FROM django:1.9-python3
 RUN apt-get update
 
 RUN pip3.4 install django-cors-headers
+RUN pip3.4 install django-mailer
 
 RUN mkdir /data
 

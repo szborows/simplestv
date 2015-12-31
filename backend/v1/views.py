@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
+from django.core.mail import send_mail
 import http.client as http
 import json
 import hashlib
@@ -17,6 +18,14 @@ def secret():
     for x in r:
         h.update(x.encode('ascii'))
     return h.hexdigest()
+
+def send_emails(poll, recipients):
+    body = """
+        Hi,
+        these links should work ;)
+        {}
+    """.format('\n'.join(['http://localhost:4242/#/p/{0}/{1}'.format(poll.hash_id, x.value) for x in poll.allowed_hashes.all()]))
+    send_mail('subj', body, 'from@example.com', recipients, fail_silently=False)
 
 def poll(request, poll_id):
     try:
@@ -108,6 +117,8 @@ def create(request):
     poll.hash_id = Hashids().encode(poll.id)
     poll.secret = secret()
     poll.save()
+
+    send_emails(poll, recipients)
 
     return JsonResponse({'id': poll.hash_id, 'secret': poll.secret})
 
