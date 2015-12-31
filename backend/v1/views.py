@@ -76,3 +76,10 @@ def create(request):
     poll.save()
 
     return JsonResponse({'id': poll.hash_id, 'secret': poll.secret})
+
+def results(request, secret):
+    try:
+        Poll.objects.get(secret=secret)
+    except Poll.DoesNotExist:
+        return HttpResponse('', status_code=http.NOT_FOUND)
+    return JsonResponse({})

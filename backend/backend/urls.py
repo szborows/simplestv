@@ -20,6 +20,7 @@ from v1 import views as v1_views
 
 urlpatterns = [
     url(r'^api/v1/poll/create', v1_views.create),
+    url(r'^api/v1/poll/results/(?P<secret>[a-zA-Z0-9]+)', v1_views.results),
     url(r'^api/v1/poll/(?P<poll_id>[a-h0-9]+)', v1_views.poll),
 
     url(r'^admin/', include(admin.site.urls)),
