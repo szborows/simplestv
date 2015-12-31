@@ -62,7 +62,7 @@ def create(request):
 
     poll = Poll()
     poll.ballot = ballot
-    poll.recipients = json.dumps(recipients)
+    poll.recipients_json = json.dumps(recipients)
     poll.save()
 
     for recipient_text in recipients:
@@ -79,7 +79,13 @@ def create(request):
 
 def results(request, secret):
     try:
-        Poll.objects.get(secret=secret)
+        poll = Poll.objects.get(secret=secret)
     except Poll.DoesNotExist:
         return HttpResponse('', status=http.NOT_FOUND)
-    return JsonResponse({})
+
+    results = {
+        'num_recipients': len(json.loads(poll.recipients_json)),
+        'total_votes': len(Vote.objects.filter(poll=poll))
+    }
+
+    return JsonResponse({'poll': poll.json_dict(), 'results': results})
