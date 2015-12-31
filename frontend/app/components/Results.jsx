@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
+import Header from './Header.jsx';
 
 export default class Results extends Component {
     constructor(props) {
@@ -35,11 +36,7 @@ export default class Results extends Component {
         if (this.state.pollResultsData.valid) {
             return (
                 <div>
-                    <div className="header">
-                        <h1 className="logo"><a href="#">SimpleSTV</a></h1>
-                        <div className="separator">&nbsp;</div>
-                        <h1>Viewing results</h1>
-                    </div>
+                    <Header text={"Results for poll #" + this.state.pollResultsData.poll_data.poll.id} />
                     <div className="content">
                         <div className="ballot-wrapper">
                             poll {this.state.pollResultsData.poll_data.poll.id}<br />

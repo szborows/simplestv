@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
 import history from '../libs/history.js';
+import Header from './Header.jsx';
 
 export default class Create extends Component {
     constructor(props) {
@@ -58,10 +59,7 @@ export default class Create extends Component {
     render() {
         return (
             <div>
-                <div className="header">
-                    <h1 className="logo"><Link to={'/'}>SimpleSTV</Link></h1>
-                    <div className="separator">&nbsp;</div>
-                </div>
+                <Header text="Create poll" />
                 <div className="content">
                     <table className="new-ballot-wrapper">
                         <tbody>

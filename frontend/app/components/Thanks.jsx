@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import Header from './Header.jsx';
 
 export default class Thanks extends Component {
     constructor(props) {
@@ -9,10 +10,7 @@ export default class Thanks extends Component {
     render() {
         return (
             <div>
-                <div className="header">
-                    <h1 className="logo"><a href="#">SimpleSTV</a></h1>
-                    <div className="separator">&nbsp;</div>
-                </div>
+                <Header text="Thanks" />
                 <div className="content">
                     <center>
                         <h1>Thanks for voting!</h1>

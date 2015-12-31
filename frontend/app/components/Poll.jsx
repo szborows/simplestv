@@ -3,6 +3,7 @@ import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
 import PollChoices from './PollChoices.jsx';
 import history from '../libs/history.js';
+import Header from './Header.jsx';
 
 export default class Poll extends Component {
     constructor(props) {
@@ -58,11 +59,7 @@ export default class Poll extends Component {
         if (this.state.pollData.valid) {
             return (
                 <div>
-                    <div className="header">
-                        <h1 className="logo"><a href="#">SimpleSTV</a></h1>
-                        <div className="separator">&nbsp;</div>
-                        <h1>Viewing poll: {this.state.pollData.poll_data.id}</h1>
-                    </div>
+                    <Header text={"Poll #" + this.state.pollData.poll_data.id} />
                     <div className="content">
                         <div className="ballot-wrapper">
                             <h1>{this.state.pollData.poll_data.ballot.question}</h1>
