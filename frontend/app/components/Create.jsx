@@ -88,7 +88,7 @@ export default class Create extends Component {
     numberOfInvalidEmails = () => {
         var count = 0;
         for (var i = 0; i < this.state.recipients.length; i++) {
-            if (!EmailValidator.validate(this.state.recipients[i])) {
+            if (this.state.recipients[i] !== "" && !EmailValidator.validate(this.state.recipients[i])) {
                 count++;
             }
         }
@@ -97,7 +97,10 @@ export default class Create extends Component {
 
     render() {
         const numberOfInvalidEmails = this.numberOfInvalidEmails();
+        const question = this.state.question;
+        const numberOfChoices = this.numberOfCandidates();
         const numberOfRecipients = this.numberOfRecipients() - numberOfInvalidEmails;
+        const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0) ? true : false;
         return (
             <div>
                 <Header text="Create poll" />
@@ -110,8 +113,8 @@ export default class Create extends Component {
                         </tr>
                         <tr>
                             <td>
-                                {this.state.choices.length ? (<span className="create-poll-counter">{this.numberOfCandidates()}</span>) : ''}
-                                candidate{this.numberOfCandidates() == 1 ? '' : 's'}
+                                {numberOfChoices ? (<span className="create-poll-counter">{numberOfChoices}</span>) : ''}
+                                candidate{numberOfChoices == 1 ? '' : 's'}
                             </td>
                             <td><textarea value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea></td>
                         </tr>
@@ -129,7 +132,7 @@ export default class Create extends Component {
                         </tr>
                         </tbody>
                     </table>
-                    <a className="submit-button" onClick={this.submit}>submit!</a>
+                    {everythingOk ? <a className="submit-button" onClick={this.submit}>submit!</a> : <a className="submit-button-grey">submit!</a> }
                 </div>
             </div>
         );

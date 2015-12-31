@@ -51,7 +51,7 @@ body {
     width: 100%;
 }
 
-.submit-button {
+.submit-button, .submit-button-grey {
     background: #64cc1e;
     background-image: -webkit-linear-gradient(top, #64cc1e, #055701);
     background-image: -moz-linear-gradient(top, #64cc1e, #055701);
@@ -73,6 +73,18 @@ body {
     text-align: center;
     cursor: pointer;
 }
+
+.submit-button-grey {
+    background: #ddd;
+    background-image: -webkit-linear-gradient(top, #ddd, #ccc);
+    background-image: -moz-linear-gradient(top, #ddd, #ccc);
+    background-image: -ms-linear-gradient(top, #ddd, #ccc);
+    background-image: -o-linear-gradient(top, #ddd, #ccc);
+    background-image: linear-gradient(to bottom, #ddd, #ccc);
+    color: #666;
+    cursor: not-allowed;
+}
+
 
 .header {
     border-bottom: 1px dashed silver;
