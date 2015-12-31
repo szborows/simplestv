@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
+import history from '../libs/history.js';
 
 export default class Create extends Component {
     constructor(props) {
@@ -25,6 +26,7 @@ export default class Create extends Component {
         if (data.valid) {
             console.log('id:' + data.result.id);
             console.log('secret:' + data.result.secret);
+            history.pushState(null, "/p/results/" + data.result.secret);
         }
         else {
             console.err("Bad error code received: " + data.status_code);
