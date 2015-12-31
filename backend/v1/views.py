@@ -36,6 +36,24 @@ def poll(request, poll_id):
 
     return JsonResponse(poll.json_dict())
 
+def vote(request, poll_id):
+    if request.method != 'POST':
+        return HttpResponse('', status=http.BAD_REQUEST)
+    try:
+        poll = Poll.objects.get(hash_id=poll_id)
+    except Poll.DoesNotExist:
+        # this is POST, so maybe BAD_REQUEST?
+        return HttpResponse('', status=http.NOT_FOUND)
+    try:
+        data = json.loads(request.body.decode('utf-8'))
+        key = data['key']
+        # TODO: extract data from user
+    except (TypeError, ValueError, KeyError):
+        return HttpResponse('', status=http.BAD_REQUEST)
+
+    # TODO: implementation needed
+    return JsonResponse({})
+
 def create(request):
     if request.method != 'POST':
         return HttpResponse('', status=http.BAD_REQUEST)
