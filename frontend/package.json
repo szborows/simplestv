@@ -13,7 +13,8 @@
     "react-router": "^1.0.0",
     "webpack": "^1.12.8",
     "react-dnd": "latest",
-    "react-dnd-html5-backend": "latest"
+    "react-dnd-html5-backend": "latest",
+    "email-validator": "latest"
   },
   "devDependencies": {
     "babel-loader": "^5.4.0",

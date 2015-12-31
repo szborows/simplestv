@@ -160,3 +160,7 @@ td.create-poll-label {
 td.create-poll-input {
     width: 70%;
 }
+
+.error-message {
+    color: red;
+}

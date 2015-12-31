@@ -4,6 +4,7 @@ import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
 import history from '../libs/history.js';
 import Header from './Header.jsx';
+import EmailValidator from 'email-validator';
 
 export default class Create extends Component {
     constructor(props) {
@@ -84,7 +85,19 @@ export default class Create extends Component {
         return count;
     }
 
+    numberOfInvalidEmails = () => {
+        var count = 0;
+        for (var i = 0; i < this.state.recipients.length; i++) {
+            if (!EmailValidator.validate(this.state.recipients[i])) {
+                count++;
+            }
+        }
+        return count;
+    }
+
     render() {
+        const numberOfInvalidEmails = this.numberOfInvalidEmails();
+        const numberOfRecipients = this.numberOfRecipients() - numberOfInvalidEmails;
         return (
             <div>
                 <Header text="Create poll" />
@@ -104,10 +117,15 @@ export default class Create extends Component {
                         </tr>
                         <tr>
                             <td>
-                                {this.state.recipients.length ? (<span className="create-poll-counter">{this.numberOfRecipients()}</span>): ''}
-                                recipient{this.numberOfRecipients() == 1 ? '' : 's'}
+                                {numberOfRecipients ? (<span className="create-poll-counter">{numberOfRecipients}</span>) : ''}
+                                recipient{numberOfRecipients == 1 ? '' : 's'}
+                                <br />
+                                (emails)
                             </td>
-                            <td><textarea value={this.state.recipients.join('\n')} onChange={this.recipientsChanged}></textarea></td>
+                            <td>
+                                <textarea value={this.state.recipients.join('\n')} onChange={this.recipientsChanged}></textarea>
+                                {numberOfInvalidEmails > 0 ? (<span className="error-message">You entered {numberOfInvalidEmails} invalid recipient email addresses.</span>) : ''}
+                            </td>
                         </tr>
                         </tbody>
                     </table>
