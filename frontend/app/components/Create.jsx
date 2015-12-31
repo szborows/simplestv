@@ -42,13 +42,21 @@ export default class Create extends Component {
 
     choicesChanged = (event) => {
         let state = this.state;
-        state.choices = event.target.value.split('\n');
+        const lines = event.target.value.split('\n');
+        let choices = lines.filter((e) => { return e.trim() !== ""; });
+        if (lines[lines.length - 1].length === 0 && lines.length !== 1) {
+            choices.push("");
+        }
+
+        console.warn(choices);
+        state.choices = choices.length > 0 ? choices: [];
         this.setState(state);
     }
 
     recipientsChanged = (event) => {
         let state = this.state;
-        state.recipients = event.target.value.split(/[\s,\n]+/);
+        const recipients = event.target.value.split(/[\s,;\n]+/);
+        state.recipients = recipients.length > 0 ? recipients: [];
         this.setState(state);
     }
 
