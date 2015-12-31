@@ -60,11 +60,13 @@ def vote(request, poll_id):
     # FIXME: naming in whole project is fucked up...
 
     v = Vote()
+    v.poll = poll
     v.author = voting_hash
     v.choices_json = json.dumps([c.id for c in choices])
     v.save()
 
-    # TODO: remove this hash from allowed_hashes to forbid multiple voting
+    poll.allowed_hashes.remove(voting_hash)
+    poll.save()
 
     return JsonResponse({})
 
