@@ -15,6 +15,10 @@ class PollStore {
     create(data) {
         this.setState(data);
     }
+
+    getResults(data) {
+        this.setState(data);
+    }
 };
 
 export default alt.createStore(PollStore, 'PollStore');

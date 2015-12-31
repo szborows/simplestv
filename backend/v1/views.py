@@ -81,5 +81,5 @@ def results(request, secret):
     try:
         Poll.objects.get(secret=secret)
     except Poll.DoesNotExist:
-        return HttpResponse('', status_code=http.NOT_FOUND)
+        return HttpResponse('', status=http.NOT_FOUND)
     return JsonResponse({})

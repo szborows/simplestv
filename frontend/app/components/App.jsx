@@ -27,9 +27,9 @@ export default class Main extends React.Component {
             <Router history={history}>
                 <Route path="/" component={App}>
                     <IndexRoute component={Home} />
+                    <Route path="/p/results/:secret" component={Results} />
                     <Route path="/p/:pollId/:key" component={Poll} />
                     <Route path="/p/create" component={Create} />
-                    <Route path="/p/results/:secret" component={Results} />
                 </Route>
             </Router>
         );

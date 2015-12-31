@@ -14,7 +14,7 @@ export default class Results extends Component {
     componentDidMount() {
         PollStore.listen(this.onChange);
         // TODO: read results from the server
-        // PollActions.getResults(this.state.secret);
+        PollActions.getResults(this.state.secret);
     }
 
     componentWillUnmount() {
@@ -50,8 +50,8 @@ export default class Results extends Component {
             );
         }
         else {
-            console.warn(JSON.stringify(this.state.pollData));
-            return <div>Error {this.state.pollData.status_code}</div>;
+            console.warn(JSON.stringify(this.state.pollResultsData));
+            return <div>Error {this.state.pollResultsData.status_code}</div>;
         }
     }
 };
