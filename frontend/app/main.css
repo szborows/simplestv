@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: Arial;
 }
 
 html {
@@ -117,4 +118,32 @@ body {
 
 .new-ballot-question {
     font-size: 16pt;
+}
+
+.logo-wrapper {
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 4em;
+}
+
+.logo-wrapper .logo {
+    width: 100%;
+}
+
+.main-page-wrapper {
+    width: 40%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+.slight-background-gradient {
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,cccccc+5,ffffff+100&1+0,0.35+5,1+100 */
+background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(214,214,214,0.25) 5%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(214,214,214,0.25) 5%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(214,214,214,0.25) 5%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
 }
