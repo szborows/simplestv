@@ -48,20 +48,40 @@ export default class Create extends Component {
             choices.push("");
         }
 
-        console.warn(choices);
         state.choices = choices.length > 0 ? choices: [];
         this.setState(state);
     }
 
     recipientsChanged = (event) => {
         let state = this.state;
-        const recipients = event.target.value.split(/[\s,;\n]+/);
+        const lines = event.target.value.split(/[\s,;\n]+/);
+        let recipients = lines.filter((e) => { return e.trim() !== ""; });
+        if (lines[lines.length - 1].length === 0 && lines.length !== 1) {
+            recipients.push("");
+        }
+
         state.recipients = recipients.length > 0 ? recipients: [];
         this.setState(state);
     }
 
     submit = () => {
         PollActions.create(this.state.question, this.state.choices, this.state.recipients);
+    }
+
+    numberOfCandidates = () => {
+        const count = this.state.choices.length;
+        if (count && this.state.choices[count - 1].trim().length === 0) {
+            return count - 1;
+        }
+        return count;
+    }
+
+    numberOfRecipients = () => {
+        const count = this.state.recipients.length;
+        if (count && this.state.recipients[count - 1].trim().length === 0) {
+            return count - 1;
+        }
+        return count;
     }
 
     render() {
@@ -72,15 +92,21 @@ export default class Create extends Component {
                     <table className="new-ballot-wrapper">
                         <tbody>
                         <tr>
-                            <td>question</td>
-                            <td><input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} /></td>
+                            <td className="create-poll-label">question</td>
+                            <td className="create-poll-input"><input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} /></td>
                         </tr>
                         <tr>
-                            <td>choices<br />{this.state.choices.length}</td>
+                            <td>
+                                {this.state.choices.length ? (<span className="create-poll-counter">{this.numberOfCandidates()}</span>) : ''}
+                                candidate{this.numberOfCandidates() == 1 ? '' : 's'}
+                            </td>
                             <td><textarea value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea></td>
                         </tr>
                         <tr>
-                            <td>recipients<br />{this.state.recipients.length}</td>
+                            <td>
+                                {this.state.recipients.length ? (<span className="create-poll-counter">{this.numberOfRecipients()}</span>): ''}
+                                recipient{this.numberOfRecipients() == 1 ? '' : 's'}
+                            </td>
                             <td><textarea value={this.state.recipients.join('\n')} onChange={this.recipientsChanged}></textarea></td>
                         </tr>
                         </tbody>
