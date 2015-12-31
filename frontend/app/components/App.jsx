@@ -5,6 +5,7 @@ import FullScreen from 'react-fullscreen';
 import Poll from './Poll.jsx';
 import Home from './Home.jsx';
 import Create from './Create.jsx';
+import Results from './Results.jsx';
 
 class App extends React.Component {
     constructor(props) {
@@ -28,6 +29,7 @@ export default class Main extends React.Component {
                     <IndexRoute component={Home} />
                     <Route path="/p/:pollId/:key" component={Poll} />
                     <Route path="/p/create" component={Create} />
+                    <Route path="/p/results/:secret" component={Results} />
                 </Route>
             </Router>
         );
