@@ -22,7 +22,6 @@ export default class Results extends Component {
     }
 
     onChange = (data) => {
-        // TODO: handle data correctly
         let state = this.state;
         state.pollResultsData = data;
         this.setState(state);
@@ -43,7 +42,10 @@ export default class Results extends Component {
                     </div>
                     <div className="content">
                         <div className="ballot-wrapper">
-                            ( * results placeholder * )
+                            question: {this.state.pollResultsData.poll_data.poll.ballot.question}<br />
+
+                            # recipients: {this.state.pollResultsData.poll_data.results.num_recipients}<br />
+                            total votes: {this.state.pollResultsData.poll_data.results.total_votes}<br />
                         </div>
                     </div>
                 </div>
