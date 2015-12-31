@@ -48,11 +48,24 @@ def vote(request, poll_id):
     try:
         data = json.loads(request.body.decode('utf-8'))
         key = data['key']
-        # TODO: extract data from user
-    except (TypeError, ValueError, KeyError):
+        choices = [Choice.objects.get(id=x) for x in map(int, data['choices'])]
+    except (TypeError, ValueError, KeyError, Choice.DoesNotExist):
         return HttpResponse('', status=http.BAD_REQUEST)
 
-    # TODO: implementation needed
+    try:
+        voting_hash = poll.allowed_hashes.get(value=key)
+    except VotingHash.DoesNotExist:
+        return HttpResponse('', status=http.UNAUTHORIZED)
+
+    # FIXME: naming in whole project is fucked up...
+
+    v = Vote()
+    v.author = voting_hash
+    v.choices_json = json.dumps([c.id for c in choices])
+    v.save()
+
+    # TODO: remove this hash from allowed_hashes to forbid multiple voting
+
     return JsonResponse({})
 
 def create(request):

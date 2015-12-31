@@ -49,3 +49,4 @@ class Poll(models.Model):
 class Vote(models.Model):
     poll = models.ForeignKey(Poll)
     author = models.ForeignKey(VotingHash)
+    choices_json = models.TextField()
