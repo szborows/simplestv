@@ -42,6 +42,7 @@ export default class Results extends Component {
                     </div>
                     <div className="content">
                         <div className="ballot-wrapper">
+                            poll {this.state.pollResultsData.poll_data.poll.id}<br />
                             question: {this.state.pollResultsData.poll_data.poll.ballot.question}<br />
 
                             # recipients: {this.state.pollResultsData.poll_data.results.num_recipients}<br />

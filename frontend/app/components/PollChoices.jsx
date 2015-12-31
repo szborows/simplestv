@@ -10,7 +10,7 @@ export default class PollChoices extends Component {
     super(props);
     this.moveCard = this.moveCard.bind(this);
     this.state = {
-      cards: props.choices.map((e, i) => { return {id: i, text: e}; }),
+        cards: props.choices.map((e, i) => { return {index: i, id: e.id, text: e.text}; }),
     };
   }
 

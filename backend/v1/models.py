@@ -21,7 +21,7 @@ class Ballot(models.Model):
         return {
             'time': self.datetime_created,
             'question': self.question,
-            'choices': [ch.text() for ch in self.choices.all()]
+            'choices': [{'text': ch.text(), 'id': ch.id} for ch in self.choices.all()]
         }
 
 class VotingHash(models.Model):

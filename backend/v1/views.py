@@ -30,6 +30,7 @@ def poll(request, poll_id):
         return HttpResponse('', status=http.BAD_REQUEST)
 
     try:
+        print(poll.allowed_hashes.all())
         poll.allowed_hashes.get(value=key)
     except VotingHash.DoesNotExist:
         return HttpResponse('', status=http.UNAUTHORIZED)
