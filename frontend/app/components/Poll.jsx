@@ -10,6 +10,7 @@ export default class Poll extends Component {
             pollId: props.routeParams.pollId,
             key: props.routeParams.key,
             pollData: null,
+            order: null,
         };
     }
 
@@ -28,6 +29,16 @@ export default class Poll extends Component {
         this.setState(state);
     }
 
+    orderChanged = (order) => {
+        let state = this.state;
+        state.order = order;
+        this.setState(state);
+    }
+
+    submit = () => {
+        // TODO
+    }
+
     render() {
         if (!this.state.pollData) {
             return (<div>Loading...</div>);
@@ -44,9 +55,9 @@ export default class Poll extends Component {
                     <div className="content">
                         <div className="ballot-wrapper">
                             <h1>{this.state.pollData.poll_data.ballot.question}</h1>
-                            <PollChoices choices={this.state.pollData.poll_data.ballot.choices} />
+                            <PollChoices choices={this.state.pollData.poll_data.ballot.choices} reportOrderCb={this.orderChanged} />
                             <br />
-                            <a href="#"><div className="submit-button">submit</div></a>
+                            <a href="#"><div className="submit-button" onClick={this.submit}>submit</div></a>
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,8 @@ export default class PollChoices extends Component {
     this.state = {
         cards: props.choices.map((e, i) => { return {index: i, id: e.id, text: e.text}; }),
     };
+    this.reportOrderCb = props.reportOrderCb;
+    this.reportOrder();
   }
 
   moveCard(dragIndex, hoverIndex) {
@@ -26,6 +28,12 @@ export default class PollChoices extends Component {
         ]
       }
     }));
+
+    this.reportOrder();
+  }
+
+  reportOrder = () => {
+    this.reportOrderCb(this.state.cards.map((e) => { return e.id; }));
   }
 
   render() {
