@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
 import PollChoices from './PollChoices.jsx';
+import history from '../libs/history.js';
 
 export default class Poll extends Component {
     constructor(props) {
@@ -26,11 +27,12 @@ export default class Poll extends Component {
     onChange = (data) => {
         if (data.voteResult !== undefined) {
             if (data.voteResult) {
-                console.warn("vote succeeded! " + JSON.stringify(data.result));
+                history.pushState(null, "/p/thanks");
             }
             else {
                 console.error("vote failed!");
             }
+            return;
         }
 
         let state = this.state;

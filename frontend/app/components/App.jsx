@@ -6,6 +6,7 @@ import Poll from './Poll.jsx';
 import Home from './Home.jsx';
 import Create from './Create.jsx';
 import Results from './Results.jsx';
+import Thanks from './Thanks.jsx';
 
 class App extends React.Component {
     constructor(props) {
@@ -30,6 +31,7 @@ export default class Main extends React.Component {
                     <Route path="/p/results/:secret" component={Results} />
                     <Route path="/p/:pollId/:key" component={Poll} />
                     <Route path="/p/create" component={Create} />
+                    <Route path="/p/thanks" component={Thanks} />
                 </Route>
             </Router>
         );
