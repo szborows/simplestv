@@ -13,7 +13,7 @@ export default class PollChoices extends Component {
         cards: props.choices.map((e, i) => { return {index: i, id: e.id, text: e.text}; }),
     };
     this.reportOrderCb = props.reportOrderCb;
-    this.reportOrder();
+    setTimeout(this.reportOrder, 0);
   }
 
   moveCard(dragIndex, hoverIndex) {

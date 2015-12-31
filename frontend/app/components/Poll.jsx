@@ -24,6 +24,15 @@ export default class Poll extends Component {
     }
 
     onChange = (data) => {
+        if (data.voteResult !== undefined) {
+            if (data.voteResult) {
+                console.warn("vote succeeded! " + JSON.stringify(data.result));
+            }
+            else {
+                console.error("vote failed!");
+            }
+        }
+
         let state = this.state;
         state.pollData = data;
         this.setState(state);
@@ -36,7 +45,7 @@ export default class Poll extends Component {
     }
 
     submit = () => {
-        // TODO
+        PollActions.submit(this.state.pollId, this.state.key, this.state.order)
     }
 
     render() {
@@ -57,7 +66,7 @@ export default class Poll extends Component {
                             <h1>{this.state.pollData.poll_data.ballot.question}</h1>
                             <PollChoices choices={this.state.pollData.poll_data.ballot.choices} reportOrderCb={this.orderChanged} />
                             <br />
-                            <a href="#"><div className="submit-button" onClick={this.submit}>submit</div></a>
+                            <a><div className="submit-button" onClick={this.submit}>submit</div></a>
                         </div>
                     </div>
                 </div>

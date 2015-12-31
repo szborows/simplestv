@@ -51,6 +51,25 @@ class PollActions {
             });
         }
     }
+
+    submit(pollId, key, choices) {
+        const data = {'id': pollId, 'key': key, 'choices': choices};
+        return (dispatch) => {
+            $.ajax({
+                url: '/api/v1/poll/' + pollId + '/vote',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(data),
+                cache: false,
+                success: function(data) {
+                    dispatch({'voteResult': true, 'result': data});
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    dispatch({'voteResult': false, 'status_code': xhr.status});
+                }.bind(this)
+            });
+        }
+    }
 }
 
 export default alt.createActions(PollActions);
