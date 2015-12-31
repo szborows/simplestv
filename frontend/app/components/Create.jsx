@@ -103,7 +103,7 @@ export default class Create extends Component {
         const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0) ? true : false;
         return (
             <div>
-                <Header text="Create poll" />
+                <Header text="Create a poll" />
                 <div className="content">
                     <table className="new-ballot-wrapper">
                         <tbody>
