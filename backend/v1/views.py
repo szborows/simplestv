@@ -122,6 +122,27 @@ def create(request):
 
     return JsonResponse({'id': poll.hash_id, 'secret': poll.secret})
 
+def write_blt_file(poll):
+    # TODO: someone might try to hack SimpleSTV here by preparing OpenSTV BLT file!
+    #       analysis how to avoid this is needed!
+    fd, path = tempfile.mkstemp(prefix='simplestv')
+    fp = open(fd, 'w')
+    fp.write('{0} {1}\n'.format(len(poll.ballot.choices.all()), poll.num_seats))
+    # FIXME: again: naming is not right
+    for ballot in Vote.objects.filter(poll=poll):
+        preference = json.loads(ballot.choices_json.decode('utf-8'))
+        fp.write('1 {} 0\n'.format(' '.join(preference)))
+
+    fp.write('0\n')
+
+    for candidate in poll.ballot.choices.all():
+        fp.write('"{}"\n'.format(candidate.value))
+
+    fp.write('"{}"\n'.format(poll.ballot.question))
+    fp.close()
+
+    return path
+
 def results(request, secret):
     try:
         poll = Poll.objects.get(secret=secret)
