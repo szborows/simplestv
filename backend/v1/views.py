@@ -87,6 +87,7 @@ def create(request):
         data = json.loads(request.body.decode('utf-8'))
         question = str(data['question'])
         choices = list(map(str, data['choices']))
+        num_seats = int(data['num_seats'])
         recipients = list(map(str, data['recipients']))
     except (TypeError, ValueError, KeyError):
         return HttpResponse('', status=http.BAD_REQUEST)
@@ -105,6 +106,7 @@ def create(request):
 
     poll = Poll()
     poll.ballot = ballot
+    poll.num_seats = num_seats
     poll.recipients_json = json.dumps(recipients)
     poll.save()
 

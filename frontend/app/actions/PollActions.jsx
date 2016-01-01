@@ -18,8 +18,8 @@ class PollActions {
         }
     }
 
-    create(question, choices, recipients) {
-        const data = {'question': question, 'choices': choices, 'recipients': recipients};
+    create(question, choices, numSeats, recipients) {
+        const data = {'question': question, 'choices': choices, 'num_seats': numSeats, 'recipients': recipients};
         return (dispatch) => {
             $.ajax({
                 url: '/api/v1/poll/create',

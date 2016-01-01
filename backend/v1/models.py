@@ -36,6 +36,7 @@ class Poll(models.Model):
     ballot = models.ForeignKey(Ballot)
     recipients_json = models.TextField()
     allowed_hashes = models.ManyToManyField(VotingHash, blank=True)
+    num_seats = models.IntegerField()
 
     def __str__(self):
         return 'Poll {0} ({1})'.format(self.hash_id, str(self.ballot))

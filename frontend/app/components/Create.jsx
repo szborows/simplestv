@@ -12,6 +12,7 @@ export default class Create extends Component {
         this.state = {
             question: '',
             choices: [],
+            numSeats: 1,
             recipients: [],
         };
     }
@@ -65,8 +66,18 @@ export default class Create extends Component {
         this.setState(state);
     }
 
+    numSeatsChanged = (event) => {
+        let state = this.state;
+        state.numSeats = event.target.value;
+        this.setState(state);
+    }
+
     submit = () => {
-        PollActions.create(this.state.question, this.state.choices, this.state.recipients);
+        PollActions.create(
+                this.state.question,
+                this.state.choices,
+                this.state.numSeats,
+                this.state.recipients);
     }
 
     numberOfCandidates = () => {
@@ -117,6 +128,10 @@ export default class Create extends Component {
                                 candidate{numberOfChoices == 1 ? '' : 's'}
                             </td>
                             <td><textarea value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea></td>
+                        </tr>
+                        <tr>
+                            <td>seats</td>
+                            <td><input type="number" value={this.state.numSeats} onChange={this.numSeatsChanged} style={{"width": "40px", "textAlign": "left"}} /></td>
                         </tr>
                         <tr>
                             <td>
