@@ -38,13 +38,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'v1',
-    'mailer',
+    'django_mailer',
     'djcelery',
 )
 
+from backend.email_settings import *
 # TODO: enable django-mailed for production
-# EMAIL_BACKEND = "mailer.backend.DbBackend"
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django_mailer.smtp_queue.EmailBackend'
+# ?? EMAIL_BACKEND = 'django.core.maik.backends.'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
