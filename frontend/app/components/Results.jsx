@@ -30,6 +30,10 @@ export default class Results extends Component {
         this.setState(state);
     }
 
+    runElection = () => {
+        PollActions.runElection(this.state.pollResultsData.poll_data.poll.id, this.state.secret);
+    }
+
     render() {
         if (!this.state.pollResultsData) {
             return (<div>Loading...</div>);
@@ -64,6 +68,9 @@ export default class Results extends Component {
                         <div className="ballot-wrapper">
                             question: {this.state.pollResultsData.poll_data.poll.ballot.question}<br />
                             seats: {this.state.pollResultsData.poll_data.poll.num_seats}<br />
+                            <br />
+                            <br />
+                            <input type="button" onClick={this.runElection} value="run election" />
                         </div>
                     </div>
                 </div>

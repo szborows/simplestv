@@ -70,6 +70,24 @@ class PollActions {
             });
         }
     }
+
+    runElection(pollId, secret) {
+        return (dispatch) => {
+            $.ajax({
+                url: '/api/v1/dev/run_election/' + pollId + '/' + secret,
+                dataType: 'json',
+                cache: false,
+                success: function(data) {
+                    //dispatch({'valid': true, 'poll_data': data});
+                    console.warn("result: " + JSON.stringify(data));
+                }.bind(this),
+                error: function(xhr, status, err) {
+                    //dispatch({'valid': false, 'status_code': xhr.status});
+                    console.error("error " + xhr.status + "!");
+                }.bind(this)
+            });
+        }
+    }
 }
 
 export default alt.createActions(PollActions);

@@ -24,5 +24,8 @@ urlpatterns = [
     url(r'^api/v1/poll/(?P<poll_id>\w+)/vote', v1_views.vote),
     url(r'^api/v1/poll/(?P<poll_id>\w+)', v1_views.poll),
 
+    # Development
+    url(r'^api/v1/dev/run_election/(?P<poll_id>\w+)/(?P<secret>\w+)', v1_views.dev_run_election), # this should happen automatically ?
+
     url(r'^admin/', include(admin.site.urls)),
 ]

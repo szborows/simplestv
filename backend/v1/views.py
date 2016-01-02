@@ -149,3 +149,6 @@ def results(request, secret):
     }
 
     return JsonResponse({'poll': poll.json_dict(), 'results': results})
+
+def dev_run_election(request, poll_id, secret):
+    return JsonResponse({}, status=http.INTERNAL_SERVER_ERROR)
