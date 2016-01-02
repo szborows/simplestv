@@ -176,3 +176,12 @@ td.create-poll-input {
 .error-message {
     color: red;
 }
+
+.pie-chart-container {
+    text-align: center;
+    float: left;
+}
+
+.pie-chart-label {
+    display: block;
+}

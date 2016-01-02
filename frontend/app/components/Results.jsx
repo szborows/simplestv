@@ -3,6 +3,8 @@ import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
 import Header from './Header.jsx';
 
+var PieChart = require("react-chartjs").Pie;
+
 export default class Results extends Component {
     constructor(props) {
         super(props);
@@ -33,17 +35,35 @@ export default class Results extends Component {
             return (<div>Loading...</div>);
         }
 
+        const numRecipients = this.state.pollResultsData.poll_data.results.num_recipients;
+        const totalVotes = this.state.pollResultsData.poll_data.results.total_votes;
+
+        const chartData = [
+            {
+                value: totalVotes,
+                color: "#16BF7D",
+                label: "Voted"
+            },
+            {
+                value: numRecipients - totalVotes,
+                color: "#F7464A",
+                label: "Didn't vote"
+            },
+        ];
+        const chartOptions = {animation: false};
+
         if (this.state.pollResultsData.valid) {
             return (
                 <div>
                     <Header text={"Results for poll #" + this.state.pollResultsData.poll_data.poll.id} />
                     <div className="content">
+                        <div className="pie-chart-container">
+                            <PieChart data={chartData} options={chartOptions}/>
+                            <p className="pie-chart-label">voter turnout: {(numRecipients / totalVotes) * 100}%</p>
+                        </div>
                         <div className="ballot-wrapper">
-                            poll {this.state.pollResultsData.poll_data.poll.id}<br />
                             question: {this.state.pollResultsData.poll_data.poll.ballot.question}<br />
-
-                            # recipients: {this.state.pollResultsData.poll_data.results.num_recipients}<br />
-                            total votes: {this.state.pollResultsData.poll_data.results.total_votes}<br />
+                            seats: {this.state.pollResultsData.poll_data.poll.num_seats}<br />
                         </div>
                     </div>
                 </div>

@@ -44,6 +44,7 @@ class Poll(models.Model):
     def json_dict(self):
         return {
             'id': self.hash_id,
+            'num_seats': self.num_seats,
             'ballot': self.ballot.json_dict()
         }
 
