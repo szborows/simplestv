@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'v1',
     'mailer',
+    'djcelery',
 )
 
 # TODO: enable django-mailed for production
