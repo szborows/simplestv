@@ -27,6 +27,11 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+try:
+    SIMPLESTV_URL = os.environ['SIMPLESTV_URL']
+except KeyError:
+    raise RuntimeError('Please set SIMPLESTV_URL environment variable!')
+
 
 # Application definition
 

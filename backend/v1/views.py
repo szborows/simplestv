@@ -116,27 +116,6 @@ def create(request):
 
     return JsonResponse({'id': poll.hash_id, 'secret': poll.secret})
 
-def write_blt_file(poll):
-    # TODO: someone might try to hack SimpleSTV here by preparing OpenSTV BLT file!
-    #       analysis how to avoid this is needed!
-    fd, path = tempfile.mkstemp(prefix='simplestv')
-    fp = open(fd, 'w')
-    fp.write('{0} {1}\n'.format(len(poll.ballot.choices.all()), poll.num_seats))
-    # FIXME: again: naming is not right
-    for ballot in Vote.objects.filter(poll=poll):
-        preference = json.loads(ballot.choices_json.decode('utf-8'))
-        fp.write('1 {} 0\n'.format(' '.join(preference)))
-
-    fp.write('0\n')
-
-    for candidate in poll.ballot.choices.all():
-        fp.write('"{}"\n'.format(candidate.value))
-
-    fp.write('"{}"\n'.format(poll.ballot.question))
-    fp.close()
-
-    return path
-
 def results(request, secret):
     try:
         poll = Poll.objects.get(secret=secret)
@@ -150,5 +129,42 @@ def results(request, secret):
 
     return JsonResponse({'poll': poll.json_dict(), 'results': results})
 
+#
+import tempfile
+def write_blt_file(poll):
+    # TODO: someone might try to hack SimpleSTV here by preparing OpenSTV BLT file!
+    #       analysis how to avoid this is needed!
+    fd, path = tempfile.mkstemp(prefix='simplestv', suffix='.blt')
+    fp = open(fd, 'w')
+    fp.write('{0} {1}\n'.format(len(poll.ballot.choices.all()), poll.num_seats))
+    # FIXME: again: naming is not right
+    for ballot in Vote.objects.filter(poll=poll):
+        preference = json.loads(ballot.choices_json)
+        fp.write('1 {} 0\n'.format(' '.join(map(str, preference))))
+
+    fp.write('0\n')
+
+    for candidate in poll.ballot.choices.all():
+        fp.write('"{}"\n'.format(candidate.value))
+
+    fp.write('"{}"\n'.format(poll.ballot.question))
+    fp.close()
+
+    return path
+
+#
+
+
 def dev_run_election(request, poll_id, secret):
-    return JsonResponse({}, status=http.INTERNAL_SERVER_ERROR)
+    try:
+        poll = Poll.objects.get(hash_id=poll_id)
+    except Poll.DoesNotExist:
+        return HttpResponse('', status=http.BAD_REQUEST)
+    blt_path = write_blt_file(poll)
+    with open(blt_path) as fp:
+        content = fp.read()
+
+    from openstv.openstv.runElection import runElection
+    runElection()
+
+    return JsonResponse({'blt': content})

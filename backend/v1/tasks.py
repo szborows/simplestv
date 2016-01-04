@@ -9,7 +9,7 @@ def send_emails(poll, recipients):
         Hi,
         these links should work ;)
         {}
-    """.format('\n'.join(['http://localhost:4242/#/p/{0}/{1}'.format(poll.hash_id, x.value) for x in poll.allowed_hashes.all()]))
+    """.format('\n'.join(['{0}/#/p/{1}/{2}'.format(settings.SIMPLESTV_URL , poll.hash_id, x.value) for x in poll.allowed_hashes.all()]))
     send_mail('[simplestv-dev] subj', body, settings.DEFAULT_FROM_EMAIL, recipients, fail_silently=False)
 
 @shared_task
