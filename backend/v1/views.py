@@ -101,7 +101,8 @@ def create(request):
     poll.secret = secret()
     poll.save()
 
-    tasks.send_emails.delay(poll, recipients)
+    #tasks.send_emails.delay(poll, recipients)
+    tasks.send_emails(poll, recipients)
 
     return JsonResponse({'id': poll.hash_id, 'secret': poll.secret})
 

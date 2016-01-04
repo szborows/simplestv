@@ -16,6 +16,7 @@ def send_emails(poll, recipients):
                     poll.allowed_hashes.get(value=hash_email(recipient))
                 )
         )
+        print('** should now send email from ' + str(settings.DEFAULT_FROM_EMAIL) + ' to ' + str(recipient))
         send_mail('[simplestv-dev] subj', body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
 
 @shared_task
