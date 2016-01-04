@@ -2,22 +2,11 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import http.client as http
 import json
-import hashlib
-import random
 
 from backend.hashids import Hashids
 from v1.models import *
 import v1.tasks as tasks
-
-def hash_email(email):
-    return hashlib.sha256(email.encode('utf-8')).hexdigest()
-
-def secret():
-    r = map(str, [random.randint(1, 10**4) for _ in range(10)])
-    h = hashlib.sha256()
-    for x in r:
-        h.update(x.encode('ascii'))
-    return h.hexdigest()
+from backend.utils import hash_email, secret
 
 def poll(request, poll_id):
     try:
