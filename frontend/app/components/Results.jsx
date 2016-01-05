@@ -63,7 +63,7 @@ export default class Results extends Component {
                     <div className="content">
                         <div className="pie-chart-container">
                             <PieChart data={chartData} options={chartOptions}/>
-                            <p className="pie-chart-label">voter turnout: {(numRecipients / totalVotes) * 100}%</p>
+                            <p className="pie-chart-label">voter turnout: {totalVotes == 0 ? 0 : (numRecipients / totalVotes) * 100}%</p>
                         </div>
                         <div className="ballot-wrapper">
                             question: {this.state.pollResultsData.poll_data.poll.ballot.question}<br />
