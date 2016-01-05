@@ -154,7 +154,12 @@ def dev_run_election(request, poll_id, secret):
     with open(blt_path) as fp:
         content = fp.read()
 
-    from openstv.openstv.runElection import runElection
-    runElection()
+    _, path = tempfile.mkstemp(prefix='simplestv', suffix='.out')
+    from openstv.openstv.wrapped3 import run
+    run(blt_path, path, poll.num_seats)
 
-    return JsonResponse({'blt': content})
+    with open(path) as fp:
+        output = fp.read()
+        print(output)
+
+    return JsonResponse({'blt': content, 'output': output})
