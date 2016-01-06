@@ -128,8 +128,11 @@ def write_blt_file(poll):
     fp = open(fd, 'w')
     fp.write('{0} {1}\n'.format(len(poll.ballot.choices.all()), poll.num_seats))
     # FIXME: again: naming is not right
+
+    possible_choices = [c.id for c in poll.ballot.choices.all()]
     for ballot in Vote.objects.filter(poll=poll):
         preference = json.loads(ballot.choices_json)
+        preference = [possible_choices.index(p) for p in preference]
         fp.write('1 {} 0\n'.format(' '.join(map(str, preference))))
 
     fp.write('0\n')
