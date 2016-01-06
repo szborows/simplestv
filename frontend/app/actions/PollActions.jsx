@@ -19,8 +19,15 @@ class PollActions {
         }
     }
 
-    create(question, choices, numSeats, recipients) {
-        const data = {'question': question, 'choices': choices, 'num_seats': numSeats, 'recipients': recipients};
+    create(question, choices, numSeats, recipients, deadline) {
+        const deadlineDate = (new GregorianCalendarFormat('yyyy-MM-dd')).format(deadline);
+        const data = {
+            'question': question,
+            'choices': choices,
+            'num_seats': numSeats,
+            'recipients': recipients,
+            'deadline': deadlineDate
+        };
         return (dispatch) => {
             $.ajax({
                 url: '/api/v1/poll/create',
@@ -53,13 +60,11 @@ class PollActions {
         }
     }
 
-    submit(pollId, key, choices, deadline) {
-        const deadlineDate = (new GregorianCalendarFormat('yyyy-MM-dd')).format(deadline);
+    submit(pollId, key, choices) {
         const data = {
             'id': pollId,
             'key': key,
             'choices': choices,
-            'deadline': deadlineDate
         };
         return (dispatch) => {
             $.ajax({

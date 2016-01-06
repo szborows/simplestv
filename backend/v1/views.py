@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import http.client as http
 import json
+import time
+from datetime import datetime
 
 from backend.hashids import Hashids
 from v1.models import *
@@ -70,6 +72,7 @@ def create(request):
         choices = list(map(str, data['choices']))
         num_seats = int(data['num_seats'])
         recipients = list(map(str, data['recipients']))
+        deadline = datetime.fromtimestamp(time.mktime(time.strptime(data['deadline'], '%Y-%m-%d')))
     except (TypeError, ValueError, KeyError):
         return HttpResponse('', status=http.BAD_REQUEST)
 
@@ -89,6 +92,7 @@ def create(request):
     poll.ballot = ballot
     poll.num_seats = num_seats
     poll.recipients_json = json.dumps(recipients)
+    poll.deadline = deadline
     poll.save()
 
     for recipient_text in recipients:
