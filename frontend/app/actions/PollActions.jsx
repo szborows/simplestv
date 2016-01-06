@@ -1,5 +1,6 @@
 import alt from '../libs/alt';
 import $ from 'jquery';
+import GregorianCalendarFormat from 'gregorian-calendar-format';
 
 class PollActions {
     read(pollId, key) {
@@ -52,8 +53,14 @@ class PollActions {
         }
     }
 
-    submit(pollId, key, choices) {
-        const data = {'id': pollId, 'key': key, 'choices': choices};
+    submit(pollId, key, choices, deadline) {
+        const deadlineDate = (new GregorianCalendarFormat('yyyy-MM-dd')).format(deadline);
+        const data = {
+            'id': pollId,
+            'key': key,
+            'choices': choices,
+            'deadline': deadlineDate
+        };
         return (dispatch) => {
             $.ajax({
                 url: '/api/v1/poll/' + pollId + '/vote',

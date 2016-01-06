@@ -16,7 +16,8 @@
     "react-dnd-html5-backend": "latest",
     "react-dom": "^0.14.3",
     "react-router": "^1.0.0",
-    "webpack": "^1.12.8"
+    "webpack": "^1.12.8",
+    "rc-calendar": "5.2.0"
   },
   "devDependencies": {
     "babel-loader": "^5.4.0",

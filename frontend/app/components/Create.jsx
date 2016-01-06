@@ -5,6 +5,8 @@ import PollStore from '../stores/PollStore.jsx';
 import history from '../libs/history.js';
 import Header from './Header.jsx';
 import EmailValidator from 'email-validator';
+import Calendar from 'rc-calendar';
+import GregorianCalendar from 'gregorian-calendar';
 
 export default class Create extends Component {
     constructor(props) {
@@ -14,6 +16,7 @@ export default class Create extends Component {
             choices: [],
             numSeats: 1,
             recipients: [],
+            deadline: null,
         };
     }
 
@@ -77,7 +80,8 @@ export default class Create extends Component {
                 this.state.question,
                 this.state.choices,
                 this.state.numSeats,
-                this.state.recipients);
+                this.state.recipients,
+                this.state.deadline);
     }
 
     numberOfCandidates = () => {
@@ -106,12 +110,21 @@ export default class Create extends Component {
         return count;
     }
 
+    onDeadlineChanged = (deadline) => {
+        let state = this.state;
+        state.deadline = deadline;
+        this.setState(state);
+    }
+
     render() {
         const numberOfInvalidEmails = this.numberOfInvalidEmails();
         const question = this.state.question;
         const numberOfChoices = this.numberOfCandidates();
         const numberOfRecipients = this.numberOfRecipients() - numberOfInvalidEmails;
-        const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0) ? true : false;
+        var date = new GregorianCalendar();
+        var d = new Date();
+        date.setTime(d);
+        const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0 && this.state.deadline) ? true : false;
         return (
             <div>
                 <Header text="Create a poll" />
@@ -145,8 +158,12 @@ export default class Create extends Component {
                                 {numberOfInvalidEmails > 0 ? (<span className="error-message">You entered {numberOfInvalidEmails} invalid recipient email addresses.</span>) : ''}
                             </td>
                         </tr>
+                        <tr>
+                            <td>deadline{this.state.deadline ? "" : (<span className="error-message"><br />(required)</span>)}</td>
+                            <td><Calendar showToday={false} defaultValue={date} onSelect={this.onDeadlineChanged} /></td>
+                        </tr>
                         </tbody>
-                    </table>
+                    </table><br />
                     {everythingOk ? <a className="submit-button" onClick={this.submit}>submit!</a> : <a className="submit-button-grey">submit!</a> }
                 </div>
             </div>
