@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class Choice(models.Model):
     value = models.CharField(max_length=255)
@@ -46,6 +47,7 @@ class Poll(models.Model):
         return {
             'id': self.hash_id,
             'num_seats': self.num_seats,
+            'deadline': datetime.strftime(self.deadline, '%Y-%m-%d'),
             'ballot': self.ballot.json_dict()
         }
 

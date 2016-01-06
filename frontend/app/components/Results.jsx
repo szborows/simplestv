@@ -57,18 +57,20 @@ export default class Results extends Component {
         const chartOptions = {animation: false};
 
         if (this.state.pollResultsData.valid) {
+            const poll = this.state.pollResultsData.poll_data.poll;
             return (
                 <div>
-                    <Header text={"Results for poll #" + this.state.pollResultsData.poll_data.poll.id} />
+                    <Header text={"Results for poll #" + poll.id} />
                     <div className="content">
                         <div className="pie-chart-container">
                             <PieChart data={chartData} options={chartOptions}/>
                             <p className="pie-chart-label">voter turnout: {totalVotes == 0 ? 0 : (totalVotes / numRecipients) * 100}%</p>
                         </div>
                         <div className="ballot-wrapper">
-                            question: {this.state.pollResultsData.poll_data.poll.ballot.question}<br />
+                            question: {poll.ballot.question}<br />
                             number of recipients: {numRecipients}<br />
-                            seats: {this.state.pollResultsData.poll_data.poll.num_seats}<br />
+                            seats: {poll.num_seats}<br />
+                            deadline: {poll.deadline}<br />
                             <br />
                             <br />
                             <input type="button" onClick={this.runElection} value="run election" />
