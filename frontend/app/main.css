@@ -185,3 +185,17 @@ td.create-poll-input {
 .pie-chart-label {
     display: block;
 }
+
+table.results-info {
+    width: 100%;
+}
+
+table.results-info td {
+    padding: 2px;
+    border: 1px solid silver;
+}
+
+table.results-info tr td:nth-child(1) {
+    width: 30%;
+    text-align: left;
+}

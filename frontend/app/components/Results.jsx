@@ -67,11 +67,34 @@ export default class Results extends Component {
                             <p className="pie-chart-label">voter turnout: {totalVotes == 0 ? 0 : (totalVotes / numRecipients) * 100}%</p>
                         </div>
                         <div className="ballot-wrapper">
-                            question: {poll.ballot.question}<br />
-                            number of recipients: {numRecipients}<br />
-                            seats: {poll.num_seats}<br />
-                            deadline: {poll.deadline}<br />
-                            <br />
+                            <table className="results-info">
+                                <tbody>
+                                    <tr>
+                                        <td>question:</td>
+                                        <td>{poll.ballot.question}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>choices:</td>
+                                        <td>
+                                            <div>
+                                                {poll.ballot.choices.map((e) => { return (<div key={e.id}>{e.text}</div>); })}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>number of recipients:</td>
+                                        <td>{numRecipients}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>seats:</td>
+                                        <td>{poll.num_seats}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>deadline:</td>
+                                        <td>{poll.deadline}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <br />
                             <input type="button" onClick={this.runElection} value="run election" />
                         </div>
