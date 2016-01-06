@@ -69,6 +69,7 @@ def create(request):
         # PARANOID: is this safe?
         data = json.loads(request.body.decode('utf-8'))
         question = str(data['question'])
+        description = str(data['description'])
         choices = list(map(str, data['choices']))
         num_seats = int(data['num_seats'])
         recipients = list(map(str, data['recipients']))

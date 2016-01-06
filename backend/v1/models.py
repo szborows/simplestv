@@ -39,6 +39,7 @@ class Poll(models.Model):
     allowed_hashes = models.ManyToManyField(VotingHash, blank=True)
     num_seats = models.IntegerField()
     deadline = models.DateTimeField()
+    description = models.TextField()
 
     def __str__(self):
         return 'Poll {0} ({1})'.format(self.hash_id, str(self.ballot))
@@ -46,6 +47,7 @@ class Poll(models.Model):
     def json_dict(self):
         return {
             'id': self.hash_id,
+            'description': self.description,
             'num_seats': self.num_seats,
             'deadline': datetime.strftime(self.deadline, '%Y-%m-%d'),
             'ballot': self.ballot.json_dict()
