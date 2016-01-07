@@ -245,4 +245,7 @@ table.results-info tr td:nth-child(1) {
 .openstv-output {
     font-size: 10pt;
     font-family: "Courier New";
+    height: 250px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
