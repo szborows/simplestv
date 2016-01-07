@@ -156,49 +156,48 @@ export default class Create extends Component {
                 }
                 <Header text="Create a poll" />
                 <div className="content">
-                    <table className="new-ballot-wrapper">
-                        <tbody>
-                        <tr>
-                            <td className="create-poll-label">question</td>
-                            <td className="create-poll-input"><input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} /></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input type="checkbox" value={this.state.wantDescription} onChange={this.wantDescriptionChanged} style={{"width": "auto"}} /> description
-                            </td>
-                            <td>
-                                {this.state.wantDescription && (<textarea value={this.state.description} onChange={this.descriptionChanged}></textarea>)}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {numberOfChoices ? (<span className="create-poll-counter">{numberOfChoices}</span>) : ''}
+                    <div className="poll-create-wrapper">
+                    <div className="poll-create-column-1">
+                        <label>question</label>
+                        <input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} />
+                        <label><input type="checkbox" value={this.state.wantDescription} onChange={this.wantDescriptionChanged} style={{"width": "auto"}} /> description</label>
+                        {this.state.wantDescription && (<div><textarea rows="4" value={this.state.description} onChange={this.descriptionChanged}></textarea><br /></div>)}
+                        <table className="poll-create-tbl"><tbody>
+                            <tr>
+                                <td>
+                                {numberOfChoices ? (<span className="create-poll-counter">{numberOfChoices}<br /></span>) : ''}
                                 candidate{numberOfChoices == 1 ? '' : 's'}
-                            </td>
-                            <td><textarea value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea></td>
-                        </tr>
-                        <tr>
-                            <td>seats</td>
-                            <td><input type="number" value={this.state.numSeats} onChange={this.numSeatsChanged} style={{"width": "40px", "textAlign": "left"}} /></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                {numberOfRecipients ? (<span className="create-poll-counter">{numberOfRecipients}</span>) : ''}
+                                </td>
+                                <td>
+                                <textarea rows="6" value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>seats</td>
+                                <td>
+                                    <input type="number" value={this.state.numSeats} onChange={this.numSeatsChanged} style={{"width": "40px", "textAlign": "left"}} />
+                                    <br /><br />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    {numberOfRecipients ? (<span className="create-poll-counter">{numberOfRecipients}</span>) : ''}
                                 recipient{numberOfRecipients == 1 ? '' : 's'}
-                                <br />
-                                (emails)
-                            </td>
-                            <td>
-                                <textarea value={this.state.recipients.join('\n')} onChange={this.recipientsChanged}></textarea>
-                                {numberOfInvalidEmails > 0 ? (<span className="error-message">You entered {numberOfInvalidEmails} invalid recipient email addresses.</span>) : ''}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>deadline{this.state.deadline ? "" : (<span className="error-message"><br />(required)</span>)}</td>
-                            <td><Calendar showToday={false} defaultValue={date} onSelect={this.onDeadlineChanged} /></td>
-                        </tr>
-                        </tbody>
-                    </table><br />
+                                </td>
+                                <td>
+                                    <textarea rows="6" value={this.state.recipients.join('\n')} onChange={this.recipientsChanged}></textarea>
+                                    {numberOfInvalidEmails > 0 ? (<span className="error-message">You entered {numberOfInvalidEmails} invalid recipient email addresses.</span>) : ''}
+                                </td>
+                            </tr>
+                        </tbody></table>
+                        <br style={{"clear": "left"}} />
+                    </div>
+                    <div className="poll-create-column-2">
+                        deadline{this.state.deadline ? "" : (<span className="error-message"><br />(required)</span>)}<br />
+                        <Calendar showToday={false} defaultValue={date} onSelect={this.onDeadlineChanged} />
+                    </div>
+                    </div>
+                    <br style={{"clear": "left"}} />
                     {everythingOk ? <a className="submit-button" onClick={this.submit}>submit!</a> : <a className="submit-button-grey">submit!</a> }
                 </div>
             </div>

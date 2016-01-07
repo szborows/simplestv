@@ -19,17 +19,23 @@ body {
 }
 
 .ballot-wrapper, .new-ballot-wrapper {
-    width: 40%;
+    width: 100%;
     margin: 0 auto;
     text-align: center;
 }
 
-.new-ballot-wrapper tr:nth-child(1) {
-    width: 30%;
+.poll-create-tbl {
+    width: 97.3%;
 }
 
-.new-ballot-wrapper tr:nth-child(2) {
-    width: 70%;
+.poll-create-tbl td:nth-child(1) {
+    text-align: center;
+    width: 15%;
+    vertical-align: middle;
+}
+
+.poll-create-tbl td:nth-child(2) {
+    width: 85%;
 }
 
 .new-ballot-wrapper input {
@@ -248,4 +254,24 @@ table.results-info tr td:nth-child(1) {
     height: 250px;
     overflow-y: scroll;
     overflow-x: hidden;
+}
+
+.poll-create-column-1, .poll-create-column-2 {
+    float: left;
+    width: 50%;
+}
+
+.poll-create-wrapper {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.poll-create-wrapper label {
+    display: block;
+    margin-top: 10px;
+}
+
+.poll-create-wrapper input[type=text], textarea {
+    display: block;
+    width: 90%;
 }
