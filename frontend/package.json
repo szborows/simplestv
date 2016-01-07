@@ -10,14 +10,15 @@
     "chart.js": "^1.0.2",
     "email-validator": "latest",
     "history": "^1.13.1",
+    "rc-calendar": "5.2.0",
     "react": "^0.14.3",
     "react-chartjs": "^0.6.0",
     "react-dnd": "latest",
     "react-dnd-html5-backend": "latest",
     "react-dom": "^0.14.3",
+    "react-loader": "^2.0.0",
     "react-router": "^1.0.0",
-    "webpack": "^1.12.8",
-    "rc-calendar": "5.2.0"
+    "webpack": "^1.12.8"
   },
   "devDependencies": {
     "babel-loader": "^5.4.0",

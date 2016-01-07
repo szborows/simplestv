@@ -7,6 +7,7 @@ import Header from './Header.jsx';
 import EmailValidator from 'email-validator';
 import Calendar from 'rc-calendar';
 import GregorianCalendar from 'gregorian-calendar';
+import Loader from 'react-loader';
 
 export default class Create extends Component {
     constructor(props) {
@@ -19,6 +20,7 @@ export default class Create extends Component {
             numSeats: 1,
             recipients: [],
             deadline: null,
+            loading: false,
         };
     }
 
@@ -78,6 +80,9 @@ export default class Create extends Component {
     }
 
     submit = () => {
+        let state = this.state;
+        state.loading = true;
+        this.setState(state);
         PollActions.create(
                 this.state.question,
                 this.state.description,
@@ -142,6 +147,13 @@ export default class Create extends Component {
         const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0 && this.state.deadline) ? true : false;
         return (
             <div>
+                {
+                    this.state.loading &&
+                    (<div className="loading-screen">
+                        <Loader loaded={false}>
+                        </Loader>
+                    </div>)
+                }
                 <Header text="Create a poll" />
                 <div className="content">
                     <table className="new-ballot-wrapper">
