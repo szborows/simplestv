@@ -40,7 +40,7 @@ export default class PollChoices extends Component {
     const { cards } = this.state;
 
     return (
-      <div className="ballot-entry">
+      <div className="ballot-entry scaling">
         {cards.map((card, i) => {
           return (
             <Card key={card.id}
