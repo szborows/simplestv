@@ -158,7 +158,7 @@ export default class Create extends Component {
                 <div className="content">
                     <div className="poll-create-wrapper">
                     <div className="poll-create-column-1">
-                        <label>question</label>
+                        <label>question{!question.length && (<span className="error-message"> (required)</span>)}</label>
                         <input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} />
                         <label><input type="checkbox" value={this.state.wantDescription} onChange={this.wantDescriptionChanged} style={{"width": "auto"}} /> description</label>
                         {this.state.wantDescription && (<div><textarea rows="4" value={this.state.description} onChange={this.descriptionChanged}></textarea><br /></div>)}
@@ -167,13 +167,17 @@ export default class Create extends Component {
                                 <td>
                                 {numberOfChoices ? (<span className="create-poll-counter">{numberOfChoices}<br /></span>) : ''}
                                 candidate{numberOfChoices == 1 ? '' : 's'}
+                                {(numberOfChoices < 2) && (<span className="error-message"><br />(too few candidates)</span>)}
                                 </td>
                                 <td>
                                 <textarea rows="6" value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea><br />
                                 </td>
                             </tr>
                             <tr>
-                                <td>seats</td>
+                                <td>
+                                    seats
+                                    {(numberOfChoices > 0 && (this.state.numSeats >= this.state.choices.length)) && (<span className="error-message">(too much seats)</span>)}
+                                </td>
                                 <td>
                                     <input type="number" value={this.state.numSeats} onChange={this.numSeatsChanged} style={{"width": "40px", "textAlign": "left"}} />
                                     <br /><br />
@@ -183,6 +187,7 @@ export default class Create extends Component {
                                 <td>
                                     {numberOfRecipients ? (<span className="create-poll-counter">{numberOfRecipients}</span>) : ''}
                                 recipient{numberOfRecipients == 1 ? '' : 's'}
+                                {(numberOfRecipients < 1) && (<span className="error-message"><br />(too few recipients)</span>)}
                                 </td>
                                 <td>
                                     <textarea rows="6" value={this.state.recipients.join('\n')} onChange={this.recipientsChanged}></textarea>
