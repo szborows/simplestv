@@ -162,8 +162,6 @@ def dev_run_election(request, poll_id, secret):
     blt_path = write_blt_file(poll)
     with open(blt_path) as fp:
         content = fp.read()
-    print('blt:')
-    print(content)
 
     _, path = tempfile.mkstemp(prefix='simplestv', suffix='.out')
     from openstv.openstv.wrapped3 import run
@@ -173,4 +171,4 @@ def dev_run_election(request, poll_id, secret):
         output = fp.read()
         print(output)
 
-    return JsonResponse({'blt': content, 'output': output.replace('\n', '<br />')})
+    return JsonResponse({'blt': content, 'output': output})
