@@ -92,6 +92,7 @@ def create(request):
     poll = Poll()
     poll.ballot = ballot
     poll.num_seats = num_seats
+    poll.description = description
     poll.recipients_json = json.dumps(recipients)
     poll.deadline = deadline
     poll.save()
