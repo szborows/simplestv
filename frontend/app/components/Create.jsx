@@ -13,6 +13,8 @@ export default class Create extends Component {
         super(props);
         this.state = {
             question: '',
+            wantDescription: false,
+            description: '',
             choices: [],
             numSeats: 1,
             recipients: [],
@@ -78,6 +80,7 @@ export default class Create extends Component {
     submit = () => {
         PollActions.create(
                 this.state.question,
+                this.state.description,
                 this.state.choices,
                 this.state.numSeats,
                 this.state.recipients,
@@ -116,6 +119,18 @@ export default class Create extends Component {
         this.setState(state);
     }
 
+    descriptionChanged = (event) => {
+        let state = this.state;
+        state.description = event.target.value;
+        this.setState(state);
+    }
+
+    wantDescriptionChanged = (event) => {
+        let state = this.state;
+        state.wantDescription = event.target.checked;
+        this.setState(state);
+    }
+
     render() {
         const numberOfInvalidEmails = this.numberOfInvalidEmails();
         const question = this.state.question;
@@ -134,6 +149,14 @@ export default class Create extends Component {
                         <tr>
                             <td className="create-poll-label">question</td>
                             <td className="create-poll-input"><input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} /></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="checkbox" value={this.state.wantDescription} onChange={this.wantDescriptionChanged} style={{"width": "auto"}} /> description
+                            </td>
+                            <td>
+                                {this.state.wantDescription && (<textarea value={this.state.description} onChange={this.descriptionChanged}></textarea>)}
+                            </td>
                         </tr>
                         <tr>
                             <td>

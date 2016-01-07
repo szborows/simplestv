@@ -74,6 +74,10 @@ export default class Results extends Component {
                                         <td>{poll.ballot.question}</td>
                                     </tr>
                                     <tr>
+                                        <td>description:</td>
+                                        <td>{poll.description}</td>
+                                    </tr>
+                                    <tr>
                                         <td>choices:</td>
                                         <td>
                                             <div>
