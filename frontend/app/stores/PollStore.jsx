@@ -23,6 +23,10 @@ class PollStore {
     submit(data) {
         this.setState(data);
     }
+
+    runElection(data) {
+        this.setState(data);
+    }
 };
 
 export default alt.createStore(PollStore, 'PollStore');

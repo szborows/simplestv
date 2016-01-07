@@ -101,6 +101,9 @@ export default class Results extends Component {
                             </table>
                             <br />
                             <input type="button" onClick={this.runElection} value="run election" />
+                            {this.state.pollResultsData.output && (
+                                <div className="openstv-output"><br />{JSON.stringify(this.state.pollResultsData.output.output)}</div>
+                            )}
                         </div>
                     </div>
                 </div>

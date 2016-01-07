@@ -173,4 +173,4 @@ def dev_run_election(request, poll_id, secret):
         output = fp.read()
         print(output)
 
-    return JsonResponse({'blt': content, 'output': output})
+    return JsonResponse({'blt': content, 'output': output.replace('\n', '<br />')})

@@ -91,12 +91,10 @@ class PollActions {
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
-                    //dispatch({'valid': true, 'poll_data': data});
-                    console.warn("result: " + JSON.stringify(data));
+                    dispatch({'valid': true, 'output': data});
                 }.bind(this),
                 error: function(xhr, status, err) {
-                    //dispatch({'valid': false, 'status_code': xhr.status});
-                    console.error("error " + xhr.status + "!");
+                    dispatch({'valid': false, 'status_code': xhr.status});
                 }.bind(this)
             });
         }

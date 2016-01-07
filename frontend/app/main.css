@@ -241,3 +241,8 @@ table.results-info tr td:nth-child(1) {
     height: 100%;
     z-index: 10;
 }
+
+.openstv-output {
+    font-size: 10pt;
+    font-family: "Courier New" !important;
+}
