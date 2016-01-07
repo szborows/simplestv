@@ -51,6 +51,12 @@ body {
     margin-top: -1.5em;
 }
 
+.ballot-wrapper .voting-instructions {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
 .ballot-entry {
     width: 100%;
 }
