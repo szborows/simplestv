@@ -4,6 +4,7 @@ import PollStore from '../stores/PollStore.jsx';
 import PollChoices from './PollChoices.jsx';
 import history from '../libs/history.js';
 import Header from './Header.jsx';
+import Loader from 'react-loader';
 
 export default class Poll extends Component {
     constructor(props) {
@@ -13,6 +14,7 @@ export default class Poll extends Component {
             key: props.routeParams.key,
             pollData: null,
             order: null,
+            loading: false,
         };
     }
 
@@ -48,6 +50,9 @@ export default class Poll extends Component {
     }
 
     submit = () => {
+        let state = this.state;
+        state.loading = true;
+        this.setState(state);
         PollActions.submit(this.state.pollId, this.state.key, this.state.order)
     }
 
@@ -59,6 +64,13 @@ export default class Poll extends Component {
         if (this.state.pollData.valid) {
             return (
                 <div>
+                    {
+                        this.state.loading &&
+                        (<div className="loading-screen">
+                            <Loader loaded={false}>
+                            </Loader>
+                        </div>)
+                    }
                     <Header text={"Poll #" + this.state.pollData.poll_data.id} />
                     <div className="content">
                         <div className="ballot-wrapper">
