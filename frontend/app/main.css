@@ -47,6 +47,10 @@ body {
     font-family: Arial;
 }
 
+.ballot-wrapper p.description {
+    margin-top: -1.5em;
+}
+
 .ballot-entry {
     width: 100%;
 }

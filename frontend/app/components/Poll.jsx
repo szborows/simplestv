@@ -63,6 +63,7 @@ export default class Poll extends Component {
                     <div className="content">
                         <div className="ballot-wrapper">
                             <h1>{this.state.pollData.poll_data.ballot.question}</h1>
+                            <p className="description">{this.state.pollData.poll_data.description}</p><br />
                             <PollChoices choices={this.state.pollData.poll_data.ballot.choices} reportOrderCb={this.orderChanged} />
                             <br />
                             <a><div className="submit-button" onClick={this.submit}>submit</div></a>
