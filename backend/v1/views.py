@@ -138,7 +138,7 @@ def write_blt_file(poll):
     possible_choices = [c.id for c in poll.ballot.choices.all()]
     for ballot in Vote.objects.filter(poll=poll):
         preference = json.loads(ballot.choices_json)
-        preference = [possible_choices.index(p) for p in preference]
+        preference = [possible_choices.index(p) + 1 for p in preference]
         fp.write('1 {} 0\n'.format(' '.join(map(str, preference))))
 
     fp.write('0\n')
@@ -162,6 +162,8 @@ def dev_run_election(request, poll_id, secret):
     blt_path = write_blt_file(poll)
     with open(blt_path) as fp:
         content = fp.read()
+    print('blt:')
+    print(content)
 
     _, path = tempfile.mkstemp(prefix='simplestv', suffix='.out')
     from openstv.openstv.wrapped3 import run
