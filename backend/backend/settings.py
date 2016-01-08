@@ -49,7 +49,6 @@ INSTALLED_APPS = (
 
 from backend.email_settings import *
 # TODO: enable django-mailed for production
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

@@ -73,7 +73,7 @@ export default class Poll extends Component {
                     }
                     <Header text={"Poll #" + this.state.pollData.poll_data.id} />
                     <div className="content">
-                        <div className="ballot-wrapper">
+                        <div className="ballot-wrapper" style={{"width": "40%"}}>
                             <h1>{this.state.pollData.poll_data.ballot.question}</h1>
                             <p className="description">{this.state.pollData.poll_data.description}</p><br />
                             <div className="voting-instructions">

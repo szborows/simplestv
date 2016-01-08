@@ -9,6 +9,11 @@ def send_emails(poll, recipients):
     for recipient in recipients:
         body = """Hi, please vote using following link
             {}
+
+            Thanks,
+            SimpleSTV
+
+            (please don't reply to this email)
         """.format(
                 '{0}/#/p/{1}/{2}'.format(
                     settings.SIMPLESTV_URL,
@@ -17,7 +22,7 @@ def send_emails(poll, recipients):
                 )
         )
         print('** should now send email from ' + str(settings.DEFAULT_FROM_EMAIL) + ' to ' + str(recipient))
-        send_mail('[simplestv-dev] subj', body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
+        send_mail('Invitation to STV poll', body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
 
 @shared_task
 def run_election():

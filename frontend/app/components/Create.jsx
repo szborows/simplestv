@@ -179,7 +179,7 @@ export default class Create extends Component {
                                     {(numberOfChoices > 0 && (this.state.numSeats >= this.state.choices.length)) && (<span className="error-message">(too much seats)</span>)}
                                 </td>
                                 <td>
-                                    <input type="number" value={this.state.numSeats} onChange={this.numSeatsChanged} style={{"width": "40px", "textAlign": "left"}} />
+                                    <input type="number" value={this.state.numSeats} style={{"vertical-align": "bottom"}} onChange={this.numSeatsChanged} style={{"width": "40px", "textAlign": "left"}} />
                                     <br /><br />
                                 </td>
                             </tr>
