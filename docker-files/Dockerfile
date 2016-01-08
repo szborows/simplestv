@@ -21,4 +21,6 @@ RUN ln -s /usr/bin/nodejs /usr/bin/node
 COPY prod-all.conf /etc/nginx/sites-enabled/simplestv
 COPY uwsgi_params /etc/nginx/uwsgi_params
 COPY run.sh /tmp/run.sh
+RUN rm /etc/nginx/sites-enabled/default
+
 ENTRYPOINT /tmp/run.sh
