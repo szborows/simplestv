@@ -91,7 +91,7 @@ export default class Card extends Component {
 
     return connectDragSource(connectDropTarget(
       <div style={{ ...style, opacity }}>
-        {text}
+        <span style={{float: "left"}}>▲▼</span> {text}
       </div>
     ));
   }
