@@ -40,6 +40,7 @@ class Poll(models.Model):
     num_seats = models.IntegerField()
     deadline = models.DateTimeField()
     description = models.TextField()
+    author_email = models.EmailField()
 
     def __str__(self):
         return 'Poll {0} ({1})'.format(self.hash_id, str(self.ballot))

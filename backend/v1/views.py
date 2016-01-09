@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
+from django.core.validators import EmailValidator
 import http.client as http
 import json
 import time
@@ -74,7 +75,9 @@ def create(request):
         num_seats = int(data['num_seats'])
         recipients = list(map(str, data['recipients']))
         deadline = datetime.fromtimestamp(time.mktime(time.strptime(data['deadline'], '%Y-%m-%d')))
-    except (TypeError, ValueError, KeyError):
+        author_email = data['author_email']
+        EmailValidator()(author_email)
+    except (TypeError, ValueError, KeyError, django.core.exceptions.ValidationError):
         return HttpResponse('', status=http.BAD_REQUEST)
 
     ballot = Ballot()
@@ -95,6 +98,7 @@ def create(request):
     poll.description = description
     poll.recipients_json = json.dumps(recipients)
     poll.deadline = deadline
+    poll.author_email = author_email
     poll.save()
 
     for recipient_text in recipients:
