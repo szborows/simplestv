@@ -226,7 +226,7 @@ td.create-poll-input {
 }
 
 table.results-info {
-    width: 100%;
+    float: left;
 }
 
 table.results-info td {
@@ -274,4 +274,10 @@ table.results-info tr td:nth-child(1) {
 .poll-create-wrapper input[type=text], textarea {
     display: block;
     width: 90%;
+}
+
+.results-winner-text {
+    display: block;
+    font-size: 24pt;
+    font-weight: bold;
 }

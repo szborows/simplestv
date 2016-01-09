@@ -11,6 +11,7 @@ export default class Results extends Component {
         this.state = {
             secret: props.routeParams.secret,
             pollResultsData: null,
+            winnerText: null,
         };
     }
 
@@ -27,6 +28,14 @@ export default class Results extends Component {
     onChange = (data) => {
         let state = this.state;
         state.pollResultsData = data;
+        if (data.output) {
+            const output = data.output.output;
+            const lines = output.split('\n');
+            const winnerText = lines[lines.length - 1];
+            if (/^Winner/.test(winnerText)) {
+                state.winnerText = winnerText;
+            }
+        }
         this.setState(state);
     }
 
@@ -99,10 +108,14 @@ export default class Results extends Component {
                                     </tr>
                                 </tbody>
                             </table>
-                            <br />
+                            <br style={{clear: "left"}} />
                             <input type="button" onClick={this.runElection} value="run election" />
+                            <span className="results-winner-text">{this.state.winnerText}</span>
                             {this.state.pollResultsData.output && (
-                                <pre className="openstv-output"><br />{this.state.pollResultsData.output.output}</pre>
+                                <div>
+                                    OpenSTV output log:<br />
+                                    <pre className="openstv-output"><br />{this.state.pollResultsData.output.output}</pre>
+                                </div>
                             )}
                         </div>
                     </div>

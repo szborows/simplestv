@@ -184,7 +184,7 @@ export default class Create extends Component {
                             </tr>
                             <tr>
                                 <td>
-                                    seats
+                                    number of winners
                                     {(numberOfChoices > 0 && (this.state.numSeats >= this.state.choices.length)) && (<span className="error-message">(too much seats)</span>)}
                                 </td>
                                 <td>
