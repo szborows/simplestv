@@ -19,7 +19,7 @@ class PollActions {
         }
     }
 
-    create(question, description, choices, numSeats, recipients, deadline) {
+    create(question, description, choices, numSeats, recipients, authorEmail, deadline) {
         const deadlineDate = (new GregorianCalendarFormat('yyyy-MM-dd')).format(deadline);
         const data = {
             'question': question,
@@ -27,6 +27,7 @@ class PollActions {
             'choices': choices,
             'num_seats': numSeats,
             'recipients': recipients,
+            'author_email': authorEmail,
             'deadline': deadlineDate
         };
         return (dispatch) => {

@@ -96,6 +96,7 @@ export default class Create extends Component {
                 this.state.choices,
                 this.state.numSeats,
                 this.state.recipients,
+                this.state.authorEmail,
                 this.state.deadline);
     }
 
