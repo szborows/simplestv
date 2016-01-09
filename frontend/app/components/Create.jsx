@@ -19,6 +19,7 @@ export default class Create extends Component {
             choices: [],
             numSeats: 1,
             recipients: [],
+            authorEmail: '',
             deadline: null,
             loading: false,
         };
@@ -70,6 +71,12 @@ export default class Create extends Component {
         }
 
         state.recipients = recipients.length > 0 ? recipients: [];
+        this.setState(state);
+    }
+
+    authorEmailChanged = (event) => {
+        let state = this.state;
+        state.authorEmail = event.target.value;
         this.setState(state);
     }
 
@@ -141,10 +148,11 @@ export default class Create extends Component {
         const question = this.state.question;
         const numberOfChoices = this.numberOfCandidates();
         const numberOfRecipients = this.numberOfRecipients() - numberOfInvalidEmails;
+        const authorEmail = this.state.authorEmail;
         var date = new GregorianCalendar();
         var d = new Date();
         date.setTime(d);
-        const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0 && this.state.deadline) ? true : false;
+        const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0 && this.state.deadline && authorEmail !== "" && EmailValidator.validate(authorEmail)) ? true : false;
         return (
             <div>
                 {
@@ -194,6 +202,18 @@ export default class Create extends Component {
                                     {numberOfInvalidEmails > 0 ? (<span className="error-message">You entered {numberOfInvalidEmails} invalid recipient email addresses.</span>) : ''}
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    your email
+                                    {(authorEmail === "") && (<span className="error-message"> (required)</span>)}
+                                </td>
+                                <td>
+                                    <br />
+                                    <input type="text" value={authorEmail} onChange={this.authorEmailChanged} />
+                                    {(authorEmail !== "" && !EmailValidator.validate(authorEmail)) && <span className="error-message">invalid email address</span>}
+                                </td>
+                            </tr>
+
                         </tbody></table>
                         <br style={{"clear": "left"}} />
                     </div>
