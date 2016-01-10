@@ -88,7 +88,30 @@ export default class Poll extends Component {
             );
         }
         else {
-            console.warn(JSON.stringify(this.state.pollData));
+            const status_code = this.state.pollData.status_code;
+            var message = "Unknown error";
+            var description = "";
+            switch (status_code) {
+                case 401:
+                    message = "You're not allowed to vote.";
+                    description = "Sorry, but you either weren't invited to this poll or you have already voted.";
+                    break;
+                case 403:
+                    message = "You're too late";
+                    description = "Sorry, but the deadline for the poll has passed.";
+                    break;
+                case 404:
+                    message = "Poll doesn't exist";
+                    description = "Sorry, but it seems that poll you requested doesn't exist.";
+                    break;
+            }
+            setTimeout(() => {
+                history.replaceState({
+                    status_code: status_code,
+                    message: message,
+                    description: description
+                }, "/p/error"); 
+            }, 0);
             return <div>Error {this.state.pollData.status_code}</div>;
         }
     }

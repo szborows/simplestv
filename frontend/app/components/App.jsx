@@ -7,6 +7,7 @@ import Home from './Home.jsx';
 import Create from './Create.jsx';
 import Results from './Results.jsx';
 import Thanks from './Thanks.jsx';
+import Error from './Error.jsx';
 import About from './About.jsx';
 
 class App extends React.Component {
@@ -33,6 +34,7 @@ export default class Main extends React.Component {
                     <Route path="/p/:pollId/:key" component={Poll} />
                     <Route path="/p/create" component={Create} />
                     <Route path="/p/thanks" component={Thanks} />
+                    <Route path="/p/error" component={Error} />
                     <Route path="/about" component={About} />
                 </Route>
             </Router>

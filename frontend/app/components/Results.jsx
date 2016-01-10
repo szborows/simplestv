@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
 import Header from './Header.jsx';
+import history from '../libs/history';
 
 var PieChart = require("react-chartjs").Pie;
 
