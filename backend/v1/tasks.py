@@ -26,4 +26,11 @@ def send_emails(poll, recipients):
 
 @shared_task
 def run_election():
+    import datetime
+    with open('/tmp/task-run-election', 'w') as fp:
+        fp.write(str(datetime.datetime.now()) + '\n')
     return 42
+
+@shared_task
+def test_celery():
+    return 997

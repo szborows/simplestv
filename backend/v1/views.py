@@ -169,6 +169,8 @@ def dev_run_election(request, poll_id, secret):
     with open(blt_path) as fp:
         content = fp.read()
 
+    tasks.run_election.delay()
+
     _, path = tempfile.mkstemp(prefix='simplestv', suffix='.out')
     from openstv.openstv.wrapped3 import run
     run(blt_path, path, poll.num_seats)
@@ -178,3 +180,27 @@ def dev_run_election(request, poll_id, secret):
         print(output)
 
     return JsonResponse({'blt': content, 'output': output})
+
+def celery(req):
+    res = tasks.test_celery.delay()
+    print(res.backend)
+    return HttpResponse(str(res.id))
+
+def celery_result(req, task_id):
+    from celery.result import AsyncResult
+    work = AsyncResult(task_id)
+
+    print('task-id: ' + task_id)
+
+    status = work.status
+    traceback = work.traceback
+    result = work.result
+
+    print('status = ' + str(status))
+    print('traceback = ' + str(traceback))
+    print('result = ' + str(result))
+
+    r = False
+    if work.ready():
+        r = True
+    return HttpResponse(str(r))
