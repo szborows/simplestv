@@ -49,24 +49,24 @@ export default class Results extends Component {
             return (<div>Loading...</div>);
         }
 
-        const numRecipients = this.state.pollResultsData.poll_data.results.num_recipients;
-        const totalVotes = this.state.pollResultsData.poll_data.results.total_votes;
-
-        const chartData = [
-            {
-                value: totalVotes,
-                color: "#16BF7D",
-                label: "Voted"
-            },
-            {
-                value: numRecipients - totalVotes,
-                color: "#F7464A",
-                label: "Didn't vote"
-            },
-        ];
-        const chartOptions = {animation: false};
-
         if (this.state.pollResultsData.valid) {
+            const numRecipients = this.state.pollResultsData.poll_data.results.num_recipients;
+            const totalVotes = this.state.pollResultsData.poll_data.results.total_votes;
+
+            const chartData = [
+                {
+                    value: totalVotes,
+                    color: "#16BF7D",
+                    label: "Voted"
+                },
+                {
+                    value: numRecipients - totalVotes,
+                    color: "#F7464A",
+                    label: "Didn't vote"
+                },
+            ];
+            const chartOptions = {animation: false};
+
             const poll = this.state.pollResultsData.poll_data.poll;
             return (
                 <div>
@@ -124,7 +124,26 @@ export default class Results extends Component {
             );
         }
         else {
-            console.warn(JSON.stringify(this.state.pollResultsData));
+            const status_code = this.state.pollResultsData.status_code;
+            var message = "Unknown error";
+            var description = "";
+            switch (status_code) {
+                case 401:
+                    message = "You're not author of this poll.";
+                    description = "Sorry, but it seems that you're not author of this poll.";
+                    break;
+                case 404:
+                    message = "Poll doesn't exist";
+                    description = "Sorry, but it seems that poll you requested doesn't exist.";
+                    break;
+            }
+            setTimeout(() => {
+                history.replaceState({
+                    status_code: status_code,
+                    message: message,
+                    description: description
+                }, "/p/error"); 
+            }, 0);
             return <div>Error {this.state.pollResultsData.status_code}</div>;
         }
     }
