@@ -131,56 +131,15 @@ def results(request, secret):
 
     return JsonResponse({'poll': poll.json_dict(), 'results': results})
 
-#
-import tempfile
-def write_blt_file(poll):
-    # TODO: someone might try to hack SimpleSTV here by preparing OpenSTV BLT file!
-    #       analysis how to avoid this is needed!
-    fd, path = tempfile.mkstemp(prefix='simplestv', suffix='.blt')
-    fp = open(fd, 'w')
-    fp.write('{0} {1}\n'.format(len(poll.ballot.choices.all()), poll.num_seats))
-    # FIXME: again: naming is not right
-
-    possible_choices = [c.id for c in poll.ballot.choices.all()]
-    for ballot in Vote.objects.filter(poll=poll):
-        preference = json.loads(ballot.choices_json)
-        preference = [possible_choices.index(p) + 1 for p in preference]
-        fp.write('1 {} 0\n'.format(' '.join(map(str, preference))))
-
-    fp.write('0\n')
-
-    for candidate in poll.ballot.choices.all():
-        fp.write('"{}"\n'.format(candidate.value))
-
-    fp.write('"{}"\n'.format(poll.ballot.question))
-    fp.close()
-
-    return path
-
-#
-
-
-def dev_run_election(request, poll_id, secret):
+def run_election(request, poll_id, secret):
     try:
         poll = Poll.objects.get(hash_id=poll_id)
     except Poll.DoesNotExist:
         return HttpResponse(status=http.BAD_REQUEST)
+    # TODO: is secret used at all?
 
-    blt_path = write_blt_file(poll)
-    with open(blt_path) as fp:
-        content = fp.read()
-
-    tasks.run_election.delay()
-
-    _, path = tempfile.mkstemp(prefix='simplestv', suffix='.out')
-    from openstv.openstv.wrapped3 import run
-    run(blt_path, path, poll.num_seats)
-
-    with open(path) as fp:
-        output = fp.read()
-        print(output)
-
-    return JsonResponse({'blt': content, 'output': output})
+    task_id = tasks.run_election.delay(poll)
+    return JsonResponse({'task_id': str(task_id.id)}, status=http.ACCEPTED)
 
 def celery(req):
     res = tasks.test_celery.delay()
