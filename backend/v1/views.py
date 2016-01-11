@@ -136,7 +136,8 @@ def run_election(request, poll_id, secret):
         poll = Poll.objects.get(hash_id=poll_id)
     except Poll.DoesNotExist:
         return HttpResponse(status=http.BAD_REQUEST)
-    # TODO: is secret used at all?
+    if secret != poll.secret:
+        return HttpResponse(status=http.UNAUTHORIZED)
 
     task_id = tasks.run_election.delay(poll)
     return JsonResponse({'task_id': str(task_id.id)}, status=http.ACCEPTED)
