@@ -1,15 +1,20 @@
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
 from django.core.validators import EmailValidator
 import http.client as http
 import json
 import time
 from datetime import datetime
+from celery.result import AsyncResult
+from django.core.urlresolvers import reverse
 
 from backend.hashids import Hashids
 from v1.models import *
 import v1.tasks as tasks
 from backend.utils import hash_email, secret
+
+class HttpResponseSeeOther(HttpResponseRedirect):
+    status_code = http.SEE_OTHER
 
 def poll(request, poll_id):
     try:
@@ -142,13 +147,25 @@ def run_election(request, poll_id, secret):
     task_id = tasks.run_election.delay(poll)
     return JsonResponse({'task_id': str(task_id.id)}, status=http.ACCEPTED)
 
+def run_election_result(request, task_id):
+    task = AsyncResult(task_id)
+    if not task.ready():
+        return HttpResponse(status=http.BAD_REQUEST)
+    # TODO: should also consider 410 Gone
+    return JsonResponse({'result': task.get()})
+
+def run_election_status(request, task_id):
+    task = AsyncResult(task_id)
+    if task.ready():
+        return HttpResponseSeeOther(reverse(run_election_result, args=[task_id]))
+    return HttpResponse()
+
 def celery(req):
     res = tasks.test_celery.delay()
     print(res.backend)
     return HttpResponse(str(res.id))
 
 def celery_result(req, task_id):
-    from celery.result import AsyncResult
     work = AsyncResult(task_id)
 
     print('task-id: ' + task_id)
