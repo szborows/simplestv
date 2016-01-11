@@ -16,16 +16,16 @@ def poll(request, poll_id):
         poll = Poll.objects.get(hash_id=poll_id)
         # PARANOID: possible fuckup - more than one object returned
     except Poll.DoesNotExist:
-        return HttpResponse('', status=http.NOT_FOUND)
+        return HttpResponse(status=http.NOT_FOUND)
     try:
         key = request.GET['key']
     except KeyError:
-        return HttpResponse('', status=http.BAD_REQUEST)
+        return HttpResponse(status=http.BAD_REQUEST)
 
     try:
         poll.allowed_hashes.get(value=key)
     except VotingHash.DoesNotExist:
-        return HttpResponse('', status=http.UNAUTHORIZED)
+        return HttpResponse(status=http.UNAUTHORIZED)
 
     if poll.deadline < datetime.now():
         return HttpResponse('it\'s too late', status=http.FORBIDDEN)
@@ -34,23 +34,23 @@ def poll(request, poll_id):
 
 def vote(request, poll_id):
     if request.method != 'POST':
-        return HttpResponse('', status=http.BAD_REQUEST)
+        return HttpResponse(status=http.BAD_REQUEST)
     try:
         poll = Poll.objects.get(hash_id=poll_id)
     except Poll.DoesNotExist:
         # this is POST, so maybe BAD_REQUEST?
-        return HttpResponse('', status=http.NOT_FOUND)
+        return HttpResponse(status=http.NOT_FOUND)
     try:
         data = json.loads(request.body.decode('utf-8'))
         key = data['key']
         choices = [Choice.objects.get(id=x) for x in map(int, data['choices'])]
     except (TypeError, ValueError, KeyError, Choice.DoesNotExist):
-        return HttpResponse('', status=http.BAD_REQUEST)
+        return HttpResponse(status=http.BAD_REQUEST)
 
     try:
         voting_hash = poll.allowed_hashes.get(value=key)
     except VotingHash.DoesNotExist:
-        return HttpResponse('', status=http.UNAUTHORIZED)
+        return HttpResponse(status=http.UNAUTHORIZED)
 
     # FIXME: naming in whole project is fucked up...
 
@@ -67,7 +67,7 @@ def vote(request, poll_id):
 
 def create(request):
     if request.method != 'POST':
-        return HttpResponse('', status=http.BAD_REQUEST)
+        return HttpResponse(status=http.BAD_REQUEST)
     try:
         # PARANOID: is this safe?
         data = json.loads(request.body.decode('utf-8'))
@@ -80,7 +80,7 @@ def create(request):
         author_email = data['author_email']
         EmailValidator()(author_email)
     except (TypeError, ValueError, KeyError, django.core.exceptions.ValidationError):
-        return HttpResponse('', status=http.BAD_REQUEST)
+        return HttpResponse(status=http.BAD_REQUEST)
 
     ballot = Ballot()
     ballot.question = question
@@ -122,7 +122,7 @@ def results(request, secret):
     try:
         poll = Poll.objects.get(secret=secret)
     except Poll.DoesNotExist:
-        return HttpResponse('', status=http.NOT_FOUND)
+        return HttpResponse(status=http.NOT_FOUND)
 
     results = {
         'num_recipients': len(json.loads(poll.recipients_json)),
@@ -164,7 +164,8 @@ def dev_run_election(request, poll_id, secret):
     try:
         poll = Poll.objects.get(hash_id=poll_id)
     except Poll.DoesNotExist:
-        return HttpResponse('', status=http.BAD_REQUEST)
+        return HttpResponse(status=http.BAD_REQUEST)
+
     blt_path = write_blt_file(poll)
     with open(blt_path) as fp:
         content = fp.read()
