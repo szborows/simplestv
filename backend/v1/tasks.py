@@ -12,8 +12,8 @@ def send_emails(poll, recipients):
 
     Thanks,
     SimpleSTV
-    """.format('{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, pool.secret))
-    send_mail('Poll created', body, settings.DEFAULT_FROM_EMAIL, [poll.author_email]), fail_silently=False)
+    """.format('{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret))
+    send_mail('Poll created', body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
     for recipient in recipients:
         body = """Hi, please vote using following link
             {}
