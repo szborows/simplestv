@@ -7,6 +7,13 @@ import tempfile
 
 @shared_task
 def send_emails(poll, recipients):
+    body = """Hi, please use following link to see status of the poll.
+    {}
+
+    Thanks,
+    SimpleSTV
+    """.format('{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, pool.secret))
+    send_mail('Poll created', body, settings.DEFAULT_FROM_EMAIL, [poll.author_email]), fail_silently=False)
     for recipient in recipients:
         body = """Hi, please vote using following link
             {}
