@@ -23,7 +23,7 @@ uwsgi --socket :8001 --module backend.wsgi --daemonize /var/log/uwsgi.log
 
 /etc/init.d/nginx start
 
-echo "kill -9 \`ps aux | grep uwsgi | head -n 1 | awk '{ print $2;  }'\` && uwsgi --socket :8001 --module backend.wsgi --daemonize /var/log/uwsgi.log" > /app/restart-backend.sh
+echo "kill -9 \`ps aux | grep uwsgi | head -n 1 | awk '{ print \$2;  }'\` && uwsgi --socket :8001 --module backend.wsgi --daemonize /var/log/uwsgi.log" > /app/restart-backend.sh
 
 cd /frontend
 npm start
