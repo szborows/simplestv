@@ -16,15 +16,7 @@ class PollStore {
         this.setState(data);
     }
 
-    getResults(data) {
-        this.setState(data);
-    }
-
     submit(data) {
-        this.setState(data);
-    }
-
-    runElection(data) {
         this.setState(data);
     }
 };

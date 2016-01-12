@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PollActions from '../actions/PollActions.jsx';
-import PollStore from '../stores/PollStore.jsx';
+import ResultsActions from '../actions/ResultsActions.jsx';
+import ResultsStore from '../stores/ResultsStore.jsx';
 import Header from './Header.jsx';
 import history from '../libs/history';
 
@@ -17,18 +17,18 @@ export default class Results extends Component {
     }
 
     componentDidMount() {
-        PollStore.listen(this.onChange);
+        ResultsStore.listen(this.onChange);
         // TODO: read results from the server
-        PollActions.getResults(this.state.secret);
+        ResultsActions.getResults(this.state.secret);
     }
 
     componentWillUnmount() {
-        PollStore.unlisten(this.onChange);
+        ResultsStore.unlisten(this.onChange);
     }
 
     onChange = (data) => {
         let state = this.state;
-        state.pollResultsData = data;
+        state = data;
         if (data.output) {
             const output = data.output.output;
             const lines = output.split('\n');
@@ -41,17 +41,17 @@ export default class Results extends Component {
     }
 
     runElection = () => {
-        PollActions.runElection(this.state.pollResultsData.poll_data.poll.id, this.state.secret);
+        ResultsActions.runElection(this.state.poll_data.poll.id, this.state.secret);
     }
 
     render() {
-        if (!this.state.pollResultsData) {
+        if (!this.state.poll_data) {
             return (<div>Loading...</div>);
         }
 
-        if (this.state.pollResultsData.valid) {
-            const numRecipients = this.state.pollResultsData.poll_data.results.num_recipients;
-            const totalVotes = this.state.pollResultsData.poll_data.results.total_votes;
+        if (this.state.valid) {
+            const numRecipients = this.state.poll_data.results.num_recipients;
+            const totalVotes = this.state.poll_data.results.total_votes;
 
             const chartData = [
                 {
@@ -67,7 +67,7 @@ export default class Results extends Component {
             ];
             const chartOptions = {animation: false};
 
-            const poll = this.state.pollResultsData.poll_data.poll;
+            const poll = this.state.poll_data.poll;
             return (
                 <div>
                     <Header text={"Results for poll #" + poll.id} />
@@ -112,10 +112,10 @@ export default class Results extends Component {
                             <br style={{clear: "left"}} />
                             <input type="button" onClick={this.runElection} value="run election" />
                             <span className="results-winner-text">{this.state.winnerText}</span>
-                            {this.state.pollResultsData.output && (
+                            {this.state.output && (
                                 <div>
                                     OpenSTV output log:<br />
-                                    <pre className="openstv-output"><br />{this.state.pollResultsData.output.output}</pre>
+                                    <pre className="openstv-output"><br />{this.state.output.output}</pre>
                                 </div>
                             )}
                         </div>
@@ -124,7 +124,7 @@ export default class Results extends Component {
             );
         }
         else {
-            const status_code = this.state.pollResultsData.status_code;
+            const status_code = this.state.status_code;
             var message = "Unknown error";
             var description = "";
             switch (status_code) {
@@ -144,7 +144,7 @@ export default class Results extends Component {
                     description: description
                 }, "/p/error"); 
             }, 0);
-            return <div>Error {this.state.pollResultsData.status_code}</div>;
+            return <div>Error {this.state.status_code}</div>;
         }
     }
 };

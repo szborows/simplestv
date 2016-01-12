@@ -47,21 +47,6 @@ class PollActions {
         }
     }
 
-    getResults(secret) {
-        return (dispatch) => {
-            $.ajax({
-                url: '/api/v1/poll/results/' + secret,
-                cache: false,
-                success: function(data) {
-                    dispatch({'valid': true, 'poll_data': data});
-                }.bind(this),
-                error: function(xhr, status, err) {
-                    dispatch({'valid': false, 'status_code': xhr.status});
-                }.bind(this)
-            });
-        }
-    }
-
     submit(pollId, key, choices) {
         const data = {
             'id': pollId,
@@ -80,22 +65,6 @@ class PollActions {
                 }.bind(this),
                 error: function(xhr, status, err) {
                     dispatch({'voteResult': false, 'status_code': xhr.status});
-                }.bind(this)
-            });
-        }
-    }
-
-    runElection(pollId, secret) {
-        return (dispatch) => {
-            $.ajax({
-                url: '/api/v1/poll/run_election/' + pollId + '/' + secret,
-                dataType: 'json',
-                cache: false,
-                success: function(data) {
-                    dispatch({'valid': true, 'output': data});
-                }.bind(this),
-                error: function(xhr, status, err) {
-                    dispatch({'valid': false, 'status_code': xhr.status});
                 }.bind(this)
             });
         }
