@@ -88,7 +88,7 @@ class PollActions {
     runElection(pollId, secret) {
         return (dispatch) => {
             $.ajax({
-                url: '/api/v1/dev/run_election/' + pollId + '/' + secret,
+                url: '/api/v1/poll/run_election/' + pollId + '/' + secret,
                 dataType: 'json',
                 cache: false,
                 success: function(data) {
