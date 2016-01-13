@@ -53,6 +53,8 @@ class Poll(models.Model):
             'description': self.description,
             'num_seats': self.num_seats,
             'deadline': datetime.strftime(self.deadline, '%Y-%m-%d'),
+            'output': self.output,
+            'winners': [{'value': w.text(), 'id': w.id} for w in self.winners.all()],
             'ballot': self.ballot.json_dict()
         }
 

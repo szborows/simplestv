@@ -15,6 +15,7 @@ export default class Results extends Component {
             winnerText: null,
             task_id: null,
             openStvOutputShown: false,
+            pollClosed: false,
         };
     }
 
@@ -34,10 +35,23 @@ export default class Results extends Component {
     onChange = (data) => {
         let state = this.state;
         state = data;
-        if (data.output) {
-            const output = data.output.output;
-            const lines = output.split('\n');
-            const winners = data.output.winners;
+        if (data.output || (data.poll_data.poll.output)) {
+            var output = null;
+            if (data.poll_data.poll.output) {
+                output = data.poll_data.poll.output;
+                state.pollClosed = true;
+            }
+            else {
+                output = data.output.output;
+            }
+            state.output = output;
+            var winners = null;
+            if (data.poll_data.poll.winners) {
+                winners = data.poll_data.poll.winners;
+            }
+            else {
+                winners = data.output.winners;
+            }
             if (winners) {
                 var winnerText = "Winner";
                 if (winners.length === 1) {
@@ -146,7 +160,9 @@ export default class Results extends Component {
                             </table>
                             <br style={{clear: "left"}} />
                             <div className="results-run-election-box">
-                                <a className={totalVotes > 0 ? "submit-button" : "submit-button-grey"} onClick={this.runElection}>run election</a>
+                                {!this.state.pollClosed && (
+                                    <a className={totalVotes > 0 ? "submit-button" : "submit-button-grey"} onClick={this.runElection}>run election</a>
+                                )}
                                 {(this.state.task_id && !this.state.output) && (
                                     <div>
                                         task in queue: {this.state.task_id}
@@ -156,7 +172,7 @@ export default class Results extends Component {
                                 {this.state.output && (
                                     <div>
                                         <a style={{"color": "blue"}} onClick={this.toggleOpenStvOutput}>{this.state.openStvOutputShown ? "▲ Hide" : "▼ Show"} OpenSTV output</a><br />
-                                        {this.state.openStvOutputShown && (<pre className="openstv-output"><br />{this.state.output.output}</pre>)}
+                                        {this.state.openStvOutputShown && (<pre className="openstv-output"><br />{this.state.output}</pre>)}
                                     </div>
                                 )}
                             </div>
