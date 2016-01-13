@@ -41,6 +41,8 @@ class Poll(models.Model):
     deadline = models.DateTimeField()
     description = models.TextField()
     author_email = models.EmailField()
+    output = models.TextField()
+    winners = models.ManyToManyField(Choice, blank=True)
 
     def __str__(self):
         return 'Poll {0} ({1})'.format(self.hash_id, str(self.ballot))

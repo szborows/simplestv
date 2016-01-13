@@ -86,6 +86,17 @@ def run_election(poll):
         'winners': winners
     })
 
+@shared_task
+def run_final_election(poll):
+    result = json.loads(run_election(poll))
+    output = result['output']
+    poll.output = output
+    poll.winners = [
+            poll.ballot.choices.get(id=id_) for id_ in [
+                int(x['id']) for x in result['winners']
+            ]
+        ]
+    poll.save()
 
 @shared_task
 def test_celery():

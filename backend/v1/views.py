@@ -68,6 +68,9 @@ def vote(request, poll_id):
     poll.allowed_hashes.remove(voting_hash)
     poll.save()
 
+    if not len(poll.allowed_hashes.all()):
+        tasks.run_final_election.delay(poll)
+
     return JsonResponse({})
 
 def create(request):
