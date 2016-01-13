@@ -34,6 +34,13 @@ def send_emails(poll, recipients):
         print('** should now send email from ' + str(settings.DEFAULT_FROM_EMAIL) + ' to ' + str(recipient))
         send_mail('Invitation to STV poll', body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
 
+def getWinnersFromOpenStvOutput(output, choices):
+    lines = output.split('\n')
+    if len(lines) < 3:
+        return None
+    winner_indices = [int(x.strip()) for x in lines[-2].split(',')]
+    return [{'id': choices[index].id, 'value': choices[index].value} for index in winner_indices]
+
 @shared_task
 def run_election(poll):
     def write_blt_file(poll):
@@ -70,11 +77,13 @@ def run_election(poll):
 
     with open(path) as fp:
         output = fp.read()
-        print(output)
+
+    winners = getWinnersFromOpenStvOutput(output, poll.ballot.choices.all())
 
     return json.dumps({
         'blt': content,
-        'output': output
+        'output': output,
+        'winners': winners
     })
 
 

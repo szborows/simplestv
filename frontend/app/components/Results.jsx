@@ -37,9 +37,25 @@ export default class Results extends Component {
         if (data.output) {
             const output = data.output.output;
             const lines = output.split('\n');
-            const winnerText = lines[lines.length - 1];
-            if (/^Winner/.test(winnerText)) {
-                state.winnerText = winnerText;
+            const winners = data.output.winners;
+            if (winners) {
+                var winnerText = "Winner";
+                if (winners.length === 1) {
+                    winnerText += " is " + winners[0].value;
+                }
+                else if (winners.length > 1) {
+                    winnerText += " are ";
+                    for (var i = 0; i < winners.length - 1; i++) {
+                        winnerText += winners[i].value;
+                        winnerText += ((i + 2) === winners.length) ? "" : ", ";
+                    }
+                    winnerText += " and ";
+                    winnerText += winners[winners.length - 1].value;
+                }
+                else {
+                    winnerText = "Error during election :("
+                }
+                state.winnerText = winnerText + ".";
             }
         }
         if (state.task_id && state.task_id !== state.finishedTaskId) {
@@ -139,7 +155,7 @@ export default class Results extends Component {
                                 <span className="results-winner-text">{this.state.winnerText}</span>
                                 {this.state.output && (
                                     <div>
-                                        <a onClick={this.toggleOpenStvOutput}>{this.state.openStvOutputShown ? "Hide" : "Show"} OpenSTV output</a><br />
+                                        <a style={{"color": "blue"}} onClick={this.toggleOpenStvOutput}>{this.state.openStvOutputShown ? "▲ Hide" : "▼ Show"} OpenSTV output</a><br />
                                         {this.state.openStvOutputShown && (<pre className="openstv-output"><br />{this.state.output.output}</pre>)}
                                     </div>
                                 )}
