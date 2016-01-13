@@ -14,7 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import include, url
-from django.contrib import admin
+#from django.contrib import admin
 
 from v1 import views as v1_views
 
@@ -32,5 +32,5 @@ urlpatterns = [
     url(r'api/v1/dev/celery_result/(?P<task_id>[a-zA-Z0-9-]+)', v1_views.celery_result),
     url(r'api/v1/dev/celery', v1_views.celery),
 
-    url(r'^admin/', include(admin.site.urls)),
+    #url(r'^admin/', include(admin.site.urls)),
 ]
