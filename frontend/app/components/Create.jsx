@@ -144,6 +144,15 @@ export default class Create extends Component {
         this.setState(state);
     }
 
+    debugFill = () => {
+        let state = this.state;
+        state.question = "aaa";
+        state.choices = ["a", "b"];
+        state.recipients = ['a@a.pl', 'b@b.pl'];
+        state.authorEmail = "a@a.pl";
+        this.setState(state);
+    }
+
     render() {
         const numberOfInvalidEmails = this.numberOfInvalidEmails();
         const question = this.state.question;
@@ -225,6 +234,7 @@ export default class Create extends Component {
                     </div>
                     <br style={{"clear": "left"}} />
                     {everythingOk ? <a className="submit-button" onClick={this.submit}>submit!</a> : <a className="submit-button-grey">submit!</a> }
+                    <a onClick={this.debugFill}>debug-fill</a>
                 </div>
             </div>
         );
