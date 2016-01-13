@@ -281,3 +281,11 @@ table.results-info tr td:nth-child(1) {
     font-size: 24pt;
     font-weight: bold;
 }
+
+.results-run-election-box {
+    width: 800px;
+    float: left;
+    text-align: left;
+    margin-left: 1em;
+    margin-top: 1em;
+}

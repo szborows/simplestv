@@ -129,19 +129,22 @@ export default class Results extends Component {
                                 </tbody>
                             </table>
                             <br style={{clear: "left"}} />
-                            <a className="submit-button" onClick={this.runElection}>run election</a>
-                            {(this.state.task_id && !this.state.output) && (
-                                <div>
-                                    task in queue: {this.state.task_id}
-                                </div>
-                            )}
-                            <span className="results-winner-text">{this.state.winnerText}</span>
-                            {this.state.output && (
-                                <div>
-                                    <a onClick={this.toggleOpenStvOutput}>{this.state.openStvOutputShown ? "Hide" : "Show"} OpenSTV output</a><br />
-                                    {this.state.openStvOutputShown && (<pre className="openstv-output"><br />{this.state.output.output}</pre>)}
-                                </div>
-                            )}
+                            <div className="results-run-election-box">
+                                <a className="submit-button" onClick={this.runElection}>run election</a>
+                                {(this.state.task_id && !this.state.output) && (
+                                    <div>
+                                        task in queue: {this.state.task_id}
+                                    </div>
+                                )}
+                                <span className="results-winner-text">{this.state.winnerText}</span>
+                                {this.state.output && (
+                                    <div>
+                                        <a onClick={this.toggleOpenStvOutput}>{this.state.openStvOutputShown ? "Hide" : "Show"} OpenSTV output</a><br />
+                                        {this.state.openStvOutputShown && (<pre className="openstv-output"><br />{this.state.output.output}</pre>)}
+                                    </div>
+                                )}
+                            </div>
+                            <br style={{"clear": "left"}} />
                         </div>
                     </div>
                 </div>
