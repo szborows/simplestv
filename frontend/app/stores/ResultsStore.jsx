@@ -14,6 +14,10 @@ class ResultsStore {
     runElection(data) {
         this.setState(data);
     }
+
+    getRunElectionStatus(data) {
+        this.setState(data)
+    }
 };
 
 export default alt.createStore(ResultsStore, 'ResultsStore');

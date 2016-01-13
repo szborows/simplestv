@@ -29,8 +29,8 @@ urlpatterns = [
     url(r'^api/v1/poll/run_election_result/(?P<task_id>[a-zA-Z0-9-]+)', v1_views.run_election_result),
 
     # Development
-    #url(r'api/v1/dev/celery_result/(?P<task_id>[a-zA-Z0-9-]+)', v1_views.celery_result),
-    #url(r'api/v1/dev/celery', v1_views.celery),
+    url(r'api/v1/dev/celery_result/(?P<task_id>[a-zA-Z0-9-]+)', v1_views.celery_result),
+    url(r'api/v1/dev/celery', v1_views.celery),
 
     url(r'^admin/', include(admin.site.urls)),
 ]

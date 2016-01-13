@@ -13,17 +13,21 @@ export default class Results extends Component {
             secret: props.routeParams.secret,
             pollResultsData: null,
             winnerText: null,
+            task_id: null,
         };
     }
 
     componentDidMount() {
         ResultsStore.listen(this.onChange);
-        // TODO: read results from the server
         ResultsActions.getResults(this.state.secret);
     }
 
     componentWillUnmount() {
         ResultsStore.unlisten(this.onChange);
+    }
+
+    getRunElectionStatus = (taskId) => {
+        ResultsActions.getRunElectionStatus(taskId);
     }
 
     onChange = (data) => {
@@ -37,10 +41,17 @@ export default class Results extends Component {
                 state.winnerText = winnerText;
             }
         }
+        if (state.task_id && state.task_id !== state.finishedTaskId) {
+            setTimeout(() => { this.getRunElectionStatus(state.task_id) }, 500);
+        }
         this.setState(state);
     }
 
     runElection = () => {
+        let state = this.state;
+        state.task_id = undefined;
+        state.output = undefined;
+        this.setState(state);
         ResultsActions.runElection(this.state.poll_data.poll.id, this.state.secret);
     }
 
@@ -111,6 +122,11 @@ export default class Results extends Component {
                             </table>
                             <br style={{clear: "left"}} />
                             <input type="button" onClick={this.runElection} value="run election" />
+                            {(this.state.task_id && !this.state.output) && (
+                                <div>
+                                    task in queue: {this.state.task_id}
+                                </div>
+                            )}
                             <span className="results-winner-text">{this.state.winnerText}</span>
                             {this.state.output && (
                                 <div>

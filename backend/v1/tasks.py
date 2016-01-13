@@ -3,7 +3,9 @@ from celery import shared_task
 from django.core.mail import send_mail
 from backend import settings
 from backend.utils import hash_email
+from v1.models import *
 import tempfile
+import json
 
 @shared_task
 def send_emails(poll, recipients):
@@ -62,8 +64,6 @@ def run_election(poll):
     with open(blt_path) as fp:
         content = fp.read()
 
-    tasks.run_election.delay()
-
     _, path = tempfile.mkstemp(prefix='simplestv', suffix='.out')
     from openstv.openstv.wrapped3 import run
     run(blt_path, path, poll.num_seats)
@@ -72,10 +72,10 @@ def run_election(poll):
         output = fp.read()
         print(output)
 
-    return {
+    return json.dumps({
         'blt': content,
         'output': output
-    }
+    })
 
 
 @shared_task

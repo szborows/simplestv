@@ -152,13 +152,14 @@ def run_election_result(request, task_id):
     if not task.ready():
         return HttpResponse(status=http.BAD_REQUEST)
     # TODO: should also consider 410 Gone
-    return JsonResponse({'result': task.get()})
+    result = json.loads(task.get())
+    return JsonResponse(result)
 
 def run_election_status(request, task_id):
     task = AsyncResult(task_id)
     if task.ready():
         return HttpResponseSeeOther(reverse(run_election_result, args=[task_id]))
-    return HttpResponse()
+    return JsonResponse({})
 
 def celery(req):
     res = tasks.test_celery.delay()
