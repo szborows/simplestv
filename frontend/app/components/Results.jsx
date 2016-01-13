@@ -129,7 +129,7 @@ export default class Results extends Component {
                                 </tbody>
                             </table>
                             <br style={{clear: "left"}} />
-                            <input type="button" onClick={this.runElection} value="run election" />
+                            <a className="submit-button" onClick={this.runElection}>run election</a>
                             {(this.state.task_id && !this.state.output) && (
                                 <div>
                                     task in queue: {this.state.task_id}
