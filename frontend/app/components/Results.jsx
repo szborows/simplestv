@@ -14,6 +14,7 @@ export default class Results extends Component {
             pollResultsData: null,
             winnerText: null,
             task_id: null,
+            openStvOutputShown: false,
         };
     }
 
@@ -54,6 +55,13 @@ export default class Results extends Component {
         this.setState(state);
         ResultsActions.runElection(this.state.poll_data.poll.id, this.state.secret);
     }
+
+    toggleOpenStvOutput = () => {
+        let state = this.state;
+        state.openStvOutputShown = !state.openStvOutputShown;
+        this.setState(state);
+    }
+
 
     render() {
         if (!this.state.poll_data) {
@@ -130,8 +138,8 @@ export default class Results extends Component {
                             <span className="results-winner-text">{this.state.winnerText}</span>
                             {this.state.output && (
                                 <div>
-                                    OpenSTV output log:<br />
-                                    <pre className="openstv-output"><br />{this.state.output.output}</pre>
+                                    <a onClick={this.toggleOpenStvOutput}>{this.state.openStvOutputShown ? "Hide" : "Show"} OpenSTV output</a><br />
+                                    {this.state.openStvOutputShown && (<pre className="openstv-output"><br />{this.state.output.output}</pre>)}
                                 </div>
                             )}
                         </div>
