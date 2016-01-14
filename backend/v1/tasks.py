@@ -46,31 +46,24 @@ def send_emails(poll, recipients):
     for recipient in recipients:
         _send_email_to_poll_recipient(poll, recipient)
 
+def _send_poll_close_email_to_author(poll):
+    title = _get_title(poll)
+    all_voted = not len(poll.allowed_hashes.all())
+    ctx = Context({
+        'title': title,
+        'description': poll.description,
+        'deadline': not all_voted,
+        'url': '{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret)})
+    body = render_to_string('poll_closed.txt', ctx)
+    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+
 @shared_task
 def send_final_email_due_to_deadline(poll):
-    body = """Hi, deadline for the pool has been reached.
-
-    To see results of the poll please click on the following link.
-    {}
-
-    Thanks,
-    SimpleSTV
-    """.format('{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret))
-    subject = 'SimpleSTV: poll results due to deadline'
-    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+    _send_poll_close_email_to_author(poll)
 
 @shared_task
 def send_final_email_due_to_voter_turnover(poll):
-    body = """Hi, apparently all of allowed voters already did vote.
-
-    To see results of the poll please click on the following link.
-    {}
-
-    Thanks,
-    SimpleSTV
-    """.format('{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret))
-    subject = 'SimpleSTV: poll results due to 100% voter turnover'
-    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+    _send_poll_close_email_to_author(poll)
 
 def getWinnersFromOpenStvOutput(output, choices):
     lines = output.split('\n')
