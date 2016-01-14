@@ -35,10 +35,23 @@ def send_emails(poll, recipients):
         send_mail('Invitation to STV poll', body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
 
 @shared_task
-def send_final_email_to_poll_author(poll):
+def send_final_email_due_to_deadline(poll):
+    body = """Hi, deadline for the pool has been reached.
+
+    To see results of the poll please click on the following link.
+    {}
+
+    Thanks,
+    SimpleSTV
+    """.format('{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret))
+    subject = 'SimpleSTV: poll results due to deadline'
+    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+
+@shared_task
+def send_final_email_due_to_voter_turnover(poll):
     body = """Hi, apparently all of allowed voters already did vote.
 
-    To see results of the poll please click on following link.
+    To see results of the poll please click on the following link.
     {}
 
     Thanks,
