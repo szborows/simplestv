@@ -38,16 +38,15 @@ def poll(request, poll_id):
 
     return JsonResponse(poll.json_dict())
 
-def close_poll(poll):
+def _close_poll(poll):
     # FIXME: `celery.chain` with `task.si` should be used, but there were weird
     #        problems when I tried to do so. must definitely come back to this.
     tasks.run_final_election.delay(poll)
     tasks.send_final_email_due_to_voter_turnover.delay(poll)
 
-def setup_future_poll_tasks(poll):
-    in_1_minute = datetime.utcnow() + timedelta(minutes=1)
-    tasks.send_final_email_due_to_deadline.apply_async((poll, ), eta=in_1_minute)
-    tasks.run_final_election.apply_async((poll, ), eta=in_1_minute)
+def _setup_future_poll_tasks(poll):
+    tasks.send_final_email_due_to_deadline.apply_async((poll, ), eta=poll.deadline)
+    tasks.run_final_election.apply_async((poll, ), eta=poll.deadline)
 
 def vote(request, poll_id):
     if request.method != 'POST':
@@ -81,7 +80,7 @@ def vote(request, poll_id):
     poll.save()
 
     if not len(poll.allowed_hashes.all()):
-        close_poll(poll)
+        _close_poll(poll)
 
     return JsonResponse({})
 
@@ -136,7 +135,7 @@ def create(request):
     #tasks.send_emails.delay(poll, recipients)
     tasks.send_emails(poll, recipients)
 
-    setup_future_poll_tasks(poll)
+    _setup_future_poll_tasks(poll)
 
     return JsonResponse({'id': poll.hash_id, 'secret': poll.secret})
 

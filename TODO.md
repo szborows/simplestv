@@ -10,4 +10,4 @@
 - move email bodies to some kind of templates...
 - save future Celery tasks somewhere so it can survive reset
 - it should be possible to pass email configuration to the Docker image!
-- define & implement dehavior when deadline is reached but there were no votes at all
+- define & implement behavior when deadline is reached but there were no votes at all
