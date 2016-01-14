@@ -8,6 +8,7 @@ invoke-rc.d rabbitmq-server start
 
 echo "Starting Celero worker"
 rm *.pid
+rm *.log
 #C_FORCE_ROOT=1 celery multi start w1 -A backend -l info --autoreload
 C_FORCE_ROOT=1 celery multi start w1 -A backend -l info
 
