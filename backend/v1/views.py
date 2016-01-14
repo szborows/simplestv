@@ -163,26 +163,3 @@ def run_election_status(request, task_id):
     if task.ready():
         return HttpResponseSeeOther(reverse(run_election_result, args=[task_id]))
     return JsonResponse({})
-
-def celery(req):
-    res = tasks.test_celery.delay()
-    print(res.backend)
-    return HttpResponse(str(res.id))
-
-def celery_result(req, task_id):
-    work = AsyncResult(task_id)
-
-    print('task-id: ' + task_id)
-
-    status = work.status
-    traceback = work.traceback
-    result = work.result
-
-    print('status = ' + str(status))
-    print('traceback = ' + str(traceback))
-    print('result = ' + str(result))
-
-    r = False
-    if work.ready():
-        r = True
-    return HttpResponse(str(r))
