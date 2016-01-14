@@ -161,7 +161,7 @@ export default class Results extends Component {
                             <br style={{clear: "left"}} />
                             <div className="results-run-election-box">
                                 {!this.state.pollClosed && (
-                                    <a className={totalVotes > 0 ? "submit-button" : "submit-button-grey"} onClick={this.runElection}>run election</a>
+                                    <a className={totalVotes > 0 ? "submit-button" : "submit-button-grey"} onClick={this.runElection}>run DRY election</a>
                                 )}
                                 {(this.state.task_id && !this.state.output) && (
                                     <div>

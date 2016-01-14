@@ -55,7 +55,7 @@ def _send_poll_close_email_to_author(poll):
         'deadline': not all_voted,
         'url': '{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret)})
     body = render_to_string('poll_closed.txt', ctx)
-    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+    send_mail(title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
 
 @shared_task
 def send_final_email_due_to_deadline(poll):

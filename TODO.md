@@ -12,3 +12,4 @@
 - it should be possible to pass email configuration to the Docker image!
 - define & implement behavior when deadline is reached but there were no votes at all
 - send mails to all voters with results of the poll (should poll creator decide?)
+- fix this annying 'Error during election bug'. perhaps it's because of some react cached state
