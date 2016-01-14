@@ -6,6 +6,8 @@ from backend.utils import hash_email
 from v1.models import *
 import tempfile
 import json
+from django.template.loader import render_to_string
+from django.template import Context
 
 @shared_task
 def send_emails(poll, recipients):
@@ -16,23 +18,21 @@ def send_emails(poll, recipients):
     SimpleSTV
     """.format('{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret))
     send_mail('Poll created', body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+
+    max_title_length = 32
+    title = (lambda q: q[:max_title_length] + '...' * (len(q) >= max_title_length))(poll.ballot.question)
+
     for recipient in recipients:
-        body = """Hi, please vote using following link
-            {}
-
-            Thanks,
-            SimpleSTV
-
-            (please don't reply to this email)
-        """.format(
-                '{0}/#/p/{1}/{2}'.format(
-                    settings.SIMPLESTV_URL,
-                    poll.hash_id,
-                    poll.allowed_hashes.get(value=hash_email(recipient))
-                )
-        )
-        print('** should now send email from ' + str(settings.DEFAULT_FROM_EMAIL) + ' to ' + str(recipient))
-        send_mail('Invitation to STV poll', body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
+        ctx = Context({
+            'title': title,
+            'description': poll.description,
+            'url': '{0}/#/p/{1}/{2}'.format(
+                settings.SIMPLESTV_URL,
+                poll.hash_id,
+                poll.allowed_hashes.get(value=hash_email(recipient)))})
+        body = render_to_string('poll_invitation.txt', ctx)
+        # TODO: send HTML alternative as well..
+        send_mail(title, body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
 
 @shared_task
 def send_final_email_due_to_deadline(poll):

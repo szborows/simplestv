@@ -1,0 +1,15 @@
+Hi,
+
+You were invited to vote in STV poll.
+Poll question: {{ title }}
+{% if description %}
+{{ description }}
+{% endif %}
+
+In order to vote please use following link.
+{{ url }}
+
+Thanks,
+SimpleSTV - http://github.com/szborows/simplestv
+
+(this email was generated automatically. please don't reply to it)
