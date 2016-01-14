@@ -1,0 +1,21 @@
+Hi,
+
+Contgratulations! Your poll has been created!
+Poll question: {{ title }}
+{% if description %}
+{{ description }}
+{% endif %}
+
+{{ num_recipients }} recipients have been invited by email to take part in the poll.
+
+Deadline for the poll is {{ deadline }}.
+Right after reaching deadline, another email will be sent to you.
+Also, in case there will be 100% voter turnout before the deadline, we will email you as well.
+
+In order to see poll's dashboard please use following link.
+{{ url }}
+
+Thanks,
+SimpleSTV - http://github.com/szborows/simplestv
+
+(this email was generated automatically. please don't reply to it)
