@@ -34,6 +34,19 @@ def send_emails(poll, recipients):
         print('** should now send email from ' + str(settings.DEFAULT_FROM_EMAIL) + ' to ' + str(recipient))
         send_mail('Invitation to STV poll', body, settings.DEFAULT_FROM_EMAIL, [recipient], fail_silently=False)
 
+@shared_task
+def send_final_email_to_poll_author(poll):
+    body = """Hi, apparently all of allowed voters already did vote.
+
+    To see results of the poll please click on following link.
+    {}
+
+    Thanks,
+    SimpleSTV
+    """.format('{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret))
+    subject = 'SimpleSTV: poll results due to 100% voter turnover'
+    send_mail(subject, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+
 def getWinnersFromOpenStvOutput(output, choices):
     lines = output.split('\n')
     if len(lines) < 3:

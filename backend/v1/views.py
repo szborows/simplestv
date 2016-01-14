@@ -5,6 +5,7 @@ import http.client as http
 import json
 import time
 from datetime import datetime
+import celery
 from celery.result import AsyncResult
 from django.core.urlresolvers import reverse
 
@@ -69,7 +70,10 @@ def vote(request, poll_id):
     poll.save()
 
     if not len(poll.allowed_hashes.all()):
+        # FIXME: `celery.chain` with `task.si` should be used, but there were weird
+        #        problems when I tried to do so. must definitely come back to this.
         tasks.run_final_election.delay(poll)
+        tasks.send_final_email_to_poll_author.delay(poll)
 
     return JsonResponse({})
 
