@@ -8,6 +8,7 @@ import EmailValidator from 'email-validator';
 import Calendar from 'rc-calendar';
 import GregorianCalendar from 'gregorian-calendar';
 import Loader from 'react-loader';
+import ReactTooltip from 'react-tooltip';
 
 export default class Create extends Component {
     constructor(props) {
@@ -176,6 +177,7 @@ export default class Create extends Component {
                 <div className="content">
                     <div className="poll-create-wrapper">
                     <div className="poll-create-column-1">
+                        <ReactTooltip />
                         <table className="poll-create-tbl"><tbody>
                             <tr>
                                 <td>
@@ -185,7 +187,7 @@ export default class Create extends Component {
                                     <input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} />
                                 </td>
                                 <td>
-                                    ⓘ
+                                    <span data-tip="">ⓘ</span>
                                 </td>
                             </tr>
                             <tr>
@@ -210,7 +212,7 @@ export default class Create extends Component {
                                 <textarea rows="6" value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea><br />
                                 </td>
                                 <td>
-                                    ⓘ
+                                    <span data-tip="">ⓘ</span>
                                 </td>
                             </tr>
                             <tr>
@@ -223,7 +225,7 @@ export default class Create extends Component {
                                     <br /><br />
                                 </td>
                                 <td>
-                                    ⓘ
+                                    <span data-tip="">ⓘ</span>
                                 </td>
                             </tr>
                             <tr>
@@ -237,7 +239,7 @@ export default class Create extends Component {
                                     {numberOfInvalidEmails > 0 ? (<span className="error-message">You entered {numberOfInvalidEmails} invalid recipient email addresses.</span>) : ''}
                                 </td>
                                 <td>
-                                    ⓘ
+                                    <span data-tip="">ⓘ</span>
                                 </td>
                             </tr>
                             <tr>
@@ -251,7 +253,7 @@ export default class Create extends Component {
                                     {(authorEmail !== "" && !EmailValidator.validate(authorEmail)) && <span className="error-message">invalid email address</span>}
                                 </td>
                                 <td>
-                                    ⓘ
+                                    <span data-tip="">ⓘ</span>
                                 </td>
                             </tr>
 
