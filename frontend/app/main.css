@@ -39,6 +39,8 @@ body {
 }
 
 .poll-create-tbl td:nth-child(3) {
+    font-size: 16pt;
+    cursor: default;
     width: 5%;
 }
 
@@ -265,6 +267,11 @@ table.results-info tr td:nth-child(1) {
     width: 50%;
 }
 
+.poll-create-column-2 {
+    margin-left: 5%;
+    width: 45%;
+}
+
 .poll-create-wrapper {
     width: 80%;
     margin: 0 auto;
@@ -287,4 +294,8 @@ table.results-info tr td:nth-child(1) {
     text-align: left;
     margin-left: 1em;
     margin-top: 1em;
+}
+
+.tooltip {
+    padding: 10px !important;
 }

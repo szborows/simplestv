@@ -177,7 +177,7 @@ export default class Create extends Component {
                 <div className="content">
                     <div className="poll-create-wrapper">
                     <div className="poll-create-column-1">
-                        <ReactTooltip />
+                        <ReactTooltip effect="solid" class="tooltip" type="info" offset={{left: '-10px'}} />
                         <table className="poll-create-tbl"><tbody>
                             <tr>
                                 <td>
