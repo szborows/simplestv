@@ -176,11 +176,30 @@ export default class Create extends Component {
                 <div className="content">
                     <div className="poll-create-wrapper">
                     <div className="poll-create-column-1">
-                        <label>question{!question.length && (<span className="error-message"> (required)</span>)}</label>
-                        <input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} />
-                        <label><input type="checkbox" value={this.state.wantDescription} onChange={this.wantDescriptionChanged} style={{"width": "auto"}} /> description</label>
-                        {this.state.wantDescription && (<div><textarea rows="4" value={this.state.description} onChange={this.descriptionChanged}></textarea><br /></div>)}
                         <table className="poll-create-tbl"><tbody>
+                            <tr>
+                                <td>
+                                    question{!question.length && (<span className="error-message"><br />(required)</span>)}
+                                </td>
+                                <td>
+                                    <input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} />
+                                </td>
+                                <td>
+                                    ⓘ
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <br />
+                                    <input type="checkbox" value={this.state.wantDescription} onChange={this.wantDescriptionChanged} style={{"float": "left"}} /> description
+                                    <br />
+                                    <br />
+                                </td>
+                                <td>
+                                    {this.state.wantDescription && (<div><textarea rows="4" value={this.state.description} onChange={this.descriptionChanged}></textarea><br /></div>)}
+                                </td>
+                                <td></td>
+                            </tr>
                             <tr>
                                 <td>
                                 {numberOfChoices ? (<span className="create-poll-counter">{numberOfChoices}<br /></span>) : ''}
@@ -189,6 +208,9 @@ export default class Create extends Component {
                                 </td>
                                 <td>
                                 <textarea rows="6" value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea><br />
+                                </td>
+                                <td>
+                                    ⓘ
                                 </td>
                             </tr>
                             <tr>
@@ -199,6 +221,9 @@ export default class Create extends Component {
                                 <td>
                                     <input type="number" value={this.state.numSeats} style={{"vertical-align": "bottom"}} onChange={this.numSeatsChanged} style={{"width": "40px", "textAlign": "left"}} />
                                     <br /><br />
+                                </td>
+                                <td>
+                                    ⓘ
                                 </td>
                             </tr>
                             <tr>
@@ -211,6 +236,9 @@ export default class Create extends Component {
                                     <textarea rows="6" value={this.state.recipients.join('\n')} onChange={this.recipientsChanged}></textarea>
                                     {numberOfInvalidEmails > 0 ? (<span className="error-message">You entered {numberOfInvalidEmails} invalid recipient email addresses.</span>) : ''}
                                 </td>
+                                <td>
+                                    ⓘ
+                                </td>
                             </tr>
                             <tr>
                                 <td>
@@ -222,13 +250,16 @@ export default class Create extends Component {
                                     <input type="text" value={authorEmail} onChange={this.authorEmailChanged} />
                                     {(authorEmail !== "" && !EmailValidator.validate(authorEmail)) && <span className="error-message">invalid email address</span>}
                                 </td>
+                                <td>
+                                    ⓘ
+                                </td>
                             </tr>
 
                         </tbody></table>
                         <br style={{"clear": "left"}} />
                     </div>
                     <div className="poll-create-column-2">
-                        deadline{this.state.deadline ? "" : (<span className="error-message"><br />(required)</span>)}<br />
+                        deadline{this.state.deadline ? "" : (<span className="error-message"> (required)</span>)}<br />
                         <Calendar showToday={false} defaultValue={date} onSelect={this.onDeadlineChanged} />
                     </div>
                     </div>
