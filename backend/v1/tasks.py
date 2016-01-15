@@ -46,24 +46,23 @@ def send_emails(poll, recipients):
     for recipient in recipients:
         _send_email_to_poll_recipient(poll, recipient)
 
-def _send_poll_close_email_to_author(poll):
+def _send_poll_close_email_to_author(poll, deadline):
     title = _get_title(poll)
-    all_voted = not len(poll.allowed_hashes.all())
     ctx = Context({
         'title': title,
         'description': poll.description,
-        'deadline': not all_voted,
+        'deadline': deadline,
         'url': '{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret)})
     body = render_to_string('poll_closed.txt', ctx)
     send_mail(title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
 
 @shared_task
 def send_final_email_due_to_deadline(poll):
-    _send_poll_close_email_to_author(poll)
+    _send_poll_close_email_to_author(poll, True)
 
 @shared_task
 def send_final_email_due_to_voter_turnover(poll):
-    _send_poll_close_email_to_author(poll)
+    _send_poll_close_email_to_author(poll, False)
 
 def getWinnersFromOpenStvOutput(output, choices):
     lines = output.split('\n')
