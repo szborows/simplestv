@@ -187,7 +187,7 @@ export default class Create extends Component {
                                     <input className="new-ballot-question" type="text" value={this.state.question} onChange={this.questionChanged} />
                                 </td>
                                 <td>
-                                    <span data-tip="">ⓘ</span>
+                                    <span data-tip="An meaningful question that will be presented to the voters.">ⓘ</span>
                                 </td>
                             </tr>
                             <tr>
@@ -212,7 +212,7 @@ export default class Create extends Component {
                                 <textarea rows="6" value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea><br />
                                 </td>
                                 <td>
-                                    <span data-tip="">ⓘ</span>
+                                    <span data-tip="Candidates that voters will prioritize. Please put each candidate in new line.">ⓘ</span>
                                 </td>
                             </tr>
                             <tr>
@@ -225,7 +225,7 @@ export default class Create extends Component {
                                     <br /><br />
                                 </td>
                                 <td>
-                                    <span data-tip="">ⓘ</span>
+                                    <span data-tip="Number of winners (seats). Min = 1, Max = number of candidates - 1">ⓘ</span>
                                 </td>
                             </tr>
                             <tr>
@@ -239,7 +239,7 @@ export default class Create extends Component {
                                     {numberOfInvalidEmails > 0 ? (<span className="error-message">You entered {numberOfInvalidEmails} invalid recipient email addresses.</span>) : ''}
                                 </td>
                                 <td>
-                                    <span data-tip="">ⓘ</span>
+                                    <span data-tip="Email addresses of people that will be invited to this poll. Please put each email address in new line.">ⓘ</span>
                                 </td>
                             </tr>
                             <tr>
@@ -253,7 +253,7 @@ export default class Create extends Component {
                                     {(authorEmail !== "" && !EmailValidator.validate(authorEmail)) && <span className="error-message">invalid email address</span>}
                                 </td>
                                 <td>
-                                    <span data-tip="">ⓘ</span>
+                                    <span data-tip="Your email adress. We will send you confirmation email to this address.">ⓘ</span>
                                 </td>
                             </tr>
 
