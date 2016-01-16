@@ -299,3 +299,20 @@ table.results-info tr td:nth-child(1) {
 .tooltip {
     padding: 10px !important;
 }
+
+.cancel-submit-bar {
+    margin: 0 auto;
+    width: 60%;
+}
+
+.cancel-submit-bar :nth-child(1) {
+    float: left;
+}
+
+.cancel-submit-bar :nth-child(2) {
+    float: right;
+}
+
+.cancel-submit-bar :nth-child(3) {
+    clear: both;
+}

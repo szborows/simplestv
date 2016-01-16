@@ -9,9 +9,12 @@ import Loader from 'react-loader';
 export default class Preview extends Component {
     constructor(props) {
         super(props);
+        // TODO: _.extend ?
         this.state = {
-            loading: false
-        }
+            loading: false,
+            question: props.location.state.question,
+            description: props.location.state.description,
+        };
     }
 
     componentDidMount() {
@@ -23,6 +26,13 @@ export default class Preview extends Component {
     }
 
     onChange = (data) => {
+    }
+
+    goBack = () => {
+        history.pushState(null, "/p/create");
+    }
+
+    submit = () => {
     }
 
     render() {
@@ -38,6 +48,16 @@ export default class Preview extends Component {
                 <Header text="Review your poll" />
                 <div className="content">
                     preview placeholder...
+
+                    <br />
+                    {this.state.question}
+                    <br />
+
+                    <div className="cancel-submit-bar">
+                        <a className="submit-button" onClick={this.goBack}>&laquo;Go back</a>
+                        <a className="submit-button" onClick={this.submit}>Submit!</a>
+                        <br />
+                    </div>
                 </div>
             </div>
         );

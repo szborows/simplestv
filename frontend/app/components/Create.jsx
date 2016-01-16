@@ -87,7 +87,12 @@ export default class Create extends Component {
         this.setState(state);
     }
 
-    submit = () => {
+    preview = () => {
+        history.pushState({
+            question: this.state.question,
+            description: this.state.description,
+        }, "/p/preview");
+        return;
         let state = this.state;
         state.loading = true;
         this.setState(state);
@@ -266,7 +271,7 @@ export default class Create extends Component {
                     </div>
                     </div>
                     <br style={{"clear": "left"}} />
-                    {everythingOk ? <a className="submit-button" onClick={this.submit}>submit!</a> : <a className="submit-button-grey">submit!</a> }
+                    {everythingOk ? <a className="submit-button" onClick={this.preview}>preview</a> : <a className="submit-button-grey">preview</a> }
                     <a onClick={this.debugFill}>debug-fill</a>
                 </div>
             </div>
