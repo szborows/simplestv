@@ -5,6 +5,7 @@ import FullScreen from 'react-fullscreen';
 import Poll from './Poll.jsx';
 import Home from './Home.jsx';
 import Create from './Create.jsx';
+import Preview from './Preview.jsx';
 import Results from './Results.jsx';
 import Thanks from './Thanks.jsx';
 import Error from './Error.jsx';
@@ -33,6 +34,7 @@ export default class Main extends React.Component {
                     <Route path="/p/results/:secret" component={Results} />
                     <Route path="/p/:pollId/:key" component={Poll} />
                     <Route path="/p/create" component={Create} />
+                    <Route path="/p/preview" component={Preview} />
                     <Route path="/p/thanks" component={Thanks} />
                     <Route path="/p/error" component={Error} />
                     <Route path="/about" component={About} />
