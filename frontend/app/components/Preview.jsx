@@ -45,9 +45,6 @@ export default class Preview extends Component {
     }
 
     submit = () => {
-        let state = this.state;
-        state.loading = true;
-        this.setState(state);
         PollActions.create(
                 this.state.question,
                 this.state.description,
@@ -56,6 +53,9 @@ export default class Preview extends Component {
                 this.state.recipients,
                 this.state.authorEmail,
                 this.state.deadline);
+        let state = this.state;
+        state.loading = true;
+        this.setState(state);
     }
 
     render() {
