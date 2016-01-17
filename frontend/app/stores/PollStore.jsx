@@ -12,6 +12,10 @@ class PollStore {
         this.setState(data);
     }
 
+    save(data) {
+        this.setState(data);
+    }
+
     create(data) {
         this.setState(data);
     }

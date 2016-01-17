@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import history from '../libs/history.js';
 import Header from './Header.jsx';
+import PollActions from '../actions/PollActions.jsx';
+import PollStore from '../stores/PollStore.jsx';
 import EmailValidator from 'email-validator';
 import Calendar from 'rc-calendar';
 import GregorianCalendar from 'gregorian-calendar';
@@ -10,16 +12,21 @@ import ReactTooltip from 'react-tooltip';
 export default class Create extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            question: '',
-            wantDescription: false,
-            description: '',
-            choices: [],
-            numSeats: 1,
-            recipients: [],
-            authorEmail: '',
-            deadline: null,
-        };
+        if (PollStore.getState().deadline) {
+            this.state = PollStore.getState();
+        }
+        else {
+            this.state = {
+                question: '',
+                description: '',
+                choices: [],
+                numSeats: 1,
+                recipients: [],
+                authorEmail: '',
+                deadline: null,
+            };
+        }
+        this.state.wantDescription = false;
     }
 
     questionChanged = (event) => {
@@ -65,15 +72,16 @@ export default class Create extends Component {
     }
 
     preview = () => {
-        history.pushState({
-            question: this.state.question,
-            description: this.state.description,
-            choices: this.state.choices,
-            numSeats: this.state.numSeats,
-            recipients: this.state.recipients,
-            authorEmail: this.state.authorEmail,
-            deadline: this.state.deadline
-        }, "/p/preview");
+        PollActions.save(
+                this.state.question,
+                this.state.description,
+                this.state.choices,
+                this.state.numSeats,
+                this.state.recipients,
+                this.state.authorEmail,
+                this.state.deadline
+        );
+        history.pushState(null, "/p/preview");
     }
 
     numberOfCandidates = () => {

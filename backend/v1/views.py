@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+import django
 from django.core.validators import EmailValidator
 import http.client as http
 import json

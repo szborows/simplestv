@@ -10,17 +10,8 @@ import Loader from 'react-loader';
 export default class Preview extends Component {
     constructor(props) {
         super(props);
-        // TODO: _.extend ?
-        this.state = {
-            loading: false,
-            question: props.location.state.question,
-            description: props.location.state.description,
-            choices: props.location.state.choices,
-            numSeats: props.location.state.numSeats,
-            recipients: props.location.state.recipients,
-            authorEmail: props.location.state.authorEmail,
-            deadline: props.location.state.deadline
-        };
+        this.state = PollStore.getState();
+        this.state.loading = false; // TODO: _.extend?
     }
 
     componentDidMount() {

@@ -19,6 +19,20 @@ class PollActions {
         }
     }
 
+    save(question, description, choices, numSeats, recipients, authorEmail, deadline) {
+        return (dispatch) => {
+            dispatch({
+                'question': question,
+                'description': description,
+                'choices': choices,
+                'numSeats': numSeats,
+                'recipients': recipients,
+                'authorEmail': authorEmail,
+                'deadline': deadline
+            });
+        };
+    }
+
     create(question, description, choices, numSeats, recipients, authorEmail, deadline) {
         const deadlineDate = (new GregorianCalendarFormat('yyyy-MM-dd')).format(deadline);
         const data = {
