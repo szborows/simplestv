@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import PollActions from '../actions/PollActions.jsx';
 import PollStore from '../stores/PollStore.jsx';
+import PollChoices from './PollChoices.jsx';
 import history from '../libs/history.js';
 import Header from './Header.jsx';
 import Loader from 'react-loader';
@@ -58,6 +59,10 @@ export default class Preview extends Component {
     }
 
     render() {
+        const choices = this.state.choices.map((value, index) => {
+            return {text: value, id: index}
+        });
+
         return (
             <div>
                 {
@@ -69,6 +74,10 @@ export default class Preview extends Component {
                 }
                 <Header text="Review your poll" />
                 <div className="content">
+                    <div className="ballot-wrapper" style={{"width": "40%"}}>
+                        <PollChoices choices={choices} active={false} />
+                    </div>
+
                     preview placeholder...
 
                     <br />
