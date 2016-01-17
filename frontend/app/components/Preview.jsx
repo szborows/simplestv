@@ -72,18 +72,14 @@ export default class Preview extends Component {
                         </Loader>
                     </div>)
                 }
-                <Header text="Review your poll" />
+                <Header text="Poll preview" />
                 <div className="content">
                     <div className="ballot-wrapper" style={{"width": "40%"}}>
+                        <h1>{this.state.question}</h1>
+                        <p className="description">{this.state.description}</p><br />
                         <PollChoices choices={choices} active={false} />
                     </div>
-
-                    preview placeholder...
-
-                    <br />
-                    {this.state.question}
-                    <br />
-
+                    <br /><br />
                     <div className="cancel-submit-bar">
                         <a className="submit-button-grey" onClick={this.goBack}>&laquo;Go back</a>
                         <a className="submit-button" onClick={this.submit}>Submit!</a>
