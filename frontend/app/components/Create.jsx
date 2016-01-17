@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import PollActions from '../actions/PollActions.jsx';
-import PollStore from '../stores/PollStore.jsx';
 import history from '../libs/history.js';
 import Header from './Header.jsx';
 import EmailValidator from 'email-validator';
 import Calendar from 'rc-calendar';
 import GregorianCalendar from 'gregorian-calendar';
-import Loader from 'react-loader';
 import ReactTooltip from 'react-tooltip';
 
 export default class Create extends Component {
@@ -22,27 +19,7 @@ export default class Create extends Component {
             recipients: [],
             authorEmail: '',
             deadline: null,
-            loading: false,
         };
-    }
-
-    componentDidMount() {
-        PollStore.listen(this.onChange);
-    }
-
-    componentWillUnmount() {
-        PollStore.unlisten(this.onChange);
-    }
-
-    onChange = (data) => {
-        if (data.valid) {
-            console.log('id:' + data.result.id);
-            console.log('secret:' + data.result.secret);
-            history.pushState(null, "/p/results/" + data.result.secret);
-        }
-        else {
-            console.err("Bad error code received: " + data.status_code);
-        }
     }
 
     questionChanged = (event) => {
@@ -91,19 +68,12 @@ export default class Create extends Component {
         history.pushState({
             question: this.state.question,
             description: this.state.description,
+            choices: this.state.choices,
+            numSeats: this.state.numSeats,
+            recipients: this.state.recipients,
+            authorEmail: this.state.authorEmail,
+            deadline: this.state.deadline
         }, "/p/preview");
-        return;
-        let state = this.state;
-        state.loading = true;
-        this.setState(state);
-        PollActions.create(
-                this.state.question,
-                this.state.description,
-                this.state.choices,
-                this.state.numSeats,
-                this.state.recipients,
-                this.state.authorEmail,
-                this.state.deadline);
     }
 
     numberOfCandidates = () => {
@@ -171,13 +141,6 @@ export default class Create extends Component {
         const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0 && this.state.deadline && authorEmail !== "" && EmailValidator.validate(authorEmail)) ? true : false;
         return (
             <div>
-                {
-                    this.state.loading &&
-                    (<div className="loading-screen">
-                        <Loader loaded={false}>
-                        </Loader>
-                    </div>)
-                }
                 <Header text="Create a poll" />
                 <div className="content">
                     <div className="poll-create-wrapper">

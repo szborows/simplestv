@@ -14,6 +14,11 @@ export default class Preview extends Component {
             loading: false,
             question: props.location.state.question,
             description: props.location.state.description,
+            choices: props.location.state.choices,
+            numSeats: props.location.state.numSeats,
+            recipients: props.location.state.recipients,
+            authorEmail: props.location.state.authorEmail,
+            deadline: props.location.state.deadline
         };
     }
 
@@ -26,6 +31,12 @@ export default class Preview extends Component {
     }
 
     onChange = (data) => {
+        if (data.valid) {
+            history.pushState(null, "/p/results/" + data.result.secret);
+        }
+        else {
+            console.err("Bad error code received: " + data.status_code);
+        }
     }
 
     goBack = () => {
@@ -33,6 +44,17 @@ export default class Preview extends Component {
     }
 
     submit = () => {
+        let state = this.state;
+        state.loading = true;
+        this.setState(state);
+        PollActions.create(
+                this.state.question,
+                this.state.description,
+                this.state.choices,
+                this.state.numSeats,
+                this.state.recipients,
+                this.state.authorEmail,
+                this.state.deadline);
     }
 
     render() {
@@ -54,7 +76,7 @@ export default class Preview extends Component {
                     <br />
 
                     <div className="cancel-submit-bar">
-                        <a className="submit-button" onClick={this.goBack}>&laquo;Go back</a>
+                        <a className="submit-button-grey" onClick={this.goBack}>&laquo;Go back</a>
                         <a className="submit-button" onClick={this.submit}>Submit!</a>
                         <br />
                     </div>
