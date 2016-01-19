@@ -95,7 +95,11 @@ def create(request):
         description = str(data['description'])
         choices = list(map(str, [d for d in data['choices'] if len(d.strip())]))
         num_seats = int(data['num_seats'])
-        recipients = list(map(str, [d for d in data['recipients'] if len(d.strip())]))
+        recipients = list(
+                set( # for uniqueness
+                    map(str, [d for d in data['recipients'] if len(d.strip())])
+                )
+        )
         deadline = datetime.fromtimestamp(time.mktime(time.strptime(data['deadline'], '%Y-%m-%d')))
         author_email = data['author_email']
         EmailValidator()(author_email)
