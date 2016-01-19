@@ -2,6 +2,8 @@
 
 cd /app
 
+/etc/init.d/postgresql start
+
 echo "Starting RabbitMQ server"
 echo "exit 0" > /usr/sbin/policy-rc.d
 invoke-rc.d rabbitmq-server start
