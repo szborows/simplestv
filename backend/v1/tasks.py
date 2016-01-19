@@ -45,6 +45,10 @@ def send_emails(poll, recipients):
     _send_email_to_poll_author(poll, len(recipients))
     for recipient in recipients:
         _send_email_to_poll_recipient(poll, recipient)
+        sent_emails = json.loads(poll.sent_emails_json.decode('utf-8'))
+        sent_emails['emails'].append(recipient)
+        poll.sent_emails_json = json.dumps(sent_emails)
+        poll.save()
 
 def _send_poll_close_email_to_author(poll, deadline):
     title = _get_title(poll)
