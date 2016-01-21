@@ -45,8 +45,11 @@ def send_emails(poll, recipients):
     _send_email_to_poll_author(poll, len(recipients))
     for recipient in recipients:
         _send_email_to_poll_recipient(poll, recipient)
-        sent_emails = json.loads(poll.sent_emails_json.decode('utf-8'))
-        sent_emails['emails'].append(recipient)
+        if not poll.sent_emails_json:
+            sent_emails = []
+        else:
+            sent_emails = json.loads(poll.sent_emails_json)
+        sent_emails.append(recipient)
         poll.sent_emails_json = json.dumps(sent_emails)
         poll.save()
 
