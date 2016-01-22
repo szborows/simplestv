@@ -32,6 +32,10 @@ try:
 except KeyError:
     raise RuntimeError('Please set SIMPLESTV_URL environment variable!')
 
+try:
+    SIMPLESTV_CONFIG_PATH = os.environ['SIMPLESTV_CONFIG_PATH']
+except KeyError:
+    raise RuntimeError('Please set SIMPLESTV_CONFIG_PAth environment variable!')
 
 # Application definition
 
@@ -46,9 +50,6 @@ INSTALLED_APPS = (
     'django_mailer',
     'djcelery',
 )
-
-from backend.email_settings import *
-# TODO: enable django-mailed for production
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -105,8 +106,6 @@ DATABASES = {
     }
 }
 
-
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
@@ -125,3 +124,25 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+EMAIL_HOST = None
+EMAIL_PORT = None
+DEFAULT_FROM_EMAIL = None
+EMAIL_BACKEND = None
+EMAIL_FILE_PATH = None
+
+import configparser
+config = configparser.ConfigParser()
+config.read(SIMPLESTV_CONFIG_PATH)
+
+if 'email' in config.sections():
+    if 'backend' in config['email']:
+        EMAIL_BACKEND = config['email']['backend']
+    if 'filebackend_file_path' in config['email']:
+        EMAIL_FILE_PATH = config['email']['filebackend_file_path']
+    if 'host' in config['email']:
+        EMAIL_HOST = config['email']['host']
+    if 'port' in config['email']:
+        EMAIL_PORT = config['email']['port']
+    if 'default_from_email' in config['email']:
+        DEFAULT_FROM_EMAIL = config['email']['default_from_email']
