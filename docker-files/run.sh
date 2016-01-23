@@ -20,6 +20,22 @@ python3.4 manage.py migrate --run-syncdb
 uwsgi --socket :8001 --module backend.wsgi --daemonize /var/log/uwsgi.log
 
 echo "Starting reverse proxy"
+cat << EOF | python
+import configparser, sys, os
+config = configparser.ConfigParser()
+config.read(os.environ['SIMPLESTV_CONFIG_PATH'])
+if config['server']['ssl'].lower() == "true":
+    sys.exit(0)
+else:
+    sys.exit(1)
+EOF
+if [ $? -eq 0 ]; then
+    echo "Using ssl"
+    ln -s /etc/nginx/sites-available/simplestv-https /etc/nginx/sites-enabled/simplestv
+else
+    echo "Not using ssl"
+    ln -s /etc/nginx/sites-available/simplestv-plain /etc/nginx/sites-enabled/simplestv
+fi
 /etc/init.d/nginx start
 
 echo "Auxiliary steps"

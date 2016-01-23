@@ -19,7 +19,8 @@ RUN pip3.4 install uwsgi
 RUN npm install -g webpack-dev-server
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
-COPY prod-all.conf /etc/nginx/sites-enabled/simplestv
+COPY prod-all-plain.conf /etc/nginx/sites-available/simplestv-plain
+COPY prod-all-https.conf /etc/nginx/sites-available/simplestv-https
 COPY uwsgi_params /etc/nginx/uwsgi_params
 COPY run.sh /tmp/run.sh
 RUN rm /etc/nginx/sites-enabled/default
