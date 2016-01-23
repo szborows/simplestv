@@ -40,14 +40,9 @@ except KeyError:
 # Application definition
 
 INSTALLED_APPS = (
-#    'django.contrib.admin',
-#    'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-#    'django.contrib.messages',
-#    'django.contrib.staticfiles',
     'v1',
-    'django_mailer',
     'djcelery',
 )
 
@@ -56,9 +51,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     # TODO: temporarily disabled
     # 'django.middleware.csrf.CsrfViewMiddleware',
-#    'django.contrib.auth.middleware.AuthenticationMiddleware',
-#    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-#    'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
@@ -88,13 +80,6 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': '/data/db.sqlite3',
-#    }
-#}
 
 DATABASES = {
     'default': {
