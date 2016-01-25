@@ -15,17 +15,25 @@ export default class Results extends Component {
             winnerText: null,
             task_id: null,
             openStvOutputShown: false,
-            pollClosed: false,
+            pollClosed: false
         };
+        this.updateTimer = null;
     }
 
     componentDidMount() {
         ResultsStore.listen(this.onChange);
         ResultsActions.getResults(this.state.secret);
+        this.updateTimer = setInterval(() => {
+            console.warn("upd8");
+            ResultsActions.getResults(this.state.secret);
+        }, 5000);
     }
 
     componentWillUnmount() {
         ResultsStore.unlisten(this.onChange);
+        if (this.updateTimer) {
+            clearInterval(this.updateTimer);
+        }
     }
 
     getRunElectionStatus = (taskId) => {
