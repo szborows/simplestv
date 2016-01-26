@@ -123,6 +123,7 @@ def create(request):
     poll.num_seats = num_seats
     poll.description = description
     poll.recipients_json = json.dumps(recipients)
+    poll.num_invited = len(recipients)
     poll.deadline = deadline
     poll.author_email = author_email
     poll.save()
