@@ -64,6 +64,16 @@ def _send_poll_close_email_to_author(poll, deadline):
     send_mail(title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
 
 @shared_task
+def send_poll_failed_email_to_author(poll):
+    title = _get_title(poll)
+    ctx = Context({
+        'title': title,
+        'description': poll.description,
+        'url': '{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret)})
+    body = render_to_string('poll_failed.txt', ctx)
+    send_mail(title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+
+@shared_task
 def send_final_email_due_to_deadline(poll):
     _send_poll_close_email_to_author(poll, True)
 
