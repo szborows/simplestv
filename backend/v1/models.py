@@ -37,6 +37,7 @@ class Poll(models.Model):
     ballot = models.ForeignKey(Ballot)
     recipients_json = models.TextField()
     sent_emails_json = models.TextField()
+    num_invited = models.IntegerField()
     allowed_hashes = models.ManyToManyField(VotingHash, blank=True)
     num_seats = models.IntegerField()
     deadline = models.DateTimeField()
