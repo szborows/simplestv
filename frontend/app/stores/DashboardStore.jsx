@@ -12,5 +12,5 @@ class DashboardStore {
     }
 };
 
-export default alt.createStore(ResultsStore, 'DashboardStore');
+export default alt.createStore(DashboardStore, 'DashboardStore');
 

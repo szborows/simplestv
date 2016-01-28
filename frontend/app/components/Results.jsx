@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import DashboardActions from '../actions/DashboardActions.jsx';
+import DashboardStore from '../stores/DashboardStore.jsx';
 import ResultsActions from '../actions/ResultsActions.jsx';
 import ResultsStore from '../stores/ResultsStore.jsx';
 import Header from './Header.jsx';
@@ -11,6 +13,8 @@ export default class Results extends Component {
         super(props);
         this.state = {
             secret: props.routeParams.secret,
+            info: null,
+            results: null,
             pollResultsData: null,
             winnerText: null,
             task_id: null,
@@ -21,16 +25,15 @@ export default class Results extends Component {
     }
 
     componentDidMount() {
-        ResultsStore.listen(this.onChange);
-        ResultsActions.getResults(this.state.secret);
+        DashboardStore.listen(this.onDashboardChange);
+        DashboardActions.getData(this.state.secret);
         this.updateTimer = setInterval(() => {
-            console.warn("upd8");
-            ResultsActions.getResults(this.state.secret);
+            DashboardActions.getData(this.state.secret);
         }, 5000);
     }
 
     componentWillUnmount() {
-        ResultsStore.unlisten(this.onChange);
+        DashboardStore.unlisten(this.onDashboardChange);
         if (this.updateTimer) {
             clearInterval(this.updateTimer);
         }
@@ -38,6 +41,12 @@ export default class Results extends Component {
 
     getRunElectionStatus = (taskId) => {
         ResultsActions.getRunElectionStatus(taskId);
+    }
+
+    onDashboardChange = (data) => {
+        let state = this.state;
+        state.info = data;
+        this.setState(state);
     }
 
     onChange = (data) => {
@@ -50,7 +59,7 @@ export default class Results extends Component {
                 state.pollClosed = true;
             }
             else {
-                output = data.output.output;
+                output = data.poll_data.output;
             }
             state.output = output;
             var winners = null;
@@ -58,7 +67,7 @@ export default class Results extends Component {
                 winners = data.poll_data.poll.winners;
             }
             else {
-                winners = data.output.winners;
+                winners = data.poll_data.winners;
             }
             if (winners) {
                 var winnerText = "Winner";
@@ -102,13 +111,13 @@ export default class Results extends Component {
 
 
     render() {
-        if (!this.state.poll_data) {
+        if (!this.state.info) {
             return (<div>Loading...</div>);
         }
 
-        if (this.state.valid) {
-            const numRecipients = this.state.poll_data.results.num_recipients;
-            const totalVotes = this.state.poll_data.results.total_votes;
+        if (this.state.info.valid) {
+            const numRecipients = this.state.info.data.results.num_recipients;
+            const totalVotes = this.state.info.data.results.total_votes;
 
             const chartData = [
                 {
@@ -124,7 +133,7 @@ export default class Results extends Component {
             ];
             const chartOptions = {animation: false};
 
-            const poll = this.state.poll_data.poll;
+            const poll = this.state.info.data.poll;
             return (
                 <div>
                     <Header text={"Results for poll #" + poll.id} />

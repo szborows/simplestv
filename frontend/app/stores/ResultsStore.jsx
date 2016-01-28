@@ -7,10 +7,6 @@ class ResultsStore {
         this.state = {};
     }
 
-    getResults(data) {
-        this.setState(data);
-    }
-
     runElection(data) {
         this.setState(data);
     }
