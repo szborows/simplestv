@@ -18,6 +18,7 @@ export default class Results extends Component {
             pollResultsData: null,
             winnerText: null,
             task_id: null,
+            electionResultsTimer: null,
             openStvOutputShown: false,
             pollClosed: false
         };
@@ -26,6 +27,7 @@ export default class Results extends Component {
 
     componentDidMount() {
         DashboardStore.listen(this.onDashboardChange);
+        ResultsStore.listen(this.onElectionResultsChange);
         DashboardActions.getData(this.state.secret);
         this.updateTimer = setInterval(() => {
             DashboardActions.getData(this.state.secret);
@@ -44,55 +46,80 @@ export default class Results extends Component {
     }
 
     onDashboardChange = (data) => {
+        if (!data.valid) {
+            console.warn("ERROR!!");
+            return;
+        }
+
         let state = this.state;
         state.info = data;
+        if (data.data.poll.winners && data.data.poll.winners.length) {
+            state.winnerText = this.getWinnersText(data.data.poll.winners);
+            state.pollClosed = true;
+        }
         this.setState(state);
     }
 
-    onChange = (data) => {
-        let state = this.state;
-        state = data;
-        if (data.output || (data.poll_data.poll.output)) {
-            var output = null;
-            if (data.poll_data.poll.output) {
-                output = data.poll_data.poll.output;
-                state.pollClosed = true;
+    onElectionResultsChange = (data) => {
+        if (!data.valid) {
+            console.warn("ERROR!!!");
+            return;
+        }
+
+        if (data.task_id !== undefined) {
+            let state = this.state;
+            state.task_id = data.task_id;
+            if (!state.electionResultsTimer) {
+                state.electionResultsTimer = setInterval(() => { this.getRunElectionStatus(this.state.task_id) }, 1000);
+            }
+            this.setState(state);
+            return;
+        }
+
+        if (data.ready !== undefined) {
+            let state = this.state;
+            if (data.ready === true) {
+                if (state.electionResultsTimer) {
+                    clearInterval(state.electionResultsTimer);
+                    state.electionResultsTimer = null;
+                    state.winnerText = this.getWinnersText(data.output.winners);
+                    state.output = data.output.output;
+                    console.warn(JSON.stringify(data, null, 2));
+                }
+            }
+            else if (data.ready === false) {
+                if (!state.electionResultsTimer) {
+                    state.electionResultsTimer = setInterval(() => { this.getRunElectionStatus(this.state.task_id) }, 1000);
+                }
             }
             else {
-                output = data.poll_data.output;
+                console.warn("???");
             }
-            state.output = output;
-            var winners = null;
-            if (data.poll_data.poll.winners) {
-                winners = data.poll_data.poll.winners;
-            }
-            else {
-                winners = data.poll_data.winners;
-            }
-            if (winners) {
-                var winnerText = "Winner";
-                if (winners.length === 1) {
-                    winnerText += " is " + winners[0].value;
-                }
-                else if (winners.length > 1) {
-                    winnerText += " are ";
-                    for (var i = 0; i < winners.length - 1; i++) {
-                        winnerText += winners[i].value;
-                        winnerText += ((i + 2) === winners.length) ? "" : ", ";
-                    }
-                    winnerText += " and ";
-                    winnerText += winners[winners.length - 1].value;
-                }
-                else {
-                    winnerText = "Error during election :("
-                }
-                state.winnerText = winnerText + ".";
-            }
+            this.setState(state);
+            return;
         }
-        if (state.task_id && state.task_id !== state.finishedTaskId) {
-            setTimeout(() => { this.getRunElectionStatus(state.task_id) }, 500);
+
+        console.warn("wtf?!");
+    }
+
+    getWinnersText = (winners) => {
+        var winnerText = "Winner";
+        if (winners.length === 1) {
+            winnerText += " is " + winners[0].value;
         }
-        this.setState(state);
+        else if (winners.length > 1) {
+            winnerText += " are ";
+            for (var i = 0; i < winners.length - 1; i++) {
+                winnerText += winners[i].value;
+                winnerText += ((i + 2) === winners.length) ? "" : ", ";
+            }
+            winnerText += " and ";
+            winnerText += winners[winners.length - 1].value;
+        }
+        else {
+            winnerText = "Error during election :("
+        }
+        return winnerText + ".";
     }
 
     runElection = () => {
@@ -100,7 +127,7 @@ export default class Results extends Component {
         state.task_id = undefined;
         state.output = undefined;
         this.setState(state);
-        ResultsActions.runElection(this.state.poll_data.poll.id, this.state.secret);
+        ResultsActions.runElection(this.state.info.data.poll.id, this.state.secret);
     }
 
     toggleOpenStvOutput = () => {
