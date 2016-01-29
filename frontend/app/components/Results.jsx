@@ -14,8 +14,6 @@ export default class Results extends Component {
         this.state = {
             secret: props.routeParams.secret,
             info: null,
-            results: null,
-            pollResultsData: null,
             winnerText: null,
             task_id: null,
             electionResultsTimer: null,
@@ -36,6 +34,7 @@ export default class Results extends Component {
 
     componentWillUnmount() {
         DashboardStore.unlisten(this.onDashboardChange);
+        ElectionResultsStore.unlisten(this.onElectionResultsChange);
         if (this.updateTimer) {
             clearInterval(this.updateTimer);
         }
