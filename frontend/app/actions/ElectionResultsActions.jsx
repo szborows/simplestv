@@ -1,7 +1,7 @@
 import alt from '../libs/alt';
 import $ from 'jquery';
 
-class ResultsActions {
+class ElectionResultsActions {
     runElection(pollId, secret) {
         return (dispatch) => {
             $.ajax({
@@ -41,4 +41,4 @@ class ResultsActions {
     }
 }
 
-export default alt.createActions(ResultsActions);
+export default alt.createActions(ElectionResultsActions);

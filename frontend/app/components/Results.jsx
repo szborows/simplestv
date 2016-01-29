@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import DashboardActions from '../actions/DashboardActions.jsx';
 import DashboardStore from '../stores/DashboardStore.jsx';
-import ResultsActions from '../actions/ResultsActions.jsx';
-import ResultsStore from '../stores/ResultsStore.jsx';
+import ElectionResultsActions from '../actions/ElectionResultsActions.jsx';
+import ElectionResultsStore from '../stores/ElectionResultsStore.jsx';
 import Header from './Header.jsx';
 import history from '../libs/history';
 
@@ -27,7 +27,7 @@ export default class Results extends Component {
 
     componentDidMount() {
         DashboardStore.listen(this.onDashboardChange);
-        ResultsStore.listen(this.onElectionResultsChange);
+        ElectionResultsStore.listen(this.onElectionResultsChange);
         DashboardActions.getData(this.state.secret);
         this.updateTimer = setInterval(() => {
             DashboardActions.getData(this.state.secret);
@@ -42,7 +42,7 @@ export default class Results extends Component {
     }
 
     getRunElectionStatus = (taskId) => {
-        ResultsActions.getRunElectionStatus(taskId);
+        ElectionResultsActions.getRunElectionStatus(taskId);
     }
 
     onDashboardChange = (data) => {
@@ -127,7 +127,7 @@ export default class Results extends Component {
         state.task_id = undefined;
         state.output = undefined;
         this.setState(state);
-        ResultsActions.runElection(this.state.info.data.poll.id, this.state.secret);
+        ElectionResultsActions.runElection(this.state.info.data.poll.id, this.state.secret);
     }
 
     toggleOpenStvOutput = () => {
