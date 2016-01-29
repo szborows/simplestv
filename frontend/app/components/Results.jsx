@@ -46,7 +46,6 @@ export default class Results extends Component {
 
     onDashboardChange = (data) => {
         if (!data.valid) {
-            console.warn("ERROR!!");
             return;
         }
 
@@ -61,7 +60,6 @@ export default class Results extends Component {
 
     onElectionResultsChange = (data) => {
         if (!data.valid) {
-            console.warn("ERROR!!!");
             return;
         }
 
@@ -91,14 +89,9 @@ export default class Results extends Component {
                     state.electionResultsTimer = setInterval(() => { this.getRunElectionStatus(this.state.task_id) }, 1000);
                 }
             }
-            else {
-                console.warn("???");
-            }
             this.setState(state);
             return;
         }
-
-        console.warn("wtf?!");
     }
 
     getWinnersText = (winners) => {
@@ -134,7 +127,6 @@ export default class Results extends Component {
         state.openStvOutputShown = !state.openStvOutputShown;
         this.setState(state);
     }
-
 
     render() {
         if (!this.state.info) {
