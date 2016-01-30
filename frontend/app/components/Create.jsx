@@ -51,6 +51,13 @@ export default class Create extends Component {
         let state = this.state;
         const lines = event.target.value.split(/[\s,;\n]+/);
         let recipients = lines.filter((e) => { return e.trim() !== ""; });
+
+        function onlyUnique(value, index, self) {
+            return self.indexOf(value) === index;
+        }
+
+        recipients = recipients.filter(onlyUnique);
+
         if (lines[lines.length - 1].length === 0 && lines.length !== 1) {
             recipients.push("");
         }

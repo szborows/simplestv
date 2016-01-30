@@ -1,8 +1,6 @@
 # TODO
 
 - add method option in `/p/create`
-- email addresses in poll should be unique!!
-- run-election in frontend should wait if task didn't complete in time
 - security hardening
 - production Dockerfile
 - save future Celery tasks somewhere so it can survive reset
