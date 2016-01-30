@@ -14,7 +14,7 @@ from django.template import Context
 
 def _get_title(poll):
     max_title_length = 32
-    return (lambda q: q[:max_title_length] + '...' * (len(q) >= max_title_length))(poll.ballot.question)
+    return (lambda q: q[:max_title_length] + '...' * (len(q) >= max_title_length))(poll.question)
 
 def _send_email_to_poll_author(poll, num_recipients):
     title = _get_title(poll)
@@ -97,10 +97,9 @@ def run_election(poll):
         #       analysis how to avoid this is needed!
         fd, path = tempfile.mkstemp(prefix='simplestv', suffix='.blt')
         fp = open(fd, 'w')
-        fp.write('{0} {1}\n'.format(len(poll.ballot.choices.all()), poll.num_seats))
-        # FIXME: again: naming is not right
+        fp.write('{0} {1}\n'.format(len(poll.choices.all()), poll.num_seats))
 
-        possible_choices = [c.id for c in poll.ballot.choices.all()]
+        possible_choices = [c.id for c in poll.choices.all()]
         for ballot in Vote.objects.filter(poll=poll):
             preference = json.loads(ballot.choices_json)
             preference = [possible_choices.index(p) + 1 for p in preference]
@@ -108,10 +107,10 @@ def run_election(poll):
 
         fp.write('0\n')
 
-        for candidate in poll.ballot.choices.all():
+        for candidate in poll.choices.all():
             fp.write('"{}"\n'.format(candidate.value))
 
-        fp.write('"{}"\n'.format(poll.ballot.question))
+        fp.write('"{}"\n'.format(poll.question))
         fp.close()
 
         return path
@@ -127,7 +126,7 @@ def run_election(poll):
     with open(path) as fp:
         output = fp.read()
 
-    winners = getWinnersFromOpenStvOutput(output, poll.ballot.choices.all())
+    winners = getWinnersFromOpenStvOutput(output, poll.choices.all())
 
     return json.dumps({
         'blt': content,
@@ -141,7 +140,7 @@ def run_final_election(poll):
     output = result['output']
     poll.output = output
     poll.winners = [
-            poll.ballot.choices.get(id=id_) for id_ in [
+            poll.choices.get(id=id_) for id_ in [
                 int(x['id']) for x in result['winners']
             ]
         ]
