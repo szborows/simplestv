@@ -158,6 +158,8 @@ def run_election(request, poll_id, secret):
         return HttpResponse(status=http.BAD_REQUEST)
     if secret != poll.secret:
         return HttpResponse(status=http.UNAUTHORIZED)
+    if len(poll.allowed_hashes.all()) == poll.num_invited:
+        return HttpResponse(status=http.CONFLICT)
 
     task_id = tasks.run_election.delay(poll)
     return JsonResponse({'task_id': str(task_id.id)}, status=http.ACCEPTED)
