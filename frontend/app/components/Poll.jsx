@@ -74,12 +74,12 @@ export default class Poll extends Component {
                     <Header text={"Poll #" + this.state.pollData.poll_data.id} />
                     <div className="content">
                         <div className="ballot-wrapper" style={{"width": "40%"}}>
-                            <h1>{this.state.pollData.poll_data.ballot.question}</h1>
+                            <h1>{this.state.pollData.poll_data.question}</h1>
                             <p className="description">{this.state.pollData.poll_data.description}</p><br />
                             <div className="voting-instructions">
                                 Please prioritize candidates according to your preference:
                             </div>
-                            <PollChoices choices={this.state.pollData.poll_data.ballot.choices} reportOrderCb={this.orderChanged} active={true} />
+                            <PollChoices choices={this.state.pollData.poll_data.choices} reportOrderCb={this.orderChanged} active={true} />
                             <br />
                             <a><div className="submit-button" onClick={this.submit}>submit</div></a>
                         </div>

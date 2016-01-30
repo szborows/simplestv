@@ -165,7 +165,7 @@ export default class Results extends Component {
                                 <tbody>
                                     <tr>
                                         <td>question:</td>
-                                        <td>{poll.ballot.question}</td>
+                                        <td>{poll.question}</td>
                                     </tr>
                                     <tr>
                                         <td>description:</td>
@@ -175,7 +175,7 @@ export default class Results extends Component {
                                         <td>choices:</td>
                                         <td>
                                             <div>
-                                                {poll.ballot.choices.map((e) => { return (<div key={e.id}>{e.text}</div>); })}
+                                                {poll.choices.map((e) => { return (<div key={e.id}>{e.text}</div>); })}
                                             </div>
                                         </td>
                                     </tr>

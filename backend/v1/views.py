@@ -106,20 +106,8 @@ def create(request):
     except (TypeError, ValueError, KeyError, django.core.exceptions.ValidationError):
         return HttpResponse(status=http.BAD_REQUEST)
 
-    ballot = Ballot()
-    ballot.question = question
-    ballot.save()
-
-    for choice_text in choices:
-        choice = Choice()
-        choice.value = choice_text
-        choice.save()
-        ballot.choices.add(choice)
-
-    ballot.save()
-
     poll = Poll()
-    poll.ballot = ballot
+    poll.question = question
     poll.num_seats = num_seats
     poll.description = description
     poll.recipients_json = json.dumps(recipients)
@@ -127,6 +115,12 @@ def create(request):
     poll.deadline = deadline
     poll.author_email = author_email
     poll.save()
+
+    for choice_text in choices:
+        choice = Choice()
+        choice.value = choice_text
+        choice.save()
+        poll.choices.add(choice)
 
     for recipient_text in recipients:
         recipient = VotingHash()
