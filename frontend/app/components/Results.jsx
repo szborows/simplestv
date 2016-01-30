@@ -115,6 +115,11 @@ export default class Results extends Component {
     }
 
     runElection = () => {
+        const totalVotes = this.state.info.data.results.total_votes;
+        if (totalVotes === 0) {
+            return;
+        }
+
         let state = this.state;
         state.task_id = undefined;
         state.output = undefined;
