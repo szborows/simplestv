@@ -8,3 +8,4 @@
 - send mails to all voters with results of the poll (should poll creator decide?)
 - fix this annying 'Error during election bug'. perhaps it's because of some react cached state
 - anti DDoS?
+- production: DEBUG=False !!

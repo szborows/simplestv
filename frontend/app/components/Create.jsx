@@ -250,7 +250,7 @@ export default class Create extends Component {
                     </div>
                     <br style={{"clear": "left"}} />
                     {everythingOk ? <a className="submit-button" onClick={this.preview}>preview</a> : <a className="submit-button-grey">preview</a> }
-                    <a onClick={this.debugFill}>debug-fill</a>
+                    <a onClick={this.debugFill} style={{"color": "white"}}>debug-fill</a>
                 </div>
             </div>
         );
