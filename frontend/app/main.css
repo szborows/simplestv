@@ -293,3 +293,13 @@ table.results-info tr td:nth-child(1) {
 .cancel-submit-bar :nth-child(3) {
     clear: both;
 }
+
+blockquote {
+    font-style: italic;
+    text-align: justify;
+    text-justify: inter-word;
+    color: gray;
+    padding-left: 0.5em;
+    border-left: 3px solid gray;
+    margin: 5px 0;
+}
