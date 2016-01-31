@@ -1,6 +1,6 @@
 # SimpleStV
 
-::gif-placeholder::
+![voting in SimpleSTV animatino](https://raw.github.com/szborows/simplestv/voting.webm)
 
 ## Overview
 

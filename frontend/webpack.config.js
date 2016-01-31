@@ -14,6 +14,10 @@ var common = {
   resolve: {
     extensions: ['', '.js', '.jsx']
   },
+  output: {
+    path: './dist',
+    filename: 'bundle.js'
+  },
   module: {
     loaders: [
       {
