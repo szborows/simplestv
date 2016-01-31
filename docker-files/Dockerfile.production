@@ -1,0 +1,28 @@
+FROM django:1.9-python3
+
+MAINTAINER slawomir.zborowski@nokia.com
+
+RUN apt-get update
+RUN apt-get install -y rabbitmq-server python-celery nginx postgresql-9.4 nodejs npm git
+
+RUN pip3.4 install django-cors-headers django-celery psycopg2 uwsgi
+RUN pip3.4 install -e git+http://github.com/SmileyChris/django-mailer-2.git#egg=django-mailer-2
+
+RUN npm install -g webpack-dev-server
+RUN ln -s /usr/bin/nodejs /usr/bin/node
+
+RUN git clone https://github.com/szborows/simplestv.git /tmp/simplestv
+RUN mkdir /app
+
+# backend
+RUN cp -r /tmp/simplestv/backend /app/backend
+
+# frontend
+RUN cp -r /tmp/simplestv/frontend /app/frontend
+WORKDIR /app/frontend
+RUN npm install
+RUN npm deploy
+
+# cleaning up
+RUN rm -fr /tmp/simplestv
+RUN apt-get remove git
