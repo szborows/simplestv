@@ -9,6 +9,7 @@ from datetime import datetime, timedelta
 import celery
 from celery.result import AsyncResult
 from django.core.urlresolvers import reverse
+from django.utils.html import escape
 
 from backend.hashids import Hashids
 from v1.models import *
@@ -90,19 +91,20 @@ def create(request):
     if request.method != 'POST':
         return HttpResponse(status=http.BAD_REQUEST)
     try:
-        # PARANOID: is this safe?
         data = json.loads(request.body.decode('utf-8'))
-        question = str(data['question'])
-        description = str(data['description'])
-        choices = list(map(str, [d for d in data['choices'] if len(d.strip())]))
+        question = escape(str(data['question']))
+        description = escape(str(data['description']))
+        choices = list(map(lambda x: escape(str(x)), [d for d in data['choices'] if len(d.strip())]))
         num_seats = int(data['num_seats'])
         recipients = list(
                 set( # for uniqueness
-                    map(str, [d for d in data['recipients'] if len(d.strip())])
+                    map(lambda x: escape(str(x)), [d for d in data['recipients'] if len(d.strip())])
                 )
         )
+        for r in recipients:
+            EmailValidator()(r)
         deadline = datetime.fromtimestamp(time.mktime(time.strptime(data['deadline'], '%Y-%m-%d')))
-        author_email = data['author_email']
+        author_email = escape(str(data['author_email']))
         EmailValidator()(author_email)
     except (TypeError, ValueError, KeyError, django.core.exceptions.ValidationError):
         return HttpResponse(status=http.BAD_REQUEST)
