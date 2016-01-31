@@ -45,15 +45,13 @@ export default class Results extends Component {
     }
 
     onDashboardChange = (data) => {
-        if (!data.valid) {
-            return;
-        }
-
         let state = this.state;
         state.info = data;
-        if (data.data.poll.winners && data.data.poll.winners.length) {
-            state.winnerText = this.getWinnersText(data.data.poll.winners);
-            state.pollClosed = true;
+        if (data.valid) {
+            if (data.data.poll.winners && data.data.poll.winners.length) {
+                state.winnerText = this.getWinnersText(data.data.poll.winners);
+                state.pollClosed = true;
+            }
         }
         this.setState(state);
     }
@@ -223,7 +221,7 @@ export default class Results extends Component {
             );
         }
         else {
-            const status_code = this.state.status_code;
+            const status_code = this.state.info.status_code;
             var message = "Unknown error";
             var description = "";
             switch (status_code) {
