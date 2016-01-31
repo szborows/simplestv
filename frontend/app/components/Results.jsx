@@ -139,7 +139,7 @@ export default class Results extends Component {
         }
 
         if (this.state.info.valid) {
-            const numRecipients = this.state.info.data.results.num_recipients;
+            const numRecipients = this.state.info.data.poll.num_invited;
             const totalVotes = this.state.info.data.results.total_votes;
 
             const chartData = [

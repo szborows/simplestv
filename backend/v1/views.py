@@ -148,7 +148,6 @@ def results(request, secret):
         return HttpResponse(status=http.NOT_FOUND)
 
     results = {
-        'num_recipients': len(json.loads(poll.recipients_json)),
         'total_votes': len(Vote.objects.filter(poll=poll))
     }
 
