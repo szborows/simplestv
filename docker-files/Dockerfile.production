@@ -28,6 +28,10 @@ RUN mv /tmp/simplestv/frontend/dist frontend
 RUN mkdir frontend/app
 RUN mv /tmp/simplestv/frontend/app/img frontend/app
 
+# reverse proxy
+COPY production.conf /etc/nginx/sites-enabled/
+RUN rm /etc/nginx/sites-enabled/default
+
 # cleaning up
 RUN rm -fr /tmp/simplestv
 RUN apt-get remove -y git
