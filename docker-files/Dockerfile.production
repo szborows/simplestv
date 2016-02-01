@@ -32,6 +32,7 @@ RUN mv /tmp/simplestv/frontend/app/img frontend/app
 # reverse proxy
 COPY production.conf /etc/nginx/sites-enabled/
 RUN rm /etc/nginx/sites-enabled/default
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 # cleaning up
 RUN rm -fr /tmp/simplestv
