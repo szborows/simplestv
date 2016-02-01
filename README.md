@@ -1,7 +1,6 @@
 # SimpleStV
 
-![voting in SimpleSTV animatino](https://raw.github.com/szborows/simplestv/voting.webm)
-![test](https://zippy.gfycat.com/SociableRigidIvorybilledwoodpecker.webm)
+![voting in SimpleSTV animation](https://raw.githubusercontent.com/szborows/simplestv/master/voting.gif)
 
 ## Overview
 
