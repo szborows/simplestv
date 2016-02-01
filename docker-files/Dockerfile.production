@@ -36,3 +36,7 @@ RUN rm /etc/nginx/sites-enabled/default
 RUN rm -fr /tmp/simplestv
 RUN apt-get remove -y git
 RUN apt-get autoremove -y
+
+COPY run.production.sh /app/run
+RUN chmod a+x /app/run
+ENTRYPOINT /app/run
