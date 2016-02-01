@@ -18,6 +18,7 @@ RUN mkdir /app
 
 # backend
 RUN cp -r /tmp/simplestv/backend /app/backend
+COPY example.conf /app/config
 
 # frontend
 WORKDIR /tmp/simplestv/frontend
@@ -37,6 +38,12 @@ RUN rm -fr /tmp/simplestv
 RUN apt-get remove -y git
 RUN apt-get autoremove -y
 
+# database
+USER postgres
+RUN /etc/init.d/postgresql start && psql --command "CREATE USER docker WITH SUPERUSER password 'docker';" && createdb -O docker simplestv
+USER root
+
+# start script
 COPY run.production.sh /app/run
 RUN chmod a+x /app/run
 ENTRYPOINT /app/run
