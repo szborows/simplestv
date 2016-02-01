@@ -12,6 +12,7 @@ RUN pip3.4 install -e git+http://github.com/SmileyChris/django-mailer-2.git#egg=
 
 RUN npm install -g webpack-dev-server
 
+RUN echo "COMMENT"
 RUN git clone https://github.com/szborows/simplestv.git /tmp/simplestv
 RUN mkdir /app
 
@@ -19,11 +20,15 @@ RUN mkdir /app
 RUN cp -r /tmp/simplestv/backend /app/backend
 
 # frontend
-RUN cp -r /tmp/simplestv/frontend /app/frontend
-WORKDIR /app/frontend
+WORKDIR /tmp/simplestv/frontend
 RUN npm install
 RUN npm run deploy
+WORKDIR /app
+RUN mv /tmp/simplestv/frontend/dist frontend
+RUN mkdir frontend/app
+RUN mv /tmp/simplestv/frontend/app/img frontend/app
 
 # cleaning up
 RUN rm -fr /tmp/simplestv
-RUN apt-get remove git
+RUN apt-get remove -y git
+RUN apt-get autoremove -y
