@@ -50,25 +50,23 @@ var common = {
   ]
 };
 
-if(TARGET === 'start' || !TARGET) {
-  module.exports = merge(common, {
-    devtool: 'eval-source-map',
-    devServer: {
-      historyApiFallback: true,
-      hot: true,
-      inline: true,
-      progress: true,
+module.exports = merge(common, {
+devtool: 'eval-source-map',
+devServer: {
+  historyApiFallback: true,
+  hot: true,
+  inline: true,
+  progress: true,
 
-      // display only errors to reduce the amount of output
-      stats: 'errors-only',
+  // display only errors to reduce the amount of output
+  stats: 'errors-only',
 
-      // parse host and port from env so this is easy
-      // to customize
-      host: process.env.HOST,
-      port: process.env.PORT
-    },
-    plugins: [
-      new webpack.HotModuleReplacementPlugin()
-    ]
-  });
-}
+  // parse host and port from env so this is easy
+  // to customize
+  host: process.env.HOST,
+  port: process.env.PORT
+},
+plugins: [
+  new webpack.HotModuleReplacementPlugin()
+]
+});
