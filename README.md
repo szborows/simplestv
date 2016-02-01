@@ -34,15 +34,23 @@ used.
 
 ## Installation & start
 
-Installation procedure is a bit weird now. And this is semi-development-semi-production installation. But it
-works.
+1. Go to docker-files
+2. Edit `example.conf` to match your needs (see below)
+3. Build your image: `docker build -t local/simplestv -f Dockerfile.production .`
+4. Start your container with SIMPLESTV_URL environment variable set to the final address of the service. E.g.
+   if the service will be available under the domain `stv.example.com` then command should look like this: `docker run -d -p 80:80 -e SIMPLESTV_URL="http://stv.example.com/"`
+5. Your instance of SimpleSTV should be up and running!
 
-1. Go to fronend dir and execute `npm install` command
-2. After everything's installed, go to ../docker-scripts directory
-3. Create file `../backend/backend/email_settings.py` and fill it with Django email settings
-4. Execute `docker build -t simplestv/dev:001 .`
-5. Start SimpleSTV by executing `docker run -it --rm --name simplestv -v $PWD/backend:/app -v $PWD/frontend:/frontend -e SIMPLESTV_URL="http://localhost:80" -p 9999:80 -p 8096:8096 simplestv/dev:001`
-6. Go to `http://localhost`
+### Configuration options
+
+    [server]
+    ssl = True | False
+
+    [email]
+    backend = Django Email backend
+    host = email host
+    port = email port
+    default_from_email = default email of the sender
 
 ## Considerations
 
