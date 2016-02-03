@@ -12,7 +12,9 @@ RUN pip3.4 install -e git+http://github.com/SmileyChris/django-mailer-2.git#egg=
 
 RUN npm install -g webpack-dev-server
 
-RUN echo "COMMENT"
+ENV PGDATA=/data/postgres
+ENV RABBITMQ_BASE=/data/rabbitmq
+
 RUN git clone https://github.com/szborows/simplestv.git /tmp/simplestv
 RUN mkdir /app
 
@@ -38,11 +40,6 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN rm -fr /tmp/simplestv
 RUN apt-get remove -y git
 RUN apt-get autoremove -y
-
-# database
-USER postgres
-RUN /etc/init.d/postgresql start && psql --command "CREATE USER docker WITH SUPERUSER password 'docker';" && createdb -O docker simplestv
-USER root
 
 # start script
 COPY run.production.sh /app/run
