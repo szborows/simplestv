@@ -17,7 +17,7 @@ def _get_title(poll):
     return (lambda q: q[:max_title_length] + '...' * (len(q) >= max_title_length))(poll.question)
 
 def _send_email_to_poll_author(poll, num_recipients):
-    title = _get_title(poll)
+    title = 'Poll created: ' + _get_title(poll)
     ctx = Context({
         'title': title,
         'description': poll.description,
@@ -28,7 +28,7 @@ def _send_email_to_poll_author(poll, num_recipients):
     send_mail(title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
 
 def _send_email_to_poll_recipient(poll, recipient):
-    title = _get_title(poll)
+    title = 'Poll invitation: ' + _get_title(poll)
     ctx = Context({
         'title': title,
         'description': poll.description,
@@ -54,7 +54,7 @@ def send_emails(poll, recipients):
         poll.save()
 
 def _send_poll_close_email_to_author(poll, deadline):
-    title = _get_title(poll)
+    title = 'Poll closed: ' + _get_title(poll)
     ctx = Context({
         'title': title,
         'description': poll.description,
@@ -64,7 +64,7 @@ def _send_poll_close_email_to_author(poll, deadline):
     send_mail(title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
 
 def _send_poll_failed_email_to_author(poll):
-    title = _get_title(poll)
+    title = 'Poll failed: ' + _get_title(poll)
     ctx = Context({
         'title': title,
         'description': poll.description,
