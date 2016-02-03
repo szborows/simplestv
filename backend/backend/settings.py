@@ -29,6 +29,8 @@ ALLOWED_HOSTS = []
 
 try:
     SIMPLESTV_URL = os.environ['SIMPLESTV_URL']
+    if SIMPLESTV_URL.endswith('/'):
+        SIMPLESTV_URL = SIMPLESTV_URL[:-1]
 except KeyError:
     raise RuntimeError('Please set SIMPLESTV_URL environment variable!')
 
