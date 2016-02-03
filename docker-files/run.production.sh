@@ -5,10 +5,11 @@ export SIMPLESTV_CONFIG_PATH="/app/config"
 echo "exit 0" > /usr/sbin/policy-rc.d
 
 echo "Starting PostgreSQL server"
-# TODO: move it to Dockerfile
+if [ ! -e /data/postgres ]; then
+    chown -R postgres:postgres /data/postgres
+    su - postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /data/postgres"
+fi
 sed -i "s/data_directory.*/data_directory = '\/data\/postgres\'/g" /etc/postgresql/9.4/main/postgresql.conf
-chown -R postgres:postgres /data/postgres
-su - postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /data/postgres"
 /etc/init.d/postgresql start
 su - postgres -c "psql --command \"CREATE USER docker WITH SUPERUSER password 'docker';\" && createdb -O docker simplestv"
 
