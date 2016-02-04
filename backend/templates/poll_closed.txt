@@ -1,6 +1,6 @@
 Hi,
 
-The poll that you have creater earlier is now closed.
+The poll that you have created earlier is now closed.
 
 Poll question: {{ title }}
 {% if description %}

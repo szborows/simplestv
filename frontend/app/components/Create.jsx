@@ -176,7 +176,7 @@ export default class Create extends Component {
                             <tr>
                                 <td>
                                     <br />
-                                    <input type="checkbox" value={this.state.wantDescription} onChange={this.wantDescriptionChanged} style={{"float": "left"}} /> description
+                                    <input type="checkbox" value={this.state.wantDescription} onChange={this.wantDescriptionChanged} style={{"float": "left"}} /> further explanation
                                     <br />
                                     <br />
                                 </td>
@@ -188,8 +188,8 @@ export default class Create extends Component {
                             <tr>
                                 <td>
                                 {numberOfChoices ? (<span className="create-poll-counter">{numberOfChoices}<br /></span>) : ''}
-                                candidate{numberOfChoices == 1 ? '' : 's'}
-                                {(numberOfChoices < 2) && (<span className="error-message"><br />(too few candidates)</span>)}
+                                answer{numberOfChoices == 1 ? '' : 's'}
+                                {(numberOfChoices < 2) && (<span className="error-message"><br />(too few answers)</span>)}
                                 </td>
                                 <td>
                                 <textarea rows="6" value={this.state.choices.join('\n')} onChange={this.choicesChanged}></textarea><br />
@@ -214,8 +214,8 @@ export default class Create extends Component {
                             <tr>
                                 <td>
                                     {numberOfRecipients ? (<span className="create-poll-counter">{numberOfRecipients}</span>) : ''}
-                                recipient{numberOfRecipients == 1 ? '' : 's'}
-                                {(numberOfRecipients < 1) && (<span className="error-message"><br />(too few recipients)</span>)}
+                                recipient emails (one per line)
+                                {(numberOfRecipients < 1) && (<span className="error-message"><br />(too few emails)</span>)}
                                 </td>
                                 <td>
                                     <textarea rows="6" value={this.state.recipients.join('\n')} onChange={this.recipientsChanged}></textarea>

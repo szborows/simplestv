@@ -187,7 +187,7 @@ export default class Results extends Component {
                                         <td>{numRecipients}</td>
                                     </tr>
                                     <tr>
-                                        <td>seats:</td>
+                                        <td>number of winners:</td>
                                         <td>{poll.num_seats}</td>
                                     </tr>
                                     <tr>
