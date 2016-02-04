@@ -14,8 +14,14 @@ sed -i "s/data_directory.*/data_directory = '\/data\/postgres\'/g" /etc/postgres
 su - postgres -c "psql --command \"CREATE USER docker WITH SUPERUSER password 'docker';\" && createdb -O docker simplestv"
 
 echo "Starting RabbitMQ server"
-export RABBITMQ_BASE=/data/rabbitmq
-invoke-rc.d rabbitmq-server start
+if [ ! -e /data/mnesia ]; then
+    mkdir /data/mnesia
+    chown -R rabbitmq:rabbitmq /data/mnesia
+    chmod 0766 /data/mnesia
+fi
+
+echo "RABBITMQ_MNESIA_BASE=/data/mnesia" > /etc/rabbitmq/rabbitmq-env.conf
+/etc/init.d/rabbitmq-server start
 
 cd /app/backend
 
