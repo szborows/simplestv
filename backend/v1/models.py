@@ -47,7 +47,7 @@ class Poll(models.Model):
             'choices': [{'text': ch.text(), 'id': ch.id} for ch in self.choices.all()],
             'description': self.description,
             'num_seats': self.num_seats,
-            'deadline': datetime.strftime(self.deadline, '%Y-%m-%d'),
+            'deadline': datetime.strftime(self.deadline, '%Y-%m-%d %H:%M'),
             'num_invited': self.num_invited,
             'output': self.output,
             'winners': [{'value': w.text(), 'id': w.id} for w in self.winners.all()],

@@ -38,7 +38,7 @@ class PollActions {
         var deadline_ = deadlineDate;
         deadline_.setHourOfDay(deadlineTime.getHourOfDay());
         deadline_.setMinutes(deadlineTime.getMinutes());
-        var deadline = (new GregorianCalendarFormat('yyyy-MM-dd')).format(deadline_);
+        var deadline = (new GregorianCalendarFormat('yyyy-MM-dd HH:mm')).format(deadline_);
         const data = {
             'question': question,
             'description': description,

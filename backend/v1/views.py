@@ -103,7 +103,8 @@ def create(request):
         )
         for r in recipients:
             EmailValidator()(r)
-        deadline = datetime.fromtimestamp(time.mktime(time.strptime(data['deadline'], '%Y-%m-%d')))
+        print('deadline: ' + str(data['deadline']))
+        deadline = datetime.fromtimestamp(time.mktime(time.strptime(data['deadline'], '%Y-%m-%d %H:%M')))
         author_email = escape(str(data['author_email']))
         EmailValidator()(author_email)
     except (TypeError, ValueError, KeyError, django.core.exceptions.ValidationError):
