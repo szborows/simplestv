@@ -9,3 +9,8 @@
 - fix this annying 'Error during election bug'. perhaps it's because of some react cached state
 - anti DDoS?
 - production: DEBUG=False !!
+- add option: allowed email domains ?
+- i18n, l10n in email templates
+- inglr vs plural in email templates
+- admin: list of polls
+- check that doing restart doesn't hurt too much
