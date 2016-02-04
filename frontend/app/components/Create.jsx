@@ -183,7 +183,9 @@ export default class Create extends Component {
                                 <td>
                                     {this.state.wantDescription && (<div><textarea rows="4" value={this.state.description} onChange={this.descriptionChanged}></textarea><br /></div>)}
                                 </td>
-                                <td></td>
+                                <td>
+                                    <span data-tip="Explanation (description) that will be showed to the voters, in case question is not enough.">ⓘ</span>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
