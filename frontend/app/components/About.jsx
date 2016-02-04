@@ -31,7 +31,7 @@ export default class About extends Component {
                         <br />
                         <h2>How it all started?</h2>
                         <p>
-                            While working at Nokia I did some side-project: intranet search enine. But ater making it actually work I had literally no time to develop it further in all dimensions. I wanted to know which features are the ones that would satisfy users most. I started looking for some open-source poll system supporting STV and found nothing... so I decided to create the first one ;)
+                            While working at Nokia I did some side-project: intranet search engine. But ater making it actually work I had literally no time to develop it further in all dimensions. I wanted to know which features are the ones that would satisfy users most. I started looking for some open-source poll system supporting STV and found nothing... so I decided to create the first one ;)
                         </p>
                         <br />
                         <h2>About the author</h2>
