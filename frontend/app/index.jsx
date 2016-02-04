@@ -1,5 +1,6 @@
 import './main.css';
 import './cal.css';
+import './tim.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom';

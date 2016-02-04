@@ -43,7 +43,8 @@ export default class Preview extends Component {
                 this.state.numSeats,
                 this.state.recipients,
                 this.state.authorEmail,
-                this.state.deadline);
+                this.state.deadlineDate,
+                this.state.deadlineTime);
         let state = this.state;
         state.loading = true;
         this.setState(state);

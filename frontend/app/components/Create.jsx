@@ -7,6 +7,7 @@ import PollStore from '../stores/PollStore.jsx';
 import EmailValidator from 'email-validator';
 import Calendar from 'rc-calendar';
 import GregorianCalendar from 'gregorian-calendar';
+import TimePicker from 'rc-time-picker';
 import ReactTooltip from 'react-tooltip';
 
 export default class Create extends Component {
@@ -23,7 +24,8 @@ export default class Create extends Component {
                 numSeats: 1,
                 recipients: [],
                 authorEmail: '',
-                deadline: null,
+                deadlineDate: null,
+                deadlineTime: null,
             };
         }
         this.state.wantDescription = false;
@@ -86,7 +88,8 @@ export default class Create extends Component {
                 this.state.numSeats,
                 this.state.recipients,
                 this.state.authorEmail,
-                this.state.deadline
+                this.state.deadlineDate,
+                this.state.deadlineTime
         );
         history.pushState(null, "/p/preview");
     }
@@ -117,11 +120,18 @@ export default class Create extends Component {
         return count;
     }
 
-    onDeadlineChanged = (deadline) => {
+    onDeadlineDateChanged = (deadline) => {
         let state = this.state;
-        state.deadline = deadline;
+        state.deadlineDate = deadline;
         this.setState(state);
     }
+
+    onDeadlineTimeChanged = (deadline) => {
+        let state = this.state;
+        state.deadlineTime = deadline;
+        this.setState(state);
+    }
+
 
     descriptionChanged = (event) => {
         let state = this.state;
@@ -153,7 +163,7 @@ export default class Create extends Component {
         var date = new GregorianCalendar();
         var d = new Date();
         date.setTime(d);
-        const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0 && this.state.deadline && authorEmail !== "" && EmailValidator.validate(authorEmail)) ? true : false;
+        const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0 && this.state.deadlineDate && this.state.deadlineTime && authorEmail !== "" && EmailValidator.validate(authorEmail)) ? true : false;
         return (
             <div>
                 <Header text="Create a poll" />
@@ -249,11 +259,21 @@ export default class Create extends Component {
                         <table className="poll-create-tbl-2">
                             <tr>
                                 <td>
-                                    deadline{this.state.deadline ? "" : (<span className="error-message"> (required)</span>)}<br />
-                                    <Calendar showToday={false} defaultValue={date} onSelect={this.onDeadlineChanged} />
+                                    deadline{this.state.deadlineDate ? "" : (<span className="error-message"> (required)</span>)}<br />
+                                    <Calendar showToday={false} defaultValue={date} onSelect={this.onDeadlineDateChanged} />
                                 </td>
                                 <td className="info-icon-tbl-cell">
                                     <span data-tip="Deadline date after which voters won't be able to vote anymore.">ⓘ</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <br />
+                                    deadline time{this.state.deadlineTime ? "" : (<span className="error-message"> (required)</span>)}<br />
+                                    <TimePicker style={{"width": "100%"}} showSecond={false} onChange={this.onDeadlineTimeChanged} />
+                                </td>
+                                <td className="info-icon-tbl-cell">
+                                    <span data-tip="Exact time after which voters won't be able to vote.">ⓘ</span>
                                 </td>
                             </tr>
                         </table>
