@@ -103,11 +103,12 @@ def create(request):
         )
         for r in recipients:
             EmailValidator()(r)
-        print('deadline: ' + str(data['deadline']))
         deadline = datetime.fromtimestamp(time.mktime(time.strptime(data['deadline'], '%Y-%m-%d %H:%M')))
+        if deadline < datetime.now():
+            raise RuntimeError('Deadline < now()')
         author_email = escape(str(data['author_email']))
         EmailValidator()(author_email)
-    except (TypeError, ValueError, KeyError, django.core.exceptions.ValidationError):
+    except (TypeError, ValueError, KeyError, RuntimeError, django.core.exceptions.ValidationError):
         return HttpResponse(status=http.BAD_REQUEST)
 
     poll = Poll()
