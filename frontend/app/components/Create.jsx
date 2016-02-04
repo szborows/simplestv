@@ -246,8 +246,17 @@ export default class Create extends Component {
                         <br style={{"clear": "left"}} />
                     </div>
                     <div className="poll-create-column-2">
-                        deadline{this.state.deadline ? "" : (<span className="error-message"> (required)</span>)}<br />
-                        <Calendar showToday={false} defaultValue={date} onSelect={this.onDeadlineChanged} />
+                        <table className="poll-create-tbl-2">
+                            <tr>
+                                <td>
+                                    deadline{this.state.deadline ? "" : (<span className="error-message"> (required)</span>)}<br />
+                                    <Calendar showToday={false} defaultValue={date} onSelect={this.onDeadlineChanged} />
+                                </td>
+                                <td className="info-icon-tbl-cell">
+                                    <span data-tip="Deadline date after which voters won't be able to vote anymore.">ⓘ</span>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                     </div>
                     <br style={{"clear": "left"}} />

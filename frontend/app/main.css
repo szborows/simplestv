@@ -44,6 +44,13 @@ body {
     width: 5%;
 }
 
+.info-icon-tbl-cell {
+    font-size: 16pt;
+    cursor: default;
+    padding-left: 1em;
+}
+
+
 .new-ballot-wrapper input {
     width: 99.5%;
     margin-bottom: 0.5em;
