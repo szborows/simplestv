@@ -19,7 +19,7 @@ class PollActions {
         }
     }
 
-    save(question, description, choices, numSeats, recipients, authorEmail, deadline) {
+    save(question, description, choices, numSeats, recipients, authorEmail, deadlineDate, deadlineTime) {
         return (dispatch) => {
             dispatch({
                 'question': question,
@@ -28,13 +28,17 @@ class PollActions {
                 'numSeats': numSeats,
                 'recipients': recipients,
                 'authorEmail': authorEmail,
-                'deadline': deadline
+                'deadlineDate': deadlineDate,
+                'deadlineTime': deadlineTime,
             });
         };
     }
 
-    create(question, description, choices, numSeats, recipients, authorEmail, deadline) {
-        const deadlineDate = (new GregorianCalendarFormat('yyyy-MM-dd')).format(deadline);
+    create(question, description, choices, numSeats, recipients, authorEmail, deadlineDate, deadlineTime) {
+        var deadline_ = deadlineDate;
+        deadline_.setHourOfDay(deadlineTime.getHourOfDay());
+        deadline_.setMinutes(deadlineTime.getMinutes());
+        var deadline = (new GregorianCalendarFormat('yyyy-MM-dd')).format(deadline_);
         const data = {
             'question': question,
             'description': description,
@@ -42,7 +46,7 @@ class PollActions {
             'num_seats': numSeats,
             'recipients': recipients,
             'author_email': authorEmail,
-            'deadline': deadlineDate
+            'deadline': deadline
         };
         return (dispatch) => {
             $.ajax({
