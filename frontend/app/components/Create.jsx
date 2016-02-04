@@ -154,6 +154,66 @@ export default class Create extends Component {
         this.setState(state);
     }
 
+    getToday = () => {
+        var today = new GregorianCalendar();
+        today.setTime(new Date());
+        today.setHourOfDay(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        return today;
+    }
+
+    getNow = () => {
+        var now = new GregorianCalendar();
+        now.setTime(new Date());
+        return now;
+    }
+
+    isDateDisabled = (date) => {
+        return this.getToday().getTime() >= date.getTime();
+    }
+
+    disabledHours = () => {
+        if (this.state.deadlineDate == null) {
+            return [];
+        }
+
+        if (this.getToday().compareToDay(this.state.deadlineDate) !== 0) {
+            return [];
+        }
+
+        var hours = [];
+        for (var i = 0; i < 24; i++) {
+            if (i < (new Date()).getHours()) {
+                hours.push(i);
+            }
+        }
+        return hours ;
+    }
+
+    disabledMinutes = (time) => {
+        if (this.state.deadlineDate === null || this.state.deadlineTime === null) {
+            return [];
+        }
+
+        if (this.getToday().compareToDay(this.state.deadlineDate) !== 0) {
+            return [];
+        }
+
+        var selH = this.state.deadlineTime.getHourOfDay();
+        if (selH && selH == (new Date()).getHours()) {
+            var minutes = [];
+            for (var i = 0; i < 60; i++) {
+                if (i < (new Date()).getMinutes()) {
+                    minutes.push(i);
+                }
+            }
+            return minutes;
+        }
+
+        return [];
+    }
+
     render() {
         const numberOfInvalidEmails = this.numberOfInvalidEmails();
         const question = this.state.question;
@@ -260,7 +320,7 @@ export default class Create extends Component {
                             <tr>
                                 <td>
                                     deadline{this.state.deadlineDate ? "" : (<span className="error-message"> (required)</span>)}<br />
-                                    <Calendar showToday={false} defaultValue={date} onSelect={this.onDeadlineDateChanged} />
+                                    <Calendar showToday={false} disabledDate={this.isDateDisabled} defaultValue={date} onSelect={this.onDeadlineDateChanged} />
                                 </td>
                                 <td className="info-icon-tbl-cell">
                                     <span data-tip="Deadline date after which voters won't be able to vote anymore.">ⓘ</span>
@@ -270,7 +330,7 @@ export default class Create extends Component {
                                 <td>
                                     <br />
                                     deadline time{this.state.deadlineTime ? "" : (<span className="error-message"> (required)</span>)}<br />
-                                    <TimePicker style={{"width": "100%"}} showSecond={false} onChange={this.onDeadlineTimeChanged} />
+                                    <TimePicker style={{"width": "100%"}} showSecond={false} disabledHours={this.disabledHours} disabledMinutes={this.disabledMinutes} onChange={this.onDeadlineTimeChanged} />
                                 </td>
                                 <td className="info-icon-tbl-cell">
                                     <span data-tip="Exact time after which voters won't be able to vote.">ⓘ</span>
