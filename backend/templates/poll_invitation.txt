@@ -9,6 +9,8 @@ Poll question: {{ title }}
 In order to vote please use following link.
 {{ url }}
 
+Please take note that the poll will be closed at {{ deadline }}.
+
 Thanks,
 SimpleSTV - http://github.com/szborows/simplestv
 

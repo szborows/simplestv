@@ -32,6 +32,7 @@ def _send_email_to_poll_recipient(poll, recipient):
     ctx = Context({
         'title': title,
         'description': poll.description,
+        'deadline': poll.deadline,
         'url': '{0}/#/p/{1}/{2}'.format(
             settings.SIMPLESTV_URL,
             poll.hash_id,
