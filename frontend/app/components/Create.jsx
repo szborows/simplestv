@@ -319,7 +319,7 @@ export default class Create extends Component {
                         <table className="poll-create-tbl-2">
                             <tr>
                                 <td>
-                                    deadline{this.state.deadlineDate ? "" : (<span className="error-message"> (required)</span>)}<br />
+                                    deadline date{this.state.deadlineDate ? "" : (<span className="error-message"> (required)</span>)}<br />
                                     <Calendar showToday={false} disabledDate={this.isDateDisabled} defaultValue={date} onSelect={this.onDeadlineDateChanged} />
                                 </td>
                                 <td className="info-icon-tbl-cell">
