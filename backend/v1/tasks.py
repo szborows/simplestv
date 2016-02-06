@@ -13,7 +13,7 @@ from django.template import Context
 #       http://stackoverflow.com/questions/2809547/creating-email-templates-with-django
 
 def _get_title(poll):
-    max_title_length = 32
+    max_title_length = 128
     return (lambda q: q[:max_title_length] + '...' * (len(q) >= max_title_length))(poll.question)
 
 def _send_email_to_poll_author(poll, num_recipients):
