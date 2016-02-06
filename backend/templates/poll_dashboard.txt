@@ -8,9 +8,7 @@ Poll question: {{ title }}
 
 {{ num_recipients }} recipients have been invited by email to take part in the poll.
 
-Deadline for the poll is {{ deadline }}.
-Right after reaching deadline, another email will be sent to you.
-Also, in case there will be 100% voter turnout before the deadline, we will email you as well.
+Voting will be closed at {{ deadline }} and the results will be sent to you either right after reaching closing date or in case of 100% voter turnover.
 
 In order to see poll's dashboard please use following link.
 {{ url }}
