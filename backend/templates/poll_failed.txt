@@ -10,7 +10,4 @@ Poll question: {{ title }}
 Unfortunately nobody did vote, so there are no results :( Still, you can see poll overview at following address.
 {{ url }}
 
-Thanks,
-SimpleSTV - http://github.com/szborows/simplestv
-
-(this email was generated automatically. please don't reply to it)
+{{ footer }}

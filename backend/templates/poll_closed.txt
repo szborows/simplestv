@@ -16,7 +16,4 @@ The poll is closed because all allowed voters did vote. Hell yeah!
 In order to see final results, please use following link.
 {{ url }}
 
-Thanks,
-SimpleSTV - http://github.com/szborows/simplestv
-
-(this email was generated automatically. please don't reply to it)
+{{ footer }}

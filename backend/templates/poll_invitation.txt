@@ -11,7 +11,4 @@ In order to vote please use following link.
 
 Please take note that the poll will be closed at {{ deadline }}.
 
-Thanks,
-SimpleSTV - http://github.com/szborows/simplestv
-
-(this email was generated automatically. please don't reply to it)
+{{ footer }}

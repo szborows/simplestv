@@ -16,9 +16,19 @@ def _get_title(poll):
     max_title_length = 128
     return (lambda q: q[:max_title_length] + '...' * (len(q) >= max_title_length))(poll.question)
 
+def _build_ctx(user_ctx):
+    ctx = {
+        'footer': """Thanks,
+SimpleSTV - https://github.com/szborows/simplestv
+
+(this email was generated automatically. please don't reply to it)"""
+    }
+    ctx.update(user_ctx)
+    return Context(ctx)
+
 def _send_email_to_poll_author(poll, num_recipients):
     title = _get_title(poll)
-    ctx = Context({
+    ctx = _build_ctx({
         'title': title,
         'description': poll.description,
         'num_recipients': num_recipients,
@@ -29,7 +39,7 @@ def _send_email_to_poll_author(poll, num_recipients):
 
 def _send_email_to_poll_recipient(poll, recipient):
     title = _get_title(poll)
-    ctx = Context({
+    ctx = _build_ctx({
         'title': title,
         'description': poll.description,
         'deadline': poll.deadline,
@@ -56,7 +66,7 @@ def send_emails(poll, recipients):
 
 def _send_poll_close_email_to_author(poll, deadline):
     title = _get_title(poll)
-    ctx = Context({
+    ctx = _build_ctx({
         'title': title,
         'description': poll.description,
         'deadline': deadline,
@@ -66,7 +76,7 @@ def _send_poll_close_email_to_author(poll, deadline):
 
 def _send_poll_failed_email_to_author(poll):
     title = _get_title(poll)
-    ctx = Context({
+    ctx = _build_ctx({
         'title': title,
         'description': poll.description,
         'url': '{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret)})

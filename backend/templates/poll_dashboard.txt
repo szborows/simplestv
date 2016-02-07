@@ -13,7 +13,4 @@ Voting will be closed at {{ deadline }} and the results will be sent to you eith
 In order to see poll's dashboard please use following link.
 {{ url }}
 
-Thanks,
-SimpleSTV - http://github.com/szborows/simplestv
-
-(this email was generated automatically. please don't reply to it)
+{{ footer }}
