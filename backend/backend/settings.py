@@ -44,13 +44,17 @@ except KeyError:
 INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.admin',
+    'django.contrib.auth',
     'v1',
     'djcelery',
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     # TODO: temporarily disabled
     # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',

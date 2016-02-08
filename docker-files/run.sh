@@ -19,6 +19,11 @@ mkdir /data
 python3.4 manage.py migrate --run-syncdb
 uwsgi --socket :8001 --module backend.wsgi --daemonize /var/log/uwsgi.log
 
+cat << EOF | python manage.py shell
+from django.contrib.auth.models import User
+User.objects.create_superuser('admin', 'admin@example.com', 'pass')
+EOF
+
 echo "Starting reverse proxy"
 cat << EOF | python
 import configparser, sys, os
@@ -37,9 +42,6 @@ else
     ln -s /etc/nginx/sites-available/simplestv-plain /etc/nginx/sites-enabled/simplestv
 fi
 /etc/init.d/nginx start
-
-echo "Auxiliary steps"
-echo "kill -9 \`ps aux | grep uwsgi | head -n 1 | awk '{ print \$2;  }'\` && uwsgi --socket :8001 --module backend.wsgi --daemonize /var/log/uwsgi.log" > /app/restart-backend.sh
 
 echo "Running dev-frontend..."
 cd /frontend
