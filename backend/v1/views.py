@@ -108,6 +108,7 @@ def create(request):
             raise RuntimeError('Deadline < now()')
         author_email = escape(str(data['author_email']))
         EmailValidator()(author_email)
+        author_display_name = escape(str(data['author_display_name']))
     except (TypeError, ValueError, KeyError, RuntimeError, django.core.exceptions.ValidationError):
         return HttpResponse(status=http.BAD_REQUEST)
 
@@ -119,6 +120,7 @@ def create(request):
     poll.num_invited = len(recipients)
     poll.deadline = deadline
     poll.author_email = author_email
+    poll.author_display_name = author_display_name
     poll.save()
 
     for choice_text in choices:

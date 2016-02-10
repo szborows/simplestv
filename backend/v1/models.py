@@ -25,6 +25,7 @@ class Poll(models.Model):
     choices = models.ManyToManyField(Choice, related_name='choices')
     num_seats = models.IntegerField()
     author_email = models.EmailField()
+    author_display_name = models.CharField(max_length=255)
 
     datetime_created = models.DateTimeField(auto_now=True)
     deadline = models.DateTimeField()
