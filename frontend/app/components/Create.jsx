@@ -24,6 +24,7 @@ export default class Create extends Component {
                 numSeats: 1,
                 recipients: [],
                 authorEmail: '',
+                authorDisplayName: '',
                 deadlineDate: null,
                 deadlineTime: null,
             };
@@ -73,6 +74,13 @@ export default class Create extends Component {
         state.authorEmail = event.target.value;
         this.setState(state);
     }
+
+    authorDisplayNameChanged = (event) => {
+        let state = this.state;
+        state.authorDisplayName = event.target.value;
+        this.setState(state);
+    }
+
 
     numSeatsChanged = (event) => {
         let state = this.state;
@@ -151,6 +159,7 @@ export default class Create extends Component {
         state.choices = ["a", "b"];
         state.recipients = ['a@a.pl', 'b@b.pl'];
         state.authorEmail = "a@a.pl";
+        state.authorDisplayName = "A a";
         this.setState(state);
     }
 
@@ -220,10 +229,11 @@ export default class Create extends Component {
         const numberOfChoices = this.numberOfCandidates();
         const numberOfRecipients = this.numberOfRecipients() - numberOfInvalidEmails;
         const authorEmail = this.state.authorEmail;
+        const authorDisplayName = this.state.authorDisplayName;
         var date = new GregorianCalendar();
         var d = new Date();
         date.setTime(d);
-        const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0 && this.state.deadlineDate && this.state.deadlineTime && authorEmail !== "" && EmailValidator.validate(authorEmail)) ? true : false;
+        const everythingOk = (question.length > 1 && numberOfChoices > 1 && numberOfRecipients > 0 && this.state.deadlineDate && this.state.deadlineTime && authorEmail !== "" && EmailValidator.validate(authorEmail) && authorDisplayName !== "") ? true : false;
         return (
             <div>
                 <Header text="Create a poll" />
@@ -311,6 +321,20 @@ export default class Create extends Component {
                                     <span data-tip="Your email adress. We will send you confirmation email to this address.">ⓘ</span>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    your email
+                                    {(authorDisplayName === "") && (<span className="error-message"> (required)</span>)}
+                                </td>
+                                <td>
+                                    <br />
+                                    <input type="text" value={authorEmail} onChange={this.authorEmailChanged} />
+                                </td>
+                                <td>
+                                    <span data-tip="Your display name. Others will see this name as the creator of the poll.">ⓘ</span>
+                                </td>
+                            </tr>
+
 
                         </tbody></table>
                         <br style={{"clear": "left"}} />
