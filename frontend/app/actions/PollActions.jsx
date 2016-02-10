@@ -19,7 +19,7 @@ class PollActions {
         }
     }
 
-    save(question, description, choices, numSeats, recipients, authorEmail, deadlineDate, deadlineTime) {
+    save(question, description, choices, numSeats, recipients, authorEmail, authorDisplayName, deadlineDate, deadlineTime) {
         return (dispatch) => {
             dispatch({
                 'question': question,
@@ -28,13 +28,14 @@ class PollActions {
                 'numSeats': numSeats,
                 'recipients': recipients,
                 'authorEmail': authorEmail,
+                'authorDisplayName': authorDisplayName,
                 'deadlineDate': deadlineDate,
                 'deadlineTime': deadlineTime,
             });
         };
     }
 
-    create(question, description, choices, numSeats, recipients, authorEmail, deadlineDate, deadlineTime) {
+    create(question, description, choices, numSeats, recipients, authorEmail, authorDisplayName, deadlineDate, deadlineTime) {
         var deadline_ = deadlineDate;
         deadline_.setHourOfDay(deadlineTime.getHourOfDay());
         deadline_.setMinutes(deadlineTime.getMinutes());
@@ -46,6 +47,7 @@ class PollActions {
             'num_seats': numSeats,
             'recipients': recipients,
             'author_email': authorEmail,
+            'author_display_name': authorDisplayName,
             'deadline': deadline
         };
         return (dispatch) => {
