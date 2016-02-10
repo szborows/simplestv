@@ -43,6 +43,7 @@ def _send_email_to_poll_recipient(poll, recipient):
         'title': title,
         'description': poll.description,
         'deadline': poll.deadline,
+        'author_email': poll.author_email, # TODO: add author displayName
         'url': '{0}/#/p/{1}/{2}'.format(
             settings.SIMPLESTV_URL,
             poll.hash_id,

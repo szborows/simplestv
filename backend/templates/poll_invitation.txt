@@ -1,6 +1,6 @@
 Hi,
 
-You were invited to vote in STV poll.
+You were invited to vote in STV poll created by {% if author_name %}{{ author_name }}({{ author_email }}){% else %}author_email{% endif %}.
 Poll question: {{ title }}
 {% if description %}
 {{ description }}
