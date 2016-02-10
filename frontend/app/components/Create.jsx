@@ -323,12 +323,12 @@ export default class Create extends Component {
                             </tr>
                             <tr>
                                 <td>
-                                    your email
+                                    your name
                                     {(authorDisplayName === "") && (<span className="error-message"> (required)</span>)}
                                 </td>
                                 <td>
                                     <br />
-                                    <input type="text" value={authorEmail} onChange={this.authorEmailChanged} />
+                                    <input type="text" value={authorDisplayName} onChange={this.authorDisplayNameChanged} />
                                 </td>
                                 <td>
                                     <span data-tip="Your display name. Others will see this name as the creator of the poll.">ⓘ</span>
