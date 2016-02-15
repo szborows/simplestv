@@ -103,6 +103,19 @@ def getWinnersFromOpenStvOutput(output, choices):
     return [{'id': choices[index].id, 'value': choices[index].value} for index in winner_indices]
 
 @shared_task
+def send_reminder(poll, poll_close_time_str):
+    title = _get_title(poll)
+    ctx = _build_ctx({
+        'title': title,
+        'description': poll.description,
+        'deadline': deadline,
+        'author_email': poll.author_email, # TODO: add author displayName
+        'poll_close_time_str': poll_close_time_str,
+        'url': '{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret)})
+    body = render_to_string('poll_reminder.txt', ctx)
+    send_mail('Poll reminder: ' + title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+
+@shared_task
 def run_election(poll):
     def write_blt_file(poll):
         # TODO: someone might try to hack SimpleSTV here by preparing OpenSTV BLT file!

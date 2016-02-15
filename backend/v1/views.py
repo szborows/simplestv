@@ -51,6 +51,13 @@ def _setup_future_poll_tasks(poll):
     tasks.send_final_email_due_to_deadline.apply_async((poll, ), eta=poll.deadline)
     tasks.run_final_election.apply_async((poll, ), eta=poll.deadline)
 
+    now = datetime.now()
+    deadline = poll.deadline
+    days = (deadline - now).days
+    MIN_DAYS_FOR_3_4_REMINDER = 4
+    if days > MIN_DAYS_FOR_3_4_REMINDER:
+        pass
+
 def vote(request, poll_id):
     if request.method != 'POST':
         return HttpResponse(status=http.BAD_REQUEST)

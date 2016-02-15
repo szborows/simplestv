@@ -2,7 +2,7 @@ Hi,
 
 At {{ datetime_created }} you were invited to STV poll created by {% if author_name %}{{ author_name }}({{ author_email }}){% else %}author_email{% endif %}.
 
-The poll is about to close and we would like to remind you about it. Did you know that's likely that it's going to take less than minute to vote? Use following URL to vote.
+The poll {{ poll_close_time_str }} and we would like to remind you about it. Did you know that's likely that it's going to take less than minute to vote? Use following URL to vote.
 {{ url }}
 
 Poll question: {{ title }}
