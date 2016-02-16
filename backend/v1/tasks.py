@@ -113,7 +113,11 @@ def send_reminder(poll, poll_close_time_str):
         'poll_close_time_str': poll_close_time_str,
         'url': '{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret)})
     body = render_to_string('poll_reminder.txt', ctx)
-    send_mail('Poll reminder: ' + title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+    all_ = json.loads(poll.recipients_json)
+    voted = json.loads(poll.voted_json)
+    for r in all_:
+        if r not in voted:
+            send_mail('Poll reminder: ' + title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
 
 @shared_task
 def run_election(poll):

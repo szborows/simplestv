@@ -31,6 +31,7 @@ class Poll(models.Model):
     deadline = models.DateTimeField()
     num_invited = models.IntegerField()
     recipients_json = models.TextField()
+    voted_json = models.TextField()
     allowed_hashes = models.ManyToManyField(VotingHash, blank=True)
 
     sent_emails_json = models.TextField()
