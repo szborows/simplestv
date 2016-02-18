@@ -120,6 +120,22 @@ def send_reminder(poll, poll_close_time_str):
             send_mail('Poll reminder: ' + title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
 
 @shared_task
+def send_last_reminder(poll):
+    title = _get_title(poll)
+    ctx = _build_ctx({
+        'title': title,
+        'description': poll.description,
+        'deadline': deadline,
+        'author_email': poll.author_email, # TODO: add author displayName
+        'url': '{0}/#/p/results/{1}'.format(settings.SIMPLESTV_URL, poll.secret)})
+    body = render_to_string('poll_last_reminder.txt', ctx)
+    all_ = json.loads(poll.recipients_json)
+    voted = json.loads(poll.voted_json)
+    for r in all_:
+        if r not in voted:
+            send_mail('Poll reminder: ' + title, body, settings.DEFAULT_FROM_EMAIL, [poll.author_email], fail_silently=False)
+
+@shared_task
 def run_election(poll):
     def write_blt_file(poll):
         # TODO: someone might try to hack SimpleSTV here by preparing OpenSTV BLT file!
