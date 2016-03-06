@@ -37,9 +37,10 @@ used.
 1. Go to docker-files
 2. Edit `example.conf` to match your needs (see below)
 3. Build your image: `docker build -t local/simplestv -f Dockerfile.production .`
-4. Start your container with SIMPLESTV_URL environment variable set to the final address of the service. E.g.
-   if the service will be available under the domain `stv.example.com` then command should look like this: `docker run -d -p 80:80 -e SIMPLESTV_URL="http://stv.example.com/"`
-5. Your instance of SimpleSTV should be up and running!
+4. Create volume for SimpleSTV data: `docker volume create --name simplestv_data`
+5. Start your container with SIMPLESTV_URL environment variable set to the final address of the service. E.g.
+   if the service will be available under the domain `stv.example.com` then command should look like this: `docker run -d -p 80:80 -v simplestv_data:/data -e SIMPLESTV_URL="http://stv.example.com/"`
+6. Your instance of SimpleSTV should be up and running!
 
 ### Configuration options
 

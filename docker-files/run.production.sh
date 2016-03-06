@@ -6,6 +6,7 @@ echo "exit 0" > /usr/sbin/policy-rc.d
 
 echo "Starting PostgreSQL server"
 if [ ! -e /data/postgres ]; then
+    mkdir /data/postgres
     chown -R postgres:postgres /data/postgres
     su - postgres -c "/usr/lib/postgresql/9.4/bin/initdb -D /data/postgres"
 fi
