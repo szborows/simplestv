@@ -56,8 +56,8 @@ def _setup_future_poll_tasks(poll):
     days = (deadline - now).days
     MIN_DAYS_FOR_3_4_REMINDER = 4
     if days >= MIN_DAYS_FOR_3_4_REMINDER:
-        reminder_date = now + datetime.timedelta(days=(days / 4) * 3)
-        tasks.send_reminder.apply_async((poll, ''), eta=reminder_date)
+        reminder_date = now + timedelta(days=(days / 4) * 3)
+        tasks.send_reminder.apply_async((poll, ), eta=reminder_date)
 
 def vote(request, poll_id):
     if request.method != 'POST':
@@ -90,7 +90,7 @@ def vote(request, poll_id):
     poll.allowed_hashes.remove(voting_hash)
     voted = json.loads(poll.voted_json)
     emails = json.loads(poll.recipients_json)
-    email = [x for x in emails if hash_email(x) == voting_hash][0]
+    email = [x for x in emails if str(hash_email(x)) == str(voting_hash)][0]
     voted.append(email)
     poll.voted_json = json.dumps(voted)
     poll.save()
