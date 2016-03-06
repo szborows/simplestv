@@ -38,9 +38,10 @@ used.
 2. Edit `example.conf` to match your needs (see below)
 3. Build your image: `docker build -t local/simplestv -f Dockerfile.production .`
 4. Create volume for SimpleSTV data: `docker volume create --name simplestv_data`
-5. Start your container with SIMPLESTV_URL environment variable set to the final address of the service. E.g.
-   if the service will be available under the domain `stv.example.com` then command should look like this: `docker run -d -p 80:80 -v simplestv_data:/data -e SIMPLESTV_URL="http://stv.example.com/"`
-6. Your instance of SimpleSTV should be up and running!
+5. Put SSL certificate and key to `certs/` folder (you can generate self-signed ones with this command: `openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout certs/simplestv.key -out certs/simplestv.crt`)
+6. Start your container with SIMPLESTV_URL environment variable set to the final address of the service. E.g.
+   if the service will be available under the domain `stv.example.com` then command should look like this: `docker run -d -p 443:443 -v simplestv_data:/data -v $PWD/certs:/ssl:ro -e SIMPLESTV_URL="http://stv.example.com/"`
+7. Your instance of SimpleSTV should be up and running!
 
 ### Configuration options
 
@@ -61,4 +62,5 @@ all about changing database from relative to non-relative and putting some HAPro
 backend.
 
 ### Security
-Definitely SimpleSTV should work via HTTPS _only_. Mainly because email addresses are transferred on the wire!
+SimpleSTV production Dockerfile uses TLS by default. Because email addresses are transferred through wire,
+          plain HTTP server is discouraged.
