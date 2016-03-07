@@ -21,6 +21,7 @@ RUN mkdir /app
 # backend
 RUN cp -r /tmp/simplestv/backend /app/backend
 COPY example.conf /app/config
+RUN touch /app/backend/backend/simplestv_production.py
 
 # frontend
 WORKDIR /tmp/simplestv/frontend

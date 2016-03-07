@@ -23,7 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '+yd+m!b3@(yg28jj56-plvau8!wprrm4a28hz643eqf0y65t53'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+try:
+    import simplestv_production
+    DEBUG = False
+except ImportError:
+    DEBUG = True
 
 ALLOWED_HOSTS = []
 
